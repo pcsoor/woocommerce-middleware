@@ -1,0 +1,18 @@
+<h1>Connect Your Store</h1>
+
+<%= form_with model: @store, url: onboardings_path, local: true do |f| %>
+  <div>
+    <%= f.label :api_url %>
+    <%= f.text_field :api_url %>
+  </div>
+  <div>
+    <%= f.label :consumer_key %>
+    <%= f.text_field :consumer_key %>
+  </div>
+  <div>
+    <%= f.label :consumer_secret %>
+    <%= f.text_field :consumer_secret %>
+  </div>
+  
+  <%= f.submit "Connect Store" %>
+<% end %>
