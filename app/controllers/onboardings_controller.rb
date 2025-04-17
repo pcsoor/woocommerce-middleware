@@ -7,8 +7,9 @@ class OnboardingsController < ApplicationController
 
   def create
     @store = current_user.build_store(store_params)
-
+    print "BAD CHEESE"
     if valid_woocommerce_credentials?(@store)
+      print "CHEESE"
       if @store.save
         redirect_to products_path, notice: "Store connected successfully."
       else
@@ -36,7 +37,7 @@ class OnboardingsController < ApplicationController
 
     begin
       response = client.get("products", per_page: 1)
-      response.is_a?(Array)
+      response.code == 200
     rescue StandardError => e
       Rails.logger.error("WooCommerce auth failed: #{e.message}")
       false
