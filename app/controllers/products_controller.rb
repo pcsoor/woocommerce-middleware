@@ -4,24 +4,27 @@ class ProductsController < ApplicationController
 
 
   def index
-    page = params[:page] || 1
-    per_page = params[:per_page] || 25
+    page = params.fetch(:page, 1)
+    per_page = params.fetch(:per_page, 25)
 
     response = @woo_client.get_products(page: page, per_page: per_page)
-
-    unless response.success?
-      redirect_to root_path, alert: "You must be logged in to see products."
-      return
-    end
+    return redirect_to(root_path, alert: "You must be logged in to see products.") unless response.success?
 
     raw_products = response.parsed_response
 
-    @products = raw_products.map do |product_data|
-      Product.from_woocommerce(product_data)
+    raw_products.each do |product_data|
+      Rails.cache.write(ProductCache.key_for(current_user.id, product_data["id"]), product_data, expires_in: 10.minutes)
     end
 
-    @total_pages = response.headers["x-wp-totalpages"].to_i
-    @current_page = page.to_i
+    products = raw_products.map { |data| Product.from_woocommerce(data) }
+
+    total_products = response.headers["x-wp-total"].to_i
+
+    @products = Kaminari.paginate_array(products, total_count: total_products)
+      .page(page)
+      .per(per_page)
+
+    @current_page = page
   end
 
 
