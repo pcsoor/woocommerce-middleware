@@ -1,6 +1,5 @@
 class VariationsController < ApplicationController
   before_action :authenticate_user!
-  before_action :ensure_store_connected
   before_action :init_woocommerce_client
 
   def edit
@@ -24,17 +23,5 @@ class VariationsController < ApplicationController
       @variation = @woo_client.get_variation(params[:product_id], params[:id]).parsed_response
       render :edit
     end
-  end
-
-  private
-
-  def init_woocommerce_client
-    store = current_user.store
-
-    @woo_client = WooCommerce::Client.new(
-      store.api_url,
-      store.consumer_key,
-      store.consumer_secret
-    )
   end
 end

@@ -13,42 +13,56 @@ module WooCommerce
       self.class.base_uri(@api_url)
     end
 
-    def get_products
-      Rails.cache.fetch("user:#{@auth[:username]}:products", expires_in: 10.minutes) do
-        self.class.get("/products", basic_auth: @auth)
+    def get_products(page: 1, per_page: 25, ids: nil)
+      cache_key = "user:#{@auth[:username]}:products:page:#{page}:per_page:#{per_page}:ids:#{ids&.join(',')}"
+
+      Rails.cache.fetch(cache_key, expires_in: 10.minutes) do
+        query = {
+          page: page,
+          per_page: per_page
+        }
+
+        query[:include] = ids.join(",") if ids.present?
+
+        request(:get, "/products", query)
       end
     end
 
     def get_product(id)
-      self.class.get("/products/#{id}", basic_auth: @auth)
+      request(:get, "/products/#{id}")
     end
 
     def update_product(id, payload)
-      self.class.put(
-        "/products/#{id}",
-        basic_auth: @auth,
-        headers: { "Content-Type" => "application/json" },
-        body: payload.to_json
-      )
+      request(:put, "/products/#{id}", body: payload.to_json)
+    end
+
+    def create_product(payload)
+      request(:post, "/products", body: payload.to_json)
     end
 
     def get_variations(product_id)
-      self.class.get("/products/#{product_id}/variations", basic_auth: @auth)
+      request(:get, "/products/#{product_id}/variations")
+    end
+
+    def create_variation(product_id, payload)
+      request(:post, "/products/#{product_id}/variations", body: payload.to_json)
     end
 
     def update_variation(product_id, variation_id, payload)
-      self.class.put(
-        "/products/#{product_id}/variations/#{variation_id}",
-        basic_auth: @auth,
-        headers: { "Content-Type" => "application/json" },
-        body: payload.to_json
-      )
+      request(:put, "/products/#{product_id}/variations/#{variation_id}", body: payload.to_json)
     end
 
     private
 
     def full_url(endpoint)
       URI.join(@api_url, endpoint).to_s
+    end
+
+    def request(method, endpoint, options = {})
+      self.class.send(method, endpoint, {
+        basic_auth: @auth,
+        headers: { "Content-Type" => "application/json" }
+      }.merge(options))
     end
   end
 end

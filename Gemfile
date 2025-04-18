@@ -68,3 +68,5 @@ end
 gem "rspec-rails", "~> 7.1", :group => :test
 
 gem "webmock", "~> 3.25", :group => :test
+
+gem "tailwindcss-rails", "~> 4.2"

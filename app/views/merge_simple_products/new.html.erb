@@ -1,0 +1,24 @@
+<h1>Merge Simple Products into Variable Product</h1>
+
+<%= form_with url: merge_simple_products_path, method: :post, local: true do |form| %>
+  <%= debug params %>
+  <% @products.each do |product| %>
+    <%= hidden_field_tag "product_ids[]", product["id"] %>
+  <% end %>
+
+  <div>
+    <%= form.label :parent_product_name, "New Parent Product Name" %><br>
+    <%= form.text_field :parent_product_name, required: true %>
+  </div>
+
+  <div>
+    <%= form.label :attribute_name, "Attribute (e.g., Color, Size)" %><br>
+    <%= form.text_field :attribute_name, required: true %>
+  </div>
+
+  <br>
+
+  <%= form.submit "Start Merge" %>
+<% end %>
+
+<%= link_to "Cancel", products_path %>
