@@ -59,10 +59,15 @@ module WooCommerce
     end
 
     def request(method, endpoint, options = {})
+      attempts ||= 3
       self.class.send(method, endpoint, {
         basic_auth: @auth,
         headers: { "Content-Type" => "application/json" }
       }.merge(options))
+    rescue Net::ReadTimeout, Errno::ECONNRESET
+      attempts -= 1
+      retry if attempts > 0
+      raise
     end
   end
 end
