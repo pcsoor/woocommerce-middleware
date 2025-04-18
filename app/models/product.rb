@@ -2,7 +2,7 @@ class Product < ApplicationRecord
   include ActiveModel::Model
   include ActiveModel::Attributes
 
-  ATTRIBUTES = %i[id name regular_price stock_quantity manage_stock type]
+  ATTRIBUTES = %i[id sku name regular_price status stock_quantity manage_stock type images]
 
   attr_accessor(*ATTRIBUTES)
 

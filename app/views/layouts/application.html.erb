@@ -20,10 +20,25 @@
     <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const flash = document.getElementById('flash-message');
+        if (flash) {
+          setTimeout(() => flash.remove(), 2000);
+        }
+      });
+    </script>
   </head>
 
   <body>
-    <main class="container mx-auto mt-28 px-5">
+    <main class="container mx-auto p-5">
+      <% flash.each do |type, message| %>
+        <div class="fixed top-5 right-5 p-4 bg-green-500 text-white rounded shadow-lg" id="flash-message">
+          <%= message %>
+        </div>
+      <% end %>
+
       <%= yield %>
     </main>
   </body>

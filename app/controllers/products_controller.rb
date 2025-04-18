@@ -8,14 +8,16 @@ class ProductsController < ApplicationController
 
     response = @woo_client.get_products(page: page, per_page: per_page)
 
-    if response.success?
-      @products = response.parsed_response
-      @products.each do |product_data|
-        Rails.cache.write(product_cache_key(product_data["id"]), product_data, expires_in: 10.minutes)
-      end
-    else
-      render json: { error: "WooCommerce API error" }, status: :bad_gateway
+    unless response.success?
+      redirect_to root_path, alert: "You must be logged in to see products."
+      return
     end
+
+    raw_products = response.parsed_response
+    @products = raw_products.map { |p| Product.from_woocommerce(p) }
+
+    @total_pages = response.headers["x-wp-totalpages"].to_i
+    @current_page = page.to_i
   end
 
   def edit

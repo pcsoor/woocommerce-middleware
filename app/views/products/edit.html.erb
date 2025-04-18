@@ -1,28 +1,7 @@
-<h1 class="text-4xl font-extrabold">Edit Product</h1>
+<%= link_to "< Back ", products_path %>
+<h1 class="text-2xl font-medium mb-3 text-neutral-600">Edit product</h1>
 
-<%= form_with model: @product, method: :put, local: true do |form| %>
-  <div>
-    <%= form.label :name %><br>
-    <%= form.text_field :name, value: @product.name %>
-  </div>
-
-  <div>
-    <%= form.label :regular_price, "Regular Price" %><br>
-    <%= form.number_field :regular_price %>
-  </div>
-
-  <div>
-    <%= form.label :stock_quantity, "Stock Quantity" %><br>
-    <%= form.number_field :stock_quantity %>
-  </div>
-
-  <%= form.hidden_field :type, value: "simple" %>
-  <%= form.hidden_field :manage_stock, value: true %>
-
-  <div>
-    <%= form.submit "Update Product" %>
-  </div>
-<% end %>
+<%= render "form" %>
 
 <% if @product.type == "variable" %>
   <h2>Variations</h2>
@@ -42,8 +21,5 @@
         <%= link_to "Edit", edit_product_variation_path(@product.id, variation["id"]) %>
       </li>
     <% end %>
-
   </ul>
 <% end %>
-
-<%= link_to "Back to Products", products_path %>
