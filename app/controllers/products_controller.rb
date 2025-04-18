@@ -14,29 +14,43 @@ class ProductsController < ApplicationController
     end
 
     raw_products = response.parsed_response
-    @products = raw_products.map { |p| Product.from_woocommerce(p) }
+    @products = raw_products.map do |product_data|
+      Rails.cache.write(
+        ProductCache.key_for(current_user.id, product_data["id"]),
+        product_data,
+        expires_in: 10.minutes
+      )
+      Product.from_woocommerce(product_data)
+    end
 
     @total_pages = response.headers["x-wp-totalpages"].to_i
     @current_page = page.to_i
   end
 
   def edit
-    product_data = Rails.cache.read(product_cache_key(params[:id]))
+  product_id = params[:id]
 
-    unless product_data
-      response = @woo_client.get_product(params[:id])
-      if response.success?
-        product_data = response.parsed_response
-        Rails.cache.write(product_cache_key(product_data["id"]), product_data, expires_in: 10.minutes)
-      else
-        redirect_to products_path, alert: "Product not found"
-        return
-      end
+  product_data = Rails.cache.read(ProductCache.key_for(current_user.id, product_id))
+
+  unless product_data
+    response = @woo_client.get_product(product_id)
+
+    if response.success?
+      product_data = response.parsed_response
+      Rails.cache.write(
+        ProductCache.key_for(current_user.id, product_id),
+        product_data,
+        expires_in: 10.minutes
+      )
+    else
+      redirect_to products_path, alert: "Product not found"
+      return
     end
-
-    @product = Product.from_woocommerce(product_data)
-    load_variations if @product.type == "variable"
   end
+
+  @product = Product.from_woocommerce(product_data)
+  load_variations if @product.type == "variable"
+end
 
   def update
     @product = Product.new(product_params.merge(id: params[:id]))
