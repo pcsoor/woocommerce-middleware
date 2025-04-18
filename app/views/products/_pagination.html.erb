@@ -1,12 +1,16 @@
 <% current_page = (params[:page] || 1).to_i %>
 <% per_page = (params[:per_page] || 25).to_i %>
 
-<div class="flex space-x-4 mt-4">
+<nav class="pagination">
   <% if @current_page > 1 %>
-    <%= link_to "Previous Page", products_path(page: @current_page - 1, per_page: per_page, search: params[:search]), class: "btn bg-gray-300 hover:bg-gray-400 text-gray-800 py-2 px-4 rounded" %>
+    <%= link_to "Previous", products_path(page: @current_page - 1), data: { turbo: false }, class: "btn" %>
+  <% end %>
+
+  <% 1.upto(@total_pages) do |page_number| %>
+    <%= link_to page_number, products_path(page: page_number), data: { turbo: false }, class: "btn #{'active' if page_number == @current_page}" %>
   <% end %>
 
   <% if @current_page < @total_pages %>
-    <%= link_to "Next Page", products_path(page: @current_page + 1, per_page: per_page, search: params[:search]), class: "btn bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded" %>
+    <%= link_to "Next", products_path(page: @current_page + 1), data: { turbo: false }, class: "btn" %>
   <% end %>
-</div>
+</nav>

@@ -14,18 +14,13 @@ module WooCommerce
     end
 
     def get_products(page: 1, per_page: 25, ids: nil)
-      cache_key = "user:#{@auth[:username]}:products:page:#{page}:per_page:#{per_page}:ids:#{ids&.join(',')}"
+      query = {
+        page: page,
+        per_page: per_page
+      }
+      query[:include] = ids.join(",") if ids.present?
 
-      Rails.cache.fetch(cache_key, expires_in: 10.minutes) do
-        query = {
-          page: page,
-          per_page: per_page
-        }
-
-        query[:include] = ids.join(",") if ids.present?
-
-        request(:get, "/products", query)
-      end
+      request(:get, "/products", query: query)
     end
 
     def get_product(id)
@@ -58,12 +53,14 @@ module WooCommerce
       URI.join(@api_url, endpoint).to_s
     end
 
-    def request(method, endpoint, options = {})
+    def request(method, endpoint, query: {}, body: nil)
       attempts ||= 3
       self.class.send(method, endpoint, {
         basic_auth: @auth,
-        headers: { "Content-Type" => "application/json" }
-      }.merge(options))
+        headers: { "Content-Type" => "application/json" },
+        query: query,
+        body: body
+      })
     rescue Net::ReadTimeout, Errno::ECONNRESET
       attempts -= 1
       retry if attempts > 0

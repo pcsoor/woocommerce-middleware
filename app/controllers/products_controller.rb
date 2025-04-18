@@ -2,6 +2,7 @@ class ProductsController < ApplicationController
   before_action :authenticate_user!
   before_action :init_woocommerce_client
 
+
   def index
     page = params[:page] || 1
     per_page = params[:per_page] || 25
@@ -14,12 +15,8 @@ class ProductsController < ApplicationController
     end
 
     raw_products = response.parsed_response
+
     @products = raw_products.map do |product_data|
-      Rails.cache.write(
-        ProductCache.key_for(current_user.id, product_data["id"]),
-        product_data,
-        expires_in: 10.minutes
-      )
       Product.from_woocommerce(product_data)
     end
 
@@ -27,30 +24,31 @@ class ProductsController < ApplicationController
     @current_page = page.to_i
   end
 
+
   def edit
-  product_id = params[:id]
+    product_id = params[:id]
 
-  product_data = Rails.cache.read(ProductCache.key_for(current_user.id, product_id))
+    product_data = Rails.cache.read(ProductCache.key_for(current_user.id, product_id))
 
-  unless product_data
-    response = @woo_client.get_product(product_id)
+    unless product_data
+      response = @woo_client.get_product(product_id)
 
-    if response.success?
-      product_data = response.parsed_response
-      Rails.cache.write(
-        ProductCache.key_for(current_user.id, product_id),
-        product_data,
-        expires_in: 10.minutes
-      )
-    else
-      redirect_to products_path, alert: "Product not found"
-      return
+      if response.success?
+        product_data = response.parsed_response
+        Rails.cache.write(
+          ProductCache.key_for(current_user.id, product_id),
+          product_data,
+          expires_in: 10.minutes
+        )
+      else
+        redirect_to products_path, alert: "Product not found"
+        return
+      end
     end
-  end
 
-  @product = Product.from_woocommerce(product_data)
-  load_variations if @product.type == "variable"
-end
+    @product = Product.from_woocommerce(product_data)
+    load_variations if @product.type == "variable"
+  end
 
   def update
     @product = Product.new(product_params.merge(id: params[:id]))

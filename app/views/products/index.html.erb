@@ -1,21 +1,16 @@
 <h1 class="text-2xl font-medium mb-3 text-neutral-600">Product List</h1>
 
-<%= form_with url: new_merge_simple_product_path, method: :get, local: true do |form| %>
-  <div id="products-list" data-controller="loading">
-    <div data-loading-target="spinner" class="hidden flex justify-center items-center py-8">
-      <div class="animate-spin rounded-full h-12 w-12 border-4 border-blue-500 border-t-transparent"></div>
-    </div>
-
-
-    <div data-loading-target="content">
-      <% if @products.any? %>
-        <%= render "products_table" %>
-      <% else %>
-        <p>No products found or unable to fetch products from WooCommerce.</p>
-      <% end %>
-    </div>
+<div id="products-list" data-controller="loading">
+  <div data-loading-target="spinner" class="hidden flex justify-center items-center py-8">
+    <div class="animate-spin rounded-full h-12 w-12 border-4 border-blue-500 border-t-transparent"></div>
   </div>
 
-  <%= render "pagination" %>
-<% end %>
+  <% if @products.any? %>
+    <%= render "products_table" %>
+  <% else %>
+    <p>No products found or unable to fetch products from WooCommerce.</p>
+  <% end %>
+</div>
+
+<%= render "pagination" %>
 
