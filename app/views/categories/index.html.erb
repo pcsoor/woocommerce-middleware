@@ -1,0 +1,23 @@
+<h1 class="text-2xl font-medium mb-6">Categories</h1>
+
+<div class="flex flex-col">
+  <div class="-m-1.5 overflow-x-auto">
+    <div class="p-1.5 min-w-full inline-block align-middle">
+      <div class="border border-gray-200 rounded-lg overflow-hidden">
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead class="text-start uppercase font-medium">
+            <tr>
+              <th class="px-4 py-2 text-start font-medium text-xs text-gray-500">Name</th>
+              <th class="px-4 py-2 text-start font-medium text-xs text-gray-500">Slug</th>
+              <th class="px-4 py-2 text-start font-medium text-xs text-gray-500">Products Count</th>
+              <th class="px-4 py-2 text-start font-medium text-xs text-gray-500">Actions</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-200 text-sm">
+            <%= render_categories_tree(@parent_categories, @categories_by_parent) %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,8 +1,6 @@
 Rails.application.routes.draw do
-  get "merge_simple_products/new"
-  get "merge_simple_products/create"
-  get "variations/edit"
-  get "variations/update"
+  get "up" => "rails/health#show", as: :rails_health_check
+
   devise_for :users
 
   root "products#index"
@@ -12,5 +10,5 @@ Rails.application.routes.draw do
     resources :variations, only: [ :edit, :update ]
   end
   resources :merge_simple_products, only: [ :new, :create ]
-  get "up" => "rails/health#show", as: :rails_health_check
+  resources :categories, only: [ :index, :edit, :update ]
 end

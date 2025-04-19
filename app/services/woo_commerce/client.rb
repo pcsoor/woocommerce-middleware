@@ -47,6 +47,18 @@ module WooCommerce
       request(:put, "/products/#{product_id}/variations/#{variation_id}", body: payload.to_json)
     end
 
+    def get_categories(page: 1, per_page: 100)
+      request(:get, "/products/categories", query: { page: page, per_page: per_page })
+    end
+
+    def get_category(id)
+      request(:get, "/products/categories/#{id}")
+    end
+
+    def update_category(id, payload)
+      request(:put, "/products/categories/#{id}", body: payload.to_json)
+    end
+
     private
 
     def full_url(endpoint)

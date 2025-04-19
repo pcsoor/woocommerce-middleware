@@ -1,0 +1,49 @@
+<h1 class="text-2xl font-medium mb-6 text-gray-700">Edit Category</h1>
+
+<%= form_with model: @category, method: :put, local: true do |form| %>
+  <div class="space-y-8">
+
+    <!-- Basic Info -->
+    <div>
+      <h2 class="text-lg font-semibold text-gray-700 mb-4">Basic Information</h2>
+      <div class="grid gap-6 md:grid-cols-3">
+        <div>
+          <%= form.label :name, "Category Name", class: "block mb-2 text-sm font-medium text-gray-900" %>
+          <%= form.text_field :name, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5" %>
+        </div>
+
+        <div>
+          <%= form.label :slug, "Slug", class: "block mb-2 text-sm font-medium text-gray-900" %>
+          <%= form.text_field :slug, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5" %>
+        </div>
+
+        <div>
+          <%= form.label :parent, "Parent Category", class: "block mb-2 text-sm font-medium text-gray-900" %>
+          <%= form.select :parent,
+                options_for_select([["None", 0]] + @categories.map { |c| [c.name, c.id] }, selected: @category.parent),
+                {}, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5" %>
+        </div>
+      </div>
+    </div>
+
+    <!-- Description -->
+    <div>
+      <h2 class="text-lg font-semibold text-gray-700 mb-4">Description</h2>
+      <div>
+        <%= form.label :description, "Category Description", class: "block mb-2 text-sm font-medium text-gray-900" %>
+        <%= form.text_area :description, rows: 4, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5" %>
+      </div>
+    </div>
+
+    <!-- Submit Button -->
+    <div class="flex justify-center">
+      <%= form.submit "Update Category", class: "bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br text-white font-medium rounded-lg text-sm px-8 py-3 text-center mt-6 hover:cursor-pointer" %>
+    </div>
+
+  </div>
+<% end %>
+
+<!-- Back Link -->
+<div class="mt-6">
+  <%= link_to "← Back to Categories", categories_path, class: "text-sm text-blue-500 hover:underline" %>
+</div>

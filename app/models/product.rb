@@ -1,4 +1,4 @@
-class Product < ApplicationRecord
+class Product
   include ActiveModel::Model
   include ActiveModel::Attributes
 
