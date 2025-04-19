@@ -2,7 +2,28 @@ class Product < ApplicationRecord
   include ActiveModel::Model
   include ActiveModel::Attributes
 
-  ATTRIBUTES = %i[id sku name regular_price status stock_quantity manage_stock type images]
+  ATTRIBUTES = %i[
+    id
+    name
+    regular_price
+    sale_price
+    stock_quantity
+    manage_stock
+    sku
+    type
+    status
+    featured
+    short_description
+    description
+    categories
+    tags
+    images
+    weight
+    dimensions
+    downloadable
+    virtual
+    meta_data
+  ]
 
   validates :name, presence: true
   validates :regular_price, numericality: { greater_than_or_equal_to: 0 }, allow_blank: true

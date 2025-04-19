@@ -1,25 +1,76 @@
 <%= form_with model: @product, method: :put, local: true do |form| %>
-  <div class="grid gap-6 mb-6 md:grid-cols-3">
+  <div class="space-y-8">
+
+    <!-- Basic Info -->
     <div>
-      <%= form.label :name, class: "block mb-2 text-sm font-medium text-gray-900" %>
-      <%= form.text_field :name, value: @product.name, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" %>
+      <h2 class="text-lg font-semibold text-gray-700 mb-4">Basic Information</h2>
+      <div class="grid gap-6 md:grid-cols-3">
+        <div>
+          <%= form.label :name, "Product Name", class: "block mb-2 text-sm font-medium text-gray-900" %>
+          <%= form.text_field :name, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5" %>
+        </div>
+
+        <div>
+          <%= form.label :sku, "SKU", class: "block mb-2 text-sm font-medium text-gray-900" %>
+          <%= form.text_field :sku, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5" %>
+        </div>
+
+        <div class="flex items-center mt-6">
+          <%= form.check_box :featured, { class: "mr-2" }, true, false   %>
+          <%= form.label :featured, "Featured Product", class: "text-sm font-medium text-gray-900" %>
+        </div>
+      </div>
     </div>
 
+    <!-- Pricing -->
     <div>
-      <%= form.label :regular_price, "Regular Price", class: "block mb-2 text-sm font-medium text-gray-900" %>
-      <%= form.number_field :regular_price, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" %>
+      <h2 class="text-lg font-semibold text-gray-700 mb-4">Pricing</h2>
+      <div class="grid gap-6 md:grid-cols-3">
+        <div>
+          <%= form.label :regular_price, "Regular Price (Ft)", class: "block mb-2 text-sm font-medium text-gray-900" %>
+          <%= form.number_field :regular_price, step: :any, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5" %>
+        </div>
+
+        <div>
+          <%= form.label :sale_price, "Sale Price (Ft)", class: "block mb-2 text-sm font-medium text-gray-900" %>
+          <%= form.number_field :sale_price, step: :any, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5" %>
+        </div>
+      </div>
     </div>
 
+    <!-- Inventory -->
     <div>
-      <%= form.label :stock_quantity, "Stock Quantity", class: "block mb-2 text-sm font-medium text-gray-900" %>
-      <%= form.number_field :stock_quantity, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" %>
+      <h2 class="text-lg font-semibold text-gray-700 mb-4">Inventory</h2>
+      <div class="grid gap-6 md:grid-cols-3">
+        <div>
+          <%= form.label :stock_quantity, "Stock Quantity", class: "block mb-2 text-sm font-medium text-gray-900" %>
+          <%= form.number_field :stock_quantity, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5" %>
+        </div>
+
+        <div>
+          <%= form.label :weight, "Weight (kg)", class: "block mb-2 text-sm font-medium text-gray-900" %>
+          <%= form.number_field :weight, step: :any, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5" %>
+        </div>
+      </div>
     </div>
 
-    <%= form.hidden_field :type, value: "simple", class: "block mb-2 text-sm font-medium text-gray-900" %>
+    <!-- Additional Information -->
+    <div>
+      <h2 class="text-lg font-semibold text-gray-700 mb-4">Additional Details</h2>
+      <div>
+        <%= form.label :short_description, "Short Description", class: "block mb-2 text-sm font-medium text-gray-900" %>
+        <%= form.text_area :short_description, rows: 3, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5" %>
+      </div>
+    </div>
+
+    <!-- Hidden Fields -->
+    <%= form.hidden_field :type, value: "simple" %>
     <%= form.hidden_field :manage_stock, value: true %>
-  </div>
 
-  <div>
-    <%= form.submit "Update Product", class: "ext-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2 text-center me-2 mb-2 text-white hover:cursor-pointer" %>
+    <!-- Submit Button -->
+    <div class="flex justify-center">
+      <%= form.submit "Update Product", class: "bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br text-white font-medium rounded-lg text-sm px-8 py-3 text-center mt-6 hover:cursor-pointer" %>
+    </div>
+
   </div>
 <% end %>

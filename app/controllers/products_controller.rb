@@ -74,7 +74,27 @@ class ProductsController < ApplicationController
   private
 
   def product_params
-    params.require(:product).permit(:name, :regular_price, :type, :manage_stock, :stock_quantity)
+    params.require(:product).permit(
+      :name,
+      :regular_price,
+      :sale_price,
+      :stock_quantity,
+      :manage_stock,
+      :sku,
+      :type,
+      :status,
+      :featured,
+      :short_description,
+      :description,
+      :weight,
+      :downloadable,
+      :virtual,
+      categories: [],
+      tags: [],
+      images: [],
+      dimensions: [ :length, :width, :height ],
+      meta_data: {}
+    )
   end
 
   def load_variations
