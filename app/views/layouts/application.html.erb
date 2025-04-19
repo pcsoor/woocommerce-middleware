@@ -32,6 +32,8 @@
   </head>
 
   <body>
+    <%= render "shared/nav" %>
+
     <main class="container mx-auto p-5">
       <% flash.each do |type, message| %>
         <div class="fixed top-5 right-5 p-4 bg-green-500 text-white rounded shadow-lg" id="flash-message">
