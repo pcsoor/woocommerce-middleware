@@ -5,7 +5,7 @@ module ApplicationHelper
     uri = URI.parse(api_url)
     domain = uri.host
 
-    domain&.sub(/^www\./, '')
+    domain&.sub(/^www\./, "")
   rescue URI::InvalidURIError
     nil
   end

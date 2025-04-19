@@ -1,6 +1,6 @@
 class OnboardingsController < ApplicationController
   before_action :authenticate_user!
-  
+
   def new
     @store = Store.new
   end
@@ -21,7 +21,7 @@ class OnboardingsController < ApplicationController
       render :new
     end
   end
-  
+
   private
 
   def store_params
