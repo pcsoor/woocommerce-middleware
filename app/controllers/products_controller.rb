@@ -6,65 +6,29 @@ class ProductsController < ApplicationController
     page = params.fetch(:page, 1)
     per_page = params.fetch(:per_page, 25)
 
-    response = @woo_client.get_products(page: page, per_page: per_page)
-    return redirect_to(root_path, alert: "You must be logged in to see products.") unless response.success?
-
-    raw_products = response.parsed_response
-
-    raw_products.each do |product_data|
-      Rails.cache.write(ProductCache.key_for(current_user.id, product_data["id"]), product_data, expires_in: 10.minutes)
-    end
-
-    products = raw_products.map { |data| Product.from_woocommerce(data) }
-
-    total_products = response.headers["x-wp-total"].to_i
-
-    @products = Kaminari.paginate_array(products, total_count: total_products)
-      .page(page)
-      .per(per_page)
-
-    @current_page = page
+    @products = Products::FetchProducts.call(current_user, page: page, per_page: per_page)
+  rescue => e
+    Rails.logger.error("Products#index error: #{e.message}")
+    redirect_to root_path, alert: "Could not load products."
   end
 
   def edit
-    product_id = params[:id]
+    @product = Products::FetchProduct.call(current_user, params[:id])
 
-    product_data = Rails.cache.read(ProductCache.key_for(current_user.id, product_id))
-
-    unless product_data
-      response = @woo_client.get_product(product_id)
-
-      if response.success?
-        product_data = response.parsed_response
-        Rails.cache.write(
-          ProductCache.key_for(current_user.id, product_id),
-          product_data,
-          expires_in: 10.minutes
-        )
-      else
-        redirect_to products_path, alert: "Product not found"
-        return
-      end
-    end
-
-    @product = Product.from_woocommerce(product_data)
     load_variations if @product.type == "variable"
+  rescue => e
+    Rails.logger.error("Products#edit error: #{e.message}")
+    redirect_to products_path, alert: "Could not load product."
   end
 
   def update
-    @product = Product.new(product_params.merge(id: params[:id]))
+    result = Products::UpdateProduct.call(current_user, params[:id], product_params)
 
-    if @product.valid?
-      response = @woo_client.update_product(@product.id, @product.to_woocommerce_payload)
-
-      if response.success?
-        redirect_to products_path, notice: "Product updated successfully."
-      else
-        flash[:alert] = "WooCommerce error: #{response.parsed_response["message"]}"
-        render :edit
-      end
+    if result.success?
+      redirect_to products_path, notice: "Product updated successfully."
     else
-      flash[:alert] = "Validation failed. Please check the form."
+      @product = result.product
+      flash[:alert] = result.error
       render :edit
     end
   end
@@ -96,7 +60,7 @@ class ProductsController < ApplicationController
   end
 
   def load_variations
-    response = @woo_client.get_variations(@product.id)
+    response = Woocommerce::ProductsClient.new(current_user.store).get_variations(@product.id)
 
     if response.success?
       @variations = response.parsed_response

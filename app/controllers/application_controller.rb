@@ -8,11 +8,7 @@ class ApplicationController < ActionController::Base
   def init_woocommerce_client
     store = current_user.store
 
-    @woo_client = WooCommerce::Client.new(
-      store.api_url,
-      store.consumer_key,
-      store.consumer_secret
-    )
+    @woo_client = Woocommerce::BaseClient.new(store)
   end
 
   private
