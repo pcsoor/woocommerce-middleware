@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
 
   def ensure_store_connected
     unless current_user&.store
-      redirect_to onboarding_path, notice: "Please connect your store first."
+      redirect_to new_onboardings_path, notice: "Please connect your store first."
     end
   end
 end

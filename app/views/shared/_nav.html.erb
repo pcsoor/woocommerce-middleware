@@ -1,18 +1,52 @@
 <nav class="bg-white border-b border-gray-100">
   <div class="mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex justify-between h-16 items-center">
-      
+
       <div class="flex-shrink-0 text-lg font-medium text-gray-700">
-        <%= extract_store_name(current_user.store&.api_url) || "My Store" %>
+        <%= extract_store_name %>
       </div>
 
       <div class="flex space-x-6 items-center">
-        <%= link_to "Products", products_path, class: "text-gray-600 hover:text-gray-900 font-medium" %>
-        <%= link_to "Categories", categories_path, class: "text-gray-600 hover:text-gray-900 font-medium" %>
+        <%= link_to "Products", products_path, class: "text-gray-600 hover:text-gray-900 #{current_class?(products_path)}" %>
+        <%= link_to "Categories", categories_path, class: "text-gray-600 hover:text-gray-900 #{current_class?(categories_path)}" %>
 
-        <%= link_to "Log Out", destroy_user_session_path, method: :delete, class: "text-red-500 hover:text-red-700 font-medium" %>
+        <% if user_signed_in? %>
+          <div class="flex space-x-6 items-center">
+            <%= link_to "Products", products_path, class: "text-gray-600 hover:text-gray-900 #{ current_class?(products_path) }" %>
+            <%= link_to "Categories", categories_path, class: "text-gray-600 hover:text-gray-900 #{ current_class?(categories_path) }" %>
+
+            <%= link_to "Log Out", destroy_user_session_path, data: { turbo_method: :delete }, class: "text-red-500 hover:text-red-700 font-medium" %>
+          </div>
+          <div class="relative">
+            <button class="flex items-center text-gray-600 hover:text-gray-900 focus:outline-none" id="menu-button" aria-expanded="true" aria-haspopup="true">
+              <span><%= current_user.email %></span>
+              <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+
+            <div class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-hidden" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+              <%= link_to "Profile", profile_path, class: "block px-4 py-2 text-gray-700 hover:bg-gray-100" %>
+              <%= link_to "Settings", edit_user_registration_path, class: "block px-4 py-2 text-gray-700 hover:bg-gray-100" %>
+              <%= link_to "Log Out", destroy_user_session_path, method: :delete, data: { turbo_method: :delete }, class: "block px-4 py-2 text-red-500 hover:bg-gray-100" %>
+            </div>
+          </div>
+        <% else %>
+          <div class="relative">
+            <button class="flex items-center text-gray-600 hover:text-gray-900 focus:outline-none">
+              <span>Account</span>
+              <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+
+            <div class="absolute right-0 mt-2 w-48 bg-white border rounded-md shadow-lg hidden group-hover:block">
+              <%= link_to "Sign In", new_user_session_path, class: "block px-4 py-2 text-gray-700 hover:bg-gray-100" %>
+              <%= link_to "Sign Up", new_user_registration_path, class: "block px-4 py-2 text-gray-700 hover:bg-gray-100" %>
+            </div>
+          </div>
+        <% end %>
       </div>
-
     </div>
   </div>
 </nav>
