@@ -5,11 +5,13 @@
     <div class="animate-spin rounded-full h-12 w-12 border-4 border-blue-500 border-t-transparent"></div>
   </div>
 
-  <% if @products.any? %>
-    <%= render "products_table" %>
-  <% else %>
-    <p>No products found or unable to fetch products from WooCommerce.</p>
-  <% end %>
+  <div data-loading-target="content">
+    <% if @products.any? %>
+      <%= render "products_table" %>
+    <% else %>
+      <p>No products found or unable to fetch products from WooCommerce.</p>
+    <% end %>
+  </div>
 </div>
 
 <div class="text-center my-5">
