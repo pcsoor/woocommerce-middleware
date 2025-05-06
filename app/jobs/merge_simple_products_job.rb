@@ -1,4 +1,3 @@
-
 class MergeSimpleProductsJob < ApplicationJob
   queue_as :default
 

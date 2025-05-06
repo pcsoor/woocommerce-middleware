@@ -39,11 +39,15 @@ class MergeSimpleProductsController < ApplicationController
 
     if response.success?
       @products = response.parsed_response
-      Rails.logger.debug("Loaded products: #{@products.map { |p| p["id"] }}")
+      @products = @products.select { |p| product_ids.include?(p["id"].to_s) }
     else
       @products = []
       flash[:alert] = "Failed to load selected products from WooCommerce."
       redirect_to products_path
     end
+  rescue StandardError => e
+    flash[:error] = "Failed to fetch products for merging"
+    Rails.logger.error("Failed to fetch products for merging: #{e.message}")
+    redirect_to products_path
   end
 end

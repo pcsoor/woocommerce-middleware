@@ -8,9 +8,7 @@ class OnboardingsController < ApplicationController
 
   def create
     @store = current_user.build_store(store_params)
-    print "BAD CHEESE"
     if valid_woocommerce_credentials?(@store)
-      print "CHEESE"
       if @store.save
         redirect_to products_path, notice: "Store connected successfully."
       else
