@@ -20,7 +20,8 @@ module Woocommerce
         basic_auth: @auth,
         headers: { "Content-Type" => "application/json" },
         query: query,
-        body: body
+        body: body,
+        verify: false
       })
     rescue Net::ReadTimeout, Errno::ECONNRESET
       attempts -= 1

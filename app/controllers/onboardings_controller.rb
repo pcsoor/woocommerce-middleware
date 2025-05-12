@@ -1,6 +1,6 @@
 class OnboardingsController < ApplicationController
   before_action :authenticate_user!, only: [ :create ]
-  skip_before_action :ensure_store_connected, only: [ :new ]
+  skip_before_action :ensure_store_connected
 
   def new
     @store = Store.new
@@ -28,11 +28,7 @@ class OnboardingsController < ApplicationController
   end
 
   def valid_woocommerce_credentials?(store)
-    client = WooCommerce::Client.new(
-      store.api_url,
-      store.consumer_key,
-      store.consumer_secret
-    )
+    client = Woocommerce::BaseClient.new(store)
 
     begin
       response = client.get("products", per_page: 1)
