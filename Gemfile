@@ -22,6 +22,8 @@ gem "httparty"
 gem "kaminari", "~> 1.2"
 gem "tailwindcss-rails", "~> 4.2"
 
+gem "roo", "~> 2.10"
+
 group :development, :test do
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
   gem "brakeman", require: false
