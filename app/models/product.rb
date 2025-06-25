@@ -25,7 +25,7 @@ class Product
     meta_data
   ]
 
-  validates :name, presence: true
+  validates :sku, :name, presence: true
   validates :regular_price, numericality: { greater_than_or_equal_to: 0 }, allow_blank: true
   validates :stock_quantity, numericality: { only_integer: true, greater_than_or_equal_to: 0 }, allow_blank: true
 
