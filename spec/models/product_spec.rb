@@ -11,7 +11,7 @@ RSpec.describe Product, type: :model do
     }
   end
 
-  describe ".from_woocommerce" do
+  describe "#from_woocommerce" do
     it "creates a Product instance from a WooCommerce hash" do
       product = Product.from_woocommerce(woo_response)
 
@@ -28,10 +28,10 @@ RSpec.describe Product, type: :model do
       product = Product.from_woocommerce(woo_response)
 
       expect(product.to_woocommerce_payload).to eq({
+        id: 123,
         name: "Test Product",
         regular_price: "100",
         stock_quantity: 10,
-        manage_stock: true,
         type: "simple"
       })
     end

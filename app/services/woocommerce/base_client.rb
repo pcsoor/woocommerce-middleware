@@ -12,6 +12,10 @@ module Woocommerce
       self.class.base_uri(@api_url)
     end
 
+    def get(endpoint, query: {})
+      request(:get, endpoint, query: query)
+    end
+
     private
 
     def request(method, endpoint, query: {}, body: nil)

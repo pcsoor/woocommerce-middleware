@@ -3,21 +3,24 @@ class OnboardingsController < ApplicationController
   skip_before_action :ensure_store_connected
 
   def new
+    if current_user.store.present?
+      redirect_to root_path
+      return
+    end
+
     @store = Store.new
   end
 
   def create
     @store = current_user.build_store(store_params)
-    if valid_woocommerce_credentials?(@store)
-      if @store.save
-        redirect_to products_path, notice: "Store connected successfully."
-      else
-        flash.now[:alert] = "Failed to save store configuration."
-        render :new
-      end
+
+    return render_new("Failed to save store configuration.") unless @store.valid?
+    return render_new("Invalid WooCommerce API credentials.") unless valid_woocommerce_credentials?
+
+    if @store.save
+      redirect_to products_path, notice: "Store connected successfully."
     else
-      flash.now[:alert] = "Invalid WooCommerce API credentials."
-      render :new
+      render_new("Failed to save store configuration.")
     end
   end
 
@@ -27,11 +30,16 @@ class OnboardingsController < ApplicationController
     params.require(:store).permit(:api_url, :consumer_key, :consumer_secret)
   end
 
-  def valid_woocommerce_credentials?(store)
-    client = Woocommerce::BaseClient.new(store)
+  def render_new(message)
+    flash.now[:alert] = message
+    render :new
+  end
+
+  def valid_woocommerce_credentials?
+    client = Woocommerce::BaseClient.new(@store)
 
     begin
-      response = client.get("products", per_page: 1)
+      response = client.get("")
       response.code == 200
     rescue StandardError => e
       Rails.logger.error("WooCommerce auth failed: #{e.message}")

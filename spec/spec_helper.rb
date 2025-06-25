@@ -39,7 +39,7 @@ RSpec.configure do |config|
 
   # This option will default to `:apply_to_host_groups` in RSpec 4 (and will
   # have no way to turn it off -- the option exists only for backwards
-  # compatibility in RSpec 3). It causes shared context metadata to be
+  # compatibility in RSpec 3). It causes shared_examples context metadata to be
   # inherited by the metadata hash of host groups and examples, rather than
   # triggering implicit auto-inclusion in groups with matching metadata.
   config.shared_context_metadata_behavior = :apply_to_host_groups
@@ -91,4 +91,5 @@ RSpec.configure do |config|
   # as the one that triggered the failure.
   Kernel.srand config.seed
 =end
+  require 'webmock/rspec'
 end
