@@ -14,7 +14,7 @@ class BulkPriceUpdatesController < ApplicationController
 
     begin
       file = params.require(:price_file)
-      @rows = Products::
+      # @rows = Products::
     rescue StandardError => e
       flash[:alert] = "Error processing file: #{e.message}"
       render :new

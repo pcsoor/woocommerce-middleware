@@ -39,7 +39,7 @@ group :test do
   gem "selenium-webdriver"
   gem "rspec-rails", "~> 8.0"
   gem "webmock", "~> 3.25"
-  gem 'factory_bot_rails'
-  gem 'shoulda-matchers'
+  gem "factory_bot_rails"
+  gem "shoulda-matchers"
   gem "rails-controller-testing"
 end

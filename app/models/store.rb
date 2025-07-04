@@ -15,15 +15,15 @@ class Store < ApplicationRecord
     begin
       uri = URI.parse(api_url)
       unless uri.is_a?(URI::HTTP) || uri.is_a?(URI::HTTPS)
-        errors.add(:api_url, 'is invalid')
+        errors.add(:api_url, "is invalid")
         return
       end
 
-      if uri.host.blank? || uri.host.start_with?('.') || uri.host.end_with?('.') || uri.host.include?('..')
-        errors.add(:api_url, 'is invalid')
+      if uri.host.blank? || uri.host.start_with?(".") || uri.host.end_with?(".") || uri.host.include?("..")
+        errors.add(:api_url, "is invalid")
       end
     rescue URI::InvalidURIError
-      errors.add(:api_url, 'is invalid')
+      errors.add(:api_url, "is invalid")
     end
   end
 end
