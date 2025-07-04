@@ -7,24 +7,43 @@
       <div class="grid gap-6 md:grid-cols-3">
         <div>
           <%= f.label :api_url, "API URL", class: "block mb-2 text-sm font-medium text-gray-900" %>
-          <%= f.text_field :api_url, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5" %>
+          <%= f.text_field :api_url,
+                           placeholder: "http://www.example.com",
+                           class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5" %>
+          <% if @store.errors[:api_url].any? %>
+            <p class="mt-1 text-sm text-red-600">
+              <%= @store.errors[:api_url].first %>
+            </p>
+          <% end %>
         </div>
 
         <div>
           <%= f.label :consumer_key, "Consumer Key", class: "block mb-2 text-sm font-medium text-gray-900" %>
-          <%= f.text_field :consumer_key, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5" %>
+          <%= f.text_field :consumer_key,
+                           class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5" %>
+          <% if @store.errors[:consumer_key].any? %>
+            <p class="mt-1 text-sm text-red-600">
+              <%= @store.errors[:consumer_key].first %>
+            </p>
+          <% end %>
         </div>
 
         <div>
           <%= f.label :consumer_secret, "Consumer Secret", class: "block mb-2 text-sm font-medium text-gray-900" %>
-          <%= f.text_field :consumer_secret, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5" %>
+          <%= f.text_field :consumer_secret,
+                           class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5" %>
+          <% if @store.errors[:consumer_secret].any? %>
+            <p class="mt-1 text-sm text-red-600">
+              <%= @store.errors[:consumer_secret].first %>
+            </p>
+          <% end %>
         </div>
       </div>
     </div>
 
     <!-- Submit Button -->
     <div class="flex justify-center">
-      <%= f.submit "Connect Store", class: "bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 bg-[length:200%_auto] hover:bg-right text-white font-medium rounded-lg text-sm px-8 py-3 text-center mt-6 hover:cursor-pointer transition-all duration-500 ease-in-out transform" %>
+      <%= f.submit "Connect Store", class: "btn btn-primary" %>
     </div>
 
   </div>

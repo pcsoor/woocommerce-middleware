@@ -1,46 +1,22 @@
-<nav class="bg-white border-b border-neutral-200">
-  <div class="mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex justify-between h-16 items-center">
-      <div class="flex-shrink-0">
-        <div class="text-lg font-semibold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">
-          <%= extract_store_name %>
-        </div>
-      </div>
-
-      <div class="flex space-x-8 items-center">
-        <% if user_signed_in? %>
-          <div class="flex space-x-8 items-center">
-            <%= link_to "Products", products_path, class: "transition-colors duration-200 #{ current_class?(products_path) }" %>
-            <%= link_to "Categories", categories_path, class: "transition-colors duration-200 #{ current_class?(categories_path) }" %>
-          </div>
-
-          <div data-controller="dropdown"
-               class="relative">
-            <%= link_to "#", data: { action: "dropdown#toggle" }, class: "flex items-center space-x-2 text-gray-600 hover:text-blue-600 transition-colors duration-200" do %>
-              <span>Profile</span>
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-              </svg>
-            <% end %>
-
-            <div data-dropdown-target="menu"
-              class="py-1 hidden absolute right-0 mt-2 w-56 rounded-lg shadow-lg bg-white ring-1 ring-neutral-300 ring-opacity-5 focus:outline-none z-50"
-              <div class="py-2" role="menu" aria-orientation="vertical">
-                <%= link_to "Settings", "#", class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-blue-600 transition-colors duration-200" %>
-
-                <div class="border-t border-gray-100 my-1"></div>
-
-                <%= button_to "Sign Out", destroy_user_session_path, method: :delete, class: "w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-red-600 transition-colors duration-200 hover:cursor-pointer" %>
-              </div>
-            </div>
-          </div>
-        <% else %>
-          <div class="flex items-center space-x-4">
-            <%= link_to "Sign In", new_user_session_path, class: "text-gray-600 hover:text-blue-600 transition-colors duration-200" %>
-            <%= link_to "Sign Up", new_user_registration_path, class: "px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200" %>
-          </div>
-        <% end %>
-      </div>
-    </div>
+<div class="navbar bg-base-100 shadow-sm">
+  <div class="flex-1">
+    <a class="text-xl"><%= extract_store_name %></a>
   </div>
-</nav>
+  <div class="flex-none">
+    <% if user_signed_in? %>
+      <ul class="menu menu-horizontal px-1">
+        <li><%= link_to "Products", products_path, class: "#{ current_class?(products_path) }" %></li>
+        <li><%= link_to "Categories", categories_path, class: "#{ current_class?(categories_path) }" %></li>
+        <li>
+          <details>
+            <summary>Profile</summary>
+            <ul class="bg-base-100 rounded-t-none p-2">
+              <li><%= link_to "Settings", "#" %></li>
+              <li><%= button_to "Sign Out", destroy_user_session_path, method: :delete, class: "hover:cursor-pointer" %></li>
+            </ul>
+          </details>
+        </li>
+      </ul>
+    <% end %>
+  </div>
+</div>

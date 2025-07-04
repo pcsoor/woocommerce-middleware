@@ -14,9 +14,9 @@ module ApplicationHelper
 
   def current_class?(path)
     if request.path == path || (path == products_path && request.path == root_path)
-      "text-blue-600 font-medium relative after:absolute after:bottom-[-1.25rem] after:left-0 after:w-full after:h-0.5 after:bg-blue-600 after:rounded-full"
+      "text-primary"
     else
-      "text-gray-600 hover:text-blue-600"
+      ""
     end
   end
 
