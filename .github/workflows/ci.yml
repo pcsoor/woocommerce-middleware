@@ -72,7 +72,7 @@ jobs:
       postgres:
         image: postgres:15
         env:
-          POSTGRES_DB: test_db
+          POSTGRES_DB: woocommerce_middleware_test
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
         ports:
@@ -81,7 +81,7 @@ jobs:
 
     env:
       RAILS_ENV: test
-      DATABASE_URL: postgres://postgres:postgres@localhost:5432/test_db
+      DATABASE_URL: postgres://postgres:postgres@localhost:5432/woocommerce_middleware_test
 
     steps:
       - name: Install system dependencies
@@ -109,10 +109,18 @@ jobs:
           bin/rails db:schema:load
 
       - name: Run RSpec tests
-        run: bundle exec rspec
+        run: |
+          bundle exec rspec
+        env:
+          RAILS_ENV: test
 
-      - name: Run system tests
-        run: bin/rails test:system
+      - name: Run system tests (if you have any)
+        run: |
+          if [ -d "test/system" ]; then
+            bin/rails test:system
+          else
+            echo "No system tests found, skipping"
+          fi
 
       - name: Upload screenshots from failed tests
         uses: actions/upload-artifact@v4
