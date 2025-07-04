@@ -1,4 +1,4 @@
-module WooCommerce
+module Woocommerce
   class MergeSimpleProductsService
     def initialize(store:, products:, attribute_name:, parent_product_name:)
       @store = store
