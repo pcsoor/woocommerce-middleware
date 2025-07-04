@@ -21,13 +21,14 @@ gem "devise"
 gem "httparty"
 gem "kaminari", "~> 1.2"
 gem "tailwindcss-rails", "~> 4.2"
-
+gem "pg"
 gem "roo", "~> 2.10"
 
 group :development, :test do
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
   gem "brakeman", require: false
   gem "rubocop-rails-omakase", require: false
+  gem "dotenv-rails"
 end
 
 group :development do
