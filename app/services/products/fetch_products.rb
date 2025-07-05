@@ -15,6 +15,7 @@ module Products
       response = @client.get_products(page: @page, per_page: @per_page)
 
       unless response.success?
+        puts response.
         raise StandardError, "Failed to fetch products from WooCommerce"
       end
 

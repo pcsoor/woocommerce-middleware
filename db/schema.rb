@@ -20,7 +20,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_16_180512) do
   end
 
   create_table "stores", force: :cascade do |t|
-    t.integer "user_id", null: false
+    t.bigint "user_id", null: false
     t.string "api_url"
     t.string "consumer_key"
     t.string "consumer_secret"

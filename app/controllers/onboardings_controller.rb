@@ -3,11 +3,6 @@ class OnboardingsController < ApplicationController
   skip_before_action :ensure_store_connected
 
   def new
-    if current_user.store.present?
-      redirect_to root_path
-      return
-    end
-
     @store = Store.new
   end
 

@@ -1,29 +1,24 @@
 <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-md border p-4">
+  <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-md border p-4 mx-auto">
     <legend class="fieldset-legend">Login</legend>
 
+    <%= f.label :email, class: "label" %>
+    <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "input w-full" %>
 
-      <%= f.label :email, class: "label" %>
-      <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "input" %>
+    <%= f.label :password, class: "label" %>
+    <%= f.password_field :password, autocomplete: "current-password", class: "input w-full" %>
 
-      <%= f.label :password, class: "label" %>
-      <%= f.password_field :password, autocomplete: "current-password", class: "input" %>
-
-      <% if devise_mapping.rememberable? %>
-        <div class="flex items-center">
-          <%= f.check_box :remember_me, class: "h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500" %>
-          <%= f.label :remember_me, class: "ml-2 block text-sm text-gray-700" %>
-        </div>
-      <% end %>
-
-      <%= f.submit "Log in", class: "btn btn-neutral mt-4" %>
-
-    <div class="mt-4">
-      <div class="divider">OR</div>
-
-      <div class="mt-4 space-y-3">
-        <%= render "devise/shared/links" %>
+    <% if devise_mapping.rememberable? %>
+      <div class="flex items-center mt-4">
+        <%= f.check_box :remember_me, class: "checkbox mr-2" %>
+        <%= f.label :remember_me, class: "label" %>
       </div>
-    </div>
+    <% end %>
+
+    <%= f.submit "Log in", class: "btn btn-neutral mt-4" %>
+
+    <div class="divider">OR</div>
+
+    <%= render "devise/shared/links" %>
   </fieldset>
 <% end %>

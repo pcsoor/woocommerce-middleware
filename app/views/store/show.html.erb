@@ -1,0 +1,38 @@
+<div>
+  <div class="flex justify-between">
+    <div>
+      <h3 class="text-3xl font-bold">Store Settings</h3>
+      <p class="text-neutral-500">Manage your store connection and API settings</p>
+    </div>
+
+    <div class="flex space-x-2">
+      <%= link_to "Edit Settings", edit_store_path, class: "btn btn-neutral" %>
+      <% if @store.persisted? && @store.api_url.present? && @store.consumer_key.present? %>
+        <%= button_to "Test Connection", test_connection_store_path,
+                    method: :post,
+                    class: "btn btn-primary" %>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="mt-7">
+    <h4 class="text-xl font-semibold mb-3">Connection Status</h4>
+
+    <% if @store.persisted? && @store.api_url.present? && @store.consumer_key.present? && @store.consumer_secret.present? %>
+      <div class="flex items-center text-green-700">
+        <span class="font-medium">Store configured</span>
+      </div>
+      <p class="text-gray-600 mt-1">Your store is configured with API credentials. Use "Test Connection" to verify.</p>
+    <% elsif @store.persisted? %>
+      <div class="flex items-center text-yellow-700">
+        <span class="font-medium">Incomplete configuration</span>
+      </div>
+      <p class="text-gray-600 mt-1">Some API settings are missing. Please complete your store configuration.</p>
+    <% else %>
+      <div class="flex items-center text-red-700">
+        <span class="font-medium">No store configured</span>
+      </div>
+      <p class="text-gray-600 mt-1">You haven't set up your WooCommerce store yet. Click "Edit Settings" to get started.</p>
+    <% end %>
+  </div>
+</div>

@@ -19,18 +19,28 @@ module Woocommerce
     private
 
     def request(method, endpoint, query: {}, body: nil)
-      attempts ||= 3
-      self.class.send(method, endpoint, {
-        basic_auth: @auth,
-        headers: { "Content-Type" => "application/json" },
-        query: query,
-        body: body,
-        verify: false
-      })
-    rescue Net::ReadTimeout, Errno::ECONNRESET
-      attempts -= 1
-      retry if attempts > 0
-      raise
+      begin
+        attempts ||= 3
+        response = self.class.send(method, endpoint, {
+          basic_auth: @auth,
+          headers: { "Content-Type" => "application/json" },
+          query: query,
+          body: body,
+          verify: false
+        })
+
+        Rails.logger.info("WooCommerce API Response: #{response.code} - #{response.message}")
+
+        response
+      rescue Net::ReadTimeout, Net::OpenTimeout, Errno::ECONNRESET, Errno::ECONNREFUSED => e
+        Rails.logger.error("WooCommerce API network error: #{e.message}")
+        attempts -= 1
+        retry if attempts > 0
+        raise StandardError, "Network error connecting to WooCommerce: #{e.message}"
+      rescue => e
+        Rails.logger.error("WooCommerce API unexpected error: #{e.class} - #{e.message}")
+        raise StandardError, "API request failed: #{e.message}"
+      end
     end
   end
 end
