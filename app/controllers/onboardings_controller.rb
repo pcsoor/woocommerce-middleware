@@ -1,5 +1,5 @@
 class OnboardingsController < ApplicationController
-  before_action :authenticate_user!, only: [ :create ]
+  before_action :authenticate_user!
   skip_before_action :ensure_store_connected
 
   def new

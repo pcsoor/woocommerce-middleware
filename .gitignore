@@ -80,3 +80,6 @@ pickle-email-*.html
 *.jar
 xerial*.*
 .env
+/config/master.key
+
+/config/credentials/development.key

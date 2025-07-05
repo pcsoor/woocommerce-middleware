@@ -1,50 +1,27 @@
 <%= form_with model: @store, url: onboardings_path, local: true do |f| %>
-  <div class="space-y-8">
+  <div class="space-y-8 w-full mx-auto">
+    <fieldset class="fieldset bg-base-100 border-base-300 rounded-box w-lg border p-4 mx-auto">
+      <legend class="fieldset-legend">Store details</legend>
 
-    <!-- Store Connection Info -->
-    <div>
-      <h2 class="text-lg font-semibold text-gray-700 mb-4">Store Connection Details</h2>
-      <div class="grid gap-6 md:grid-cols-3">
-        <div>
-          <%= f.label :api_url, "API URL", class: "block mb-2 text-sm font-medium text-gray-900" %>
-          <%= f.text_field :api_url,
-                           placeholder: "http://www.example.com",
-                           class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5" %>
-          <% if @store.errors[:api_url].any? %>
-            <p class="mt-1 text-sm text-red-600">
-              <%= @store.errors[:api_url].first %>
-            </p>
-          <% end %>
-        </div>
+      <%= f.label :api_url, "Store API URL", class: "label" %>
+      <%= f.text_field :api_url, placeholder: "http://www.example.com", class: "input w-full" %>
+      <% if @store.errors[:api_url] %>
+        <p class="text-red-500"><%= @store.errors[:api_url].first %></p>
+      <% end %>
 
-        <div>
-          <%= f.label :consumer_key, "Consumer Key", class: "block mb-2 text-sm font-medium text-gray-900" %>
-          <%= f.text_field :consumer_key,
-                           class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5" %>
-          <% if @store.errors[:consumer_key].any? %>
-            <p class="mt-1 text-sm text-red-600">
-              <%= @store.errors[:consumer_key].first %>
-            </p>
-          <% end %>
-        </div>
+      <%= f.label :consumer_key, "Consumer Key", class: "label" %>
+      <%= f.text_field :consumer_key, class: "input w-full" %>
+      <% if @store.errors[:consumer_key] %>
+        <p class="text-red-500"><%= @store.errors[:consumer_key].first %></p>
+      <% end %>
 
-        <div>
-          <%= f.label :consumer_secret, "Consumer Secret", class: "block mb-2 text-sm font-medium text-gray-900" %>
-          <%= f.text_field :consumer_secret,
-                           class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5" %>
-          <% if @store.errors[:consumer_secret].any? %>
-            <p class="mt-1 text-sm text-red-600">
-              <%= @store.errors[:consumer_secret].first %>
-            </p>
-          <% end %>
-        </div>
-      </div>
-    </div>
+      <%= f.label :consumer_secret, "Consumer Secret", class: "label" %>
+      <%= f.text_field :consumer_secret, class: "input w-full" %>
+      <% if @store.errors[:consumer_secret] %>
+        <p class="text-red-500"><%= @store.errors[:consumer_secret].first %></p>
+      <% end %>
 
-    <!-- Submit Button -->
-    <div class="flex justify-center">
-      <%= f.submit "Connect Store", class: "btn btn-primary" %>
-    </div>
-
+      <%= f.submit "Connect Store", class: "btn btn-primary w-full mt-3" %>
+    </fieldset>
   </div>
 <% end %>
