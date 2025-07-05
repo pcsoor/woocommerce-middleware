@@ -1,3 +1,6 @@
 <% current_page = (params[:page] || 1).to_i %>
 <% per_page = (params[:per_page] || 25).to_i %>
-<%= paginate @products %>
+
+<div class="flex justify-center mt-8">
+  <%= paginate @products %>
+</div>

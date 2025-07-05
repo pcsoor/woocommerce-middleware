@@ -11,7 +11,7 @@
           <div class="dropdown dropdown-end">
             <div tabindex="0" role="button">Profile</div>
             <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm">
-              <li><%= link_to "Settings", user_path(current_user) %></li>
+              <li><%= link_to "Settings", profile_user_path(current_user) %></li>
               <li><%= button_to "Sign Out", destroy_user_session_path, method: :delete, class: "hover:cursor-pointer" %></li>
             </ul>
           </div>

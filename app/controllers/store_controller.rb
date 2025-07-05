@@ -1,6 +1,7 @@
-class StoresController < ApplicationController
+class StoreController < ApplicationController
   before_action :authenticate_user!
   before_action :set_store
+  skip_before_action :ensure_store_connected
 
   def show
   end

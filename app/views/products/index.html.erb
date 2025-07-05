@@ -1,13 +1,19 @@
-<h1 class="text-2xl font-medium mb-3 text-neutral-600">Product List</h1>
+<div class="flex justify-between">
+  <h1 class="text-2xl font-medium mb-3 text-neutral-600">Product List</h1>
+  <div class="flex">
+    <%= link_to "Bulk upload", new_product_import_path, class: "btn btn-secondary" %>
+  </div>
+</div>
 
-<div id="products-list" data-controller="loading">
+
+<div id="products-list" data-controller="loading" class="mt-7">
   <div data-loading-target="spinner" class="hidden flex justify-center items-center py-8">
     <div class="animate-spin rounded-full h-12 w-12 border-4 border-blue-500 border-t-transparent"></div>
   </div>
 
   <div data-loading-target="content">
     <% if @products.any? %>
-      <%= render "products_table" %>
+      <%= render "table" %>
     <% else %>
       <p>No products found or unable to fetch products from WooCommerce.</p>
     <% end %>
@@ -17,4 +23,3 @@
 <div class="text-center my-5">
   <%= render "pagination" %>
 </div>
-

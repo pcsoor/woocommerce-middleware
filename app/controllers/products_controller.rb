@@ -33,6 +33,8 @@ class ProductsController < ApplicationController
     end
   end
 
+  def bulk_upload; end
+
   private
 
   def product_params

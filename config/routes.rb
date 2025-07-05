@@ -10,9 +10,13 @@ Rails.application.routes.draw do
 
   root "home#index"
 
-  get "/user/:id", to: "users#profile", as: "user"
+  resources :users, only: [:show, :edit, :update] do
+    member do
+      get :profile
+    end
+  end
 
-  resource :store, only: [:show, :edit, :update] do
+  resource :store, only: [:show, :edit, :update], controller: "store" do
     collection do
       post :test_connection
     end
@@ -22,9 +26,18 @@ Rails.application.routes.draw do
 
   resources :products, only: [ :index, :edit, :update ] do
     resources :variations, only: [ :edit, :update ]
-    resources :bulk_price_update, only: [ :new, :create ]
   end
 
   resources :merge_simple_products, only: [ :new, :create ]
   resources :categories, only: [ :index, :edit, :update ]
+
+  resources :product_imports, only: [ :new, :create ] do
+    collection do
+      get :validate
+      get :configure
+      get :preview
+      post :import
+      get :results
+    end
+  end
 end
