@@ -13,8 +13,8 @@ module ApplicationHelper
   end
 
   def current_class?(path)
-    if request.path == path || (path == products_path && request.path == root_path)
-      "text-primary"
+    if request.path == path
+      "text-base-content font-semibold"
     else
       ""
     end

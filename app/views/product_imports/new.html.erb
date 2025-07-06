@@ -1,3 +1,8 @@
 <%= render "import_steps", current_step: 1 %>
 
-<h1 class="text-xl font-bold">Upload Product CSV File</h1>
+<h1 class="text-xl font-bold mb-3">Upload Product CSV File</h1>
+
+<%= form_with url: product_imports_path, method: :post do |f| %>
+  <%= f.file_field :csv_file, class: "file-input" %>
+  <%= f.button "Import", class: "btn btn-neutral" %>
+<% end %>

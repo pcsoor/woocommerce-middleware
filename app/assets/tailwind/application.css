@@ -1,6 +1,6 @@
 @import "tailwindcss";
 @plugin "./daisyui.js" {
-    themes: light --default, dark --prefersdark, lemonade, bumblebee;
+    themes: light --default, dark --prefersdark, lemonade, bumblebee, emerald;
 }
 
 @plugin "./daisyui-theme.js" {
