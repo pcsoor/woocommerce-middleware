@@ -1,0 +1,27 @@
+<ul class="menu bg-base-100 rounded-box w-full">
+  <!-- Profile section -->
+  <li class="menu-title">
+    <span>Profile</span>
+  </li>
+  <li>
+    <%= link_to settings_path(tab: "profile"),
+                data: { turbo_frame: "settings_content" },
+                class: "#{@active_tab == "profile" ? "active" : ""}" do %>
+      <span><%= icon "user-circle" %></span>
+      <span>Profile Information</span>
+    <% end %>
+  </li>
+
+  <!-- Store section -->
+  <li class="menu-title">
+    <span>Store</span>
+  </li>
+  <li>
+    <%= link_to settings_path(tab: "store"),
+                data: { turbo_frame: "settings_content" },
+                class: "#{@active_tab == "store" ? "active" : ""}" do %>
+      <span><%= icon "building-storefront" %></span>
+      <span>Store Settings</span>
+    <% end %>
+  </li>
+</ul>

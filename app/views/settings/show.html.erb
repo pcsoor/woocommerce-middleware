@@ -1,0 +1,26 @@
+<div class="mb-8">
+  <h1 class="text-3xl font-bold">Settings</h1>
+  <p class="text-base-content/70 mt-2">Manage your account and application preferences</p>
+</div>
+
+<div class="flex flex-col lg:flex-row gap-6">
+  <!-- Sidebar -->
+  <aside class="lg:w-64 flex-shrink-0">
+    <div class="card bg-base-100 shadow-sm">
+      <div class="card-body p-0">
+        <%= render "sidebar" %>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Content -->
+  <main class="flex-1 min-w-0">
+    <div class="card bg-base-100 shadow-sm">
+      <div class="card-body">
+        <%= turbo_frame_tag "settings_content" do %>
+          <%= render "settings/tabs/#{@active_tab}" %>
+        <% end %>
+      </div>
+    </div>
+  </main>
+</div>

@@ -7,6 +7,10 @@ class Store < ApplicationRecord
   validates :api_url, :consumer_key, :consumer_secret, presence: true
   validate :api_url_format
 
+  def established?
+    api_url.present? && consumer_key.present? && consumer_secret.present?
+  end
+
   private
 
   def api_url_format

@@ -10,6 +10,22 @@ class StoreController < ApplicationController
   end
 
   def update
+    debugger
+
+    if @store.update(store_params)
+      if turbo_frame_request?
+        # For turbo frame requests, we need to render the partial with the updated data
+        render "settings/tabs/store", layout: false
+      else
+        redirect_to store_path, notice: "Store settings updated successfully!"
+      end
+    else
+      if turbo_frame_request?
+        render "settings/tabs/store", layout: false, status: :unprocessable_entity
+      else
+        render :edit, status: :unprocessable_entity
+      end
+    end
   end
 
   def test_connection
@@ -34,7 +50,11 @@ class StoreController < ApplicationController
   end
 
   def store_params
-    params.require(:store).permit(:api_url, :consumer_key, :consumer_secret)
+    params.require(:store).permit(:name, :api_url, :consumer_key, :consumer_secret)
+  end
+
+  def turbo_frame_request?
+    request.headers['Turbo-Frame'].present?
   end
 
   def extract_error_message(response)

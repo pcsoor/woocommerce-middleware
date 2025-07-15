@@ -1,0 +1,108 @@
+<div class="space-y-6">
+  <!-- Header -->
+  <div>
+    <h2 class="text-2xl font-bold">Store Settings</h2>
+    <p class="text-base-content/70 mt-1">Configure your WooCommerce store connection and settings.</p>
+  </div>
+
+  <!-- Store Configuration Form -->
+  <%= form_with model: @store,
+                url: store_path,
+                method: :patch,
+                class: "space-y-6",
+                data: { turbo_frame: "settings_content", turbo: true } do |form| %>
+
+    <!-- Basic Store Information -->
+    <div class="card bg-base-100">
+      <div class="card-body p-0">
+        <h3 class="card-title text-lg">Store Information</h3>
+
+        <div class="fieldset md:flex justify-between gap-6">
+          <div class="w-1/2">
+            <%= form.label :name, class: "label" %>
+            <%= form.text_field :name,
+                                class: "input w-full",
+                                placeholder: "My WooCommerce Store" %>
+          </div>
+
+          <div class="w-1/2">
+            <%= form.label :api_url, "Store URL", class: "label" %>
+            <%= form.url_field :api_url,
+                               class: "input w-full",
+                               placeholder: "https://yourstore.com",
+                               required: true %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- API Credentials -->
+    <div class="card bg-base-100">
+      <div class="card-body p-0">
+        <h3 class="card-title text-lg">API Credentials</h3>
+
+        <div class="fieldset md:flex gap-6 justify-between">
+          <div class="w-1/2">
+            <%= form.label :consumer_key, class: "label" %>
+            <%= form.text_field :consumer_key,
+                                class: "input font-mono text-sm w-full",
+                                placeholder: "ck_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                                required: true %>
+          </div>
+
+          <div class="w-1/2">
+            <%= form.label :consumer_secret, class: "label" %>
+            <%= form.text_field :consumer_secret,
+                                class: "input font-mono text-sm w-full",
+                                placeholder: "cs_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                                required: true %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Form Actions -->
+    <div class="card-actions justify-between">
+      <div class="flex gap-2">
+        <% if current_user.store&.api_url&.present? %>
+          <%= link_to "Test Connection", settings_test_connection_path,
+                      method: :post,
+                      class: "btn btn-outline",
+                      data: { turbo_frame: "settings_content" } %>
+        <% end %>
+      </div>
+      <%= form.submit "Save Settings", class: "btn btn-primary" %>
+    </div>
+  <% end %>
+
+  <!-- Quick Actions -->
+  <div class="card bg-base-200">
+    <div class="card-body">
+      <h3 class="card-title text-lg mb-4">Quick Actions</h3>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Import Products -->
+        <div class="card bg-base-100">
+          <div class="card-body">
+            <h4 class="card-title text-base">Import Products</h4>
+            <p class="text-sm text-base-content/70 mb-4">Upload a CSV file to import products to your store</p>
+            <%= link_to "Start Import", new_product_import_path,
+                        class: "btn btn-primary btn-sm",
+                        data: { turbo_frame: "_top" } %>
+          </div>
+        </div>
+
+        <!-- View Products -->
+        <div class="card bg-base-100">
+          <div class="card-body">
+            <h4 class="card-title text-base">Manage Products</h4>
+            <p class="text-sm text-base-content/70 mb-4">View and manage your WooCommerce products</p>
+            <%= link_to "View Products", products_path,
+                        class: "btn btn-outline btn-sm",
+                        data: { turbo_frame: "_top" } %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

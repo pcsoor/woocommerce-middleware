@@ -18,7 +18,7 @@
   <div class="mt-7">
     <h4 class="text-xl font-semibold mb-3">Connection Status</h4>
 
-    <% if @store.persisted? && @store.api_url.present? && @store.consumer_key.present? && @store.consumer_secret.present? %>
+    <% if @store.established? %>
       <div class="flex items-center text-green-700">
         <span class="font-medium">Store configured</span>
       </div>
