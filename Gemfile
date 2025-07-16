@@ -20,7 +20,7 @@ gem "thruster", require: false
 gem "devise"
 gem "httparty"
 gem "kaminari", "~> 1.2"
-gem "tailwindcss-rails", "~> 4.2"
+gem "tailwindcss-rails", "~> 4.3"
 gem "pg", "~> 1.1"
 gem "roo", "~> 2.10"
 
