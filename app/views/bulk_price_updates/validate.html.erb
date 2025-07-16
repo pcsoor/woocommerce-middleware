@@ -1,0 +1,104 @@
+<%= render "price_update_steps", current_step: 2 %>
+
+<div class="card bg-base-100 border border-base-300">
+  <div class="card-body">
+    <div class="flex justify-between items-start mb-6">
+      <div>
+        <h1 class="card-title text-3xl"><%= t('bulk_price_updates.validate_title') %></h1>
+        <p class="text-base-content/70 mt-2"><%= t('bulk_price_updates.validate_description') %></p>
+      </div>
+      <div class="text-right text-sm opacity-70">
+        <div>File: <%= @summary["filename"] %></div>
+        <div>Uploaded: <%= format_file_timestamp(@timestamp) %></div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6">
+      <div class="stat bg-base-200 rounded-lg">
+        <div class="stat-value text-center"><%= @products.count %></div>
+        <div class="stat-title text-center"><%= t('bulk_price_updates.total_products') %></div>
+      </div>
+
+      <div class="stat bg-success/10 rounded-lg border border-success/20">
+        <div class="stat-value text-center text-success"><%= @valid_products.count %></div>
+        <div class="stat-title text-center text-success"><%= t('bulk_price_updates.valid_products') %></div>
+      </div>
+
+      <div class="stat bg-warning/10 rounded-lg border border-warning/20">
+        <div class="stat-value text-center text-warning"><%= @products_with_warnings.count %></div>
+        <div class="stat-title text-center text-warning"><%= t('bulk_price_updates.with_warnings') %></div>
+      </div>
+
+      <div class="stat bg-info/10 rounded-lg border border-info/20">
+        <div class="stat-value text-center text-info"><%= @existing_products.count %></div>
+        <div class="stat-title text-center text-info"><%= t('bulk_price_updates.will_update') %></div>
+      </div>
+
+      <div class="stat bg-primary/10 rounded-lg border border-primary/20">
+        <div class="stat-value text-center text-primary"><%= @new_products.count %></div>
+        <div class="stat-title text-center text-primary"><%= t('bulk_price_updates.will_create') %></div>
+      </div>
+    </div>
+
+    <% if @invalid_products.any? %>
+      <div class="alert alert-error mb-6">
+        <div class="flex items-center gap-2">
+          <%= icon "exclamation-triangle", variant: :mini, class: "w-5 h-5" %>
+          <span><%= @invalid_products.count %> products have validation errors and will be skipped.</span>
+        </div>
+      </div>
+    <% end %>
+
+    <div class="overflow-x-auto">
+      <table class="table table-zebra">
+        <thead>
+          <tr>
+            <th>Status</th>
+            <th>SKU</th>
+            <th>Name</th>
+            <th>Regular Price</th>
+            <th>Action</th>
+            <th>Issues</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @products.each do |product| %>
+            <tr>
+              <td><%= price_update_status_badge(product) %></td>
+              <td><%= product_field_display(product.sku) %></td>
+              <td><%= product_field_display(product.name) %></td>
+              <td><%= product_price_display(product.regular_price) %></td>
+              <td><%= product_action_badge(product, @existing_products, @new_products) %></td>
+              <td><%= product_issues_display(product) %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+
+      <% if @products.empty? %>
+        <div class="text-center py-12">
+          <h3 class="text-lg font-medium"><%= t('bulk_price_updates.no_products_found') %></h3>
+          <p class="text-base-content/60"><%= t('bulk_price_updates.no_products_parsed_description') %></p>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="flex justify-between px-6 py-4 bg-gray-50 items-center border-t border-gray-200 rounded-b-md">
+      <div>
+        <%= link_to t('bulk_price_updates.back_to_upload'), new_bulk_price_update_path, class: "btn btn-outline" %>
+      </div>
+
+      <div>
+        <% if @valid_products.any? %>
+          <%= form_with url: import_bulk_price_updates_path, method: :post, local: true do |f| %>
+            <%= f.submit t('bulk_price_updates.process_price_updates'), 
+                         class: "btn btn-primary", 
+                         data: { confirm: "Are you sure you want to process #{@valid_products.count} price updates?" } %>
+          <% end %>
+        <% else %>
+          <span class="btn btn-disabled"><%= t('bulk_price_updates.no_valid_products_to_process') %></span>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div> 

@@ -1,0 +1,22 @@
+<div class="card bg-success/5 border border-success/20 mb-6">
+  <div class="card-body">
+    <h3 class="card-title text-success flex items-center gap-2">
+      <%= icon "check-circle", variant: :mini, class: "w-5 h-5" %>
+      <%= t('bulk_price_updates.success_details.title') %>
+    </h3>
+    
+    <div class="mt-4 space-y-2">
+      <% if (@results["updated_count"] || 0) > 0 %>
+        <p class="text-sm">
+          <span class="font-medium"><%= @results["updated_count"] %></span> <%= t('bulk_price_updates.success_details.products_updated') %>
+        </p>
+      <% end %>
+      
+      <% if (@results["created_count"] || 0) > 0 %>
+        <p class="text-sm">
+          <span class="font-medium"><%= @results["created_count"] %></span> <%= t('bulk_price_updates.success_details.products_created') %>
+        </p>
+      <% end %>
+    </div>
+  </div>
+</div> 

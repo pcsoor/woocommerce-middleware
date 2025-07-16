@@ -11,8 +11,8 @@
     <%= form.number_field :stock_quantity, value: @variation["stock_quantity"] %>
   </div>
 
-  <%= form.submit "Update Variation" %>
+          <%= form.submit t('variations.update_variation') %>
 <% end %>
 
-<%= link_to "Back to Product", edit_product_path(params[:product_id]) %>
+      <%= link_to t('variations.back_to_product'), edit_product_path(params[:product_id]) %>
 

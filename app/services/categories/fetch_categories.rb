@@ -12,9 +12,22 @@ module Categories
     end
 
     def call
+      result = ProductCache.fetch_categories(@user.id) do
+        fetch_categories_from_api
+      end
+
+      result
+    end
+
+    private
+
+    def fetch_categories_from_api
       response = @client.get_categories(per_page: 100)
 
-      raise StandardError, "Failed to fetch categories from WooCommerce" unless response.success?
+      unless response.success?
+        Rails.logger.error("Failed to fetch categories from WooCommerce: #{response.code}")
+        raise StandardError, "Failed to fetch categories from WooCommerce"
+      end
 
       raw_categories = response.parsed_response
       categories = raw_categories.map { |cat| Category.from_woocommerce(cat) }

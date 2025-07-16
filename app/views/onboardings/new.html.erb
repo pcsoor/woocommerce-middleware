@@ -1,27 +1,33 @@
 <%= form_with model: @store, url: onboardings_path, local: true do |f| %>
   <div class="space-y-8 w-full mx-auto">
     <fieldset class="fieldset bg-base-100 border-base-300 rounded-box w-lg border p-4 mx-auto">
-      <legend class="fieldset-legend">Store details</legend>
+      <legend class="fieldset-legend"><%= t('store.store_details') %></legend>
 
-      <%= f.label :api_url, "Store API URL", class: "label" %>
-      <%= f.text_field :api_url, placeholder: "http://www.example.com", class: "input w-full" %>
+      <%= f.label :name, t('store.store_name_optional'), class: "label" %>
+      <%= f.text_field :name, placeholder: t('placeholders.store_name'), class: "input w-full" %>
+      <% if @store.errors[:name] %>
+        <p class="text-red-500"><%= @store.errors[:name].first %></p>
+      <% end %>
+
+      <%= f.label :api_url, t('store.store_api_url'), class: "label" %>
+      <%= f.text_field :api_url, placeholder: t('placeholders.api_url'), class: "input w-full" %>
       <% if @store.errors[:api_url] %>
         <p class="text-red-500"><%= @store.errors[:api_url].first %></p>
       <% end %>
 
-      <%= f.label :consumer_key, "Consumer Key", class: "label" %>
+      <%= f.label :consumer_key, t('store.consumer_key'), class: "label" %>
       <%= f.text_field :consumer_key, class: "input w-full" %>
       <% if @store.errors[:consumer_key] %>
         <p class="text-red-500"><%= @store.errors[:consumer_key].first %></p>
       <% end %>
 
-      <%= f.label :consumer_secret, "Consumer Secret", class: "label" %>
+      <%= f.label :consumer_secret, t('store.consumer_secret'), class: "label" %>
       <%= f.text_field :consumer_secret, class: "input w-full" %>
       <% if @store.errors[:consumer_secret] %>
         <p class="text-red-500"><%= @store.errors[:consumer_secret].first %></p>
       <% end %>
 
-      <%= f.submit "Connect Store", class: "btn btn-neutral w-full mt-3" %>
+      <%= f.submit t('forms.connect_store'), class: "btn btn-neutral w-full mt-3" %>
     </fieldset>
   </div>
 <% end %>

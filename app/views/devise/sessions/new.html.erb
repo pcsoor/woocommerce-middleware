@@ -1,23 +1,23 @@
 <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
   <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-md border p-4 mx-auto">
-    <legend class="fieldset-legend">Login</legend>
+    <legend class="fieldset-legend"><%= t('authentication.login') %></legend>
 
     <%= f.label :email, class: "label" %>
     <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "input w-full" %>
 
-    <%= f.label :password, class: "label" %>
+    <%= f.label :password, t('authentication.password'), class: "label" %>
     <%= f.password_field :password, autocomplete: "current-password", class: "input w-full" %>
 
     <% if devise_mapping.rememberable? %>
       <div class="flex items-center mt-4">
         <%= f.check_box :remember_me, class: "checkbox mr-2" %>
-        <%= f.label :remember_me, class: "label" %>
+        <%= f.label :remember_me, t('authentication.remember_me'), class: "label" %>
       </div>
     <% end %>
 
-    <%= f.submit "Log in", class: "btn btn-neutral mt-4" %>
+    <%= f.submit t('authentication.log_in'), class: "btn btn-neutral mt-4" %>
 
-    <div class="divider">OR</div>
+    <div class="divider"><%= t('ui.or') %></div>
 
     <%= render "devise/shared/links" %>
   </fieldset>

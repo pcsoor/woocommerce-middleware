@@ -6,23 +6,23 @@ default: &default
 development:
   <<: *default
   database: woocommerce_middleware_development
-  username: <%= ENV.fetch("DATABASE_USER", "postgres") %>
-  password: <%= ENV.fetch("DATABASE_PASSWORD", "") %>
-  host: <%= ENV.fetch("DATABASE_HOST", "localhost") %>
-  port: <%= ENV.fetch("DATABASE_PORT", "5432") %>
+  username: <%= ENV["DATABASE_USER"] || "postgres" %>
+  password: <%= ENV["DATABASE_PASSWORD"] || "" %>
+  host: <%= ENV["DATABASE_HOST"] || "localhost" %>
+  port: <%= ENV["DATABASE_PORT"] || "5432" %>
 
 test:
   <<: *default
   database: woocommerce_middleware_test
-  username: <%= ENV.fetch("DATABASE_USER", "postgres") %>
-  password: <%= ENV.fetch("DATABASE_PASSWORD", "") %>
-  host: <%= ENV.fetch("DATABASE_HOST", "localhost") %>
-  port: <%= ENV.fetch("DATABASE_PORT", "5432") %>
+  username: <%= ENV["DATABASE_USER"] || "postgres" %>
+  password: <%= ENV["DATABASE_PASSWORD"] || "" %>
+  host: <%= ENV["DATABASE_HOST"] || "localhost" %>
+  port: <%= ENV["DATABASE_PORT"] || "5432" %>
 
 production:
   <<: *default
   database: woocommerce_middleware_production
-  username: <%= ENV.fetch("DATABASE_USER") %>
-  password: <%= ENV.fetch("DATABASE_PASSWORD") %>
-  host: <%= ENV.fetch("DATABASE_HOST") %>
-  port: <%= ENV.fetch("DATABASE_PORT", "5432") %>
+  username: <%= ENV["DATABASE_USER"] || "postgres" %>
+  password: <%= ENV["DATABASE_PASSWORD"] || "" %>
+  host: <%= ENV["DATABASE_HOST"] || "localhost" %>
+  port: <%= ENV["DATABASE_PORT"] || "5432" %>

@@ -10,9 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_13_185352) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_15_220519) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "product_import_sessions", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "filename"
+    t.string "status"
+    t.text "summary"
+    t.text "products_data"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_product_import_sessions_on_user_id"
+  end
 
   create_table "products", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -42,5 +53,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_13_185352) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "product_import_sessions", "users"
   add_foreign_key "stores", "users"
 end

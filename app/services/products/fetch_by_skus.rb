@@ -17,14 +17,9 @@ module Products
       return [] if @skus.empty?
 
       fetch_simple_products
+      fetch_variations_if_needed
 
-
-      client = Woocommerce::ProductsClient.new(user.store)
-      response = client.request(
-        :get, "/products",
-        query: { sku: skus.join(","), per_page: skus.size }
-      )
-      raise unless response.success?
+      @products
     end
 
 
@@ -41,6 +36,31 @@ module Products
 
       @found_skus = @products.map(&:sku)
       @remaining_skus = @skus - @found_skus
+    end
+
+    def fetch_variations_if_needed
+      return if @remaining_skus.empty?
+
+      # For remaining SKUs, check if they are variations of variable products
+      response = @client.get_products(type: 'variable', per_page: 100)
+      return unless response.success?
+
+      variable_products = response.parsed_response
+      
+      variable_products.each do |variable_product|
+        variations_response = @client.get_variations(variable_product['id'])
+        next unless variations_response.success?
+
+        matching_variations = variations_response.parsed_response.select do |variation|
+          @remaining_skus.include?(variation['sku'])
+        end
+
+        matching_variations.each do |variation_data|
+          @variations << Product.from_woocommerce(variation_data)
+        end
+      end
+
+      @products += @variations
     end
   end
 end

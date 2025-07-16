@@ -11,9 +11,12 @@ module Products
     end
 
     def call
-      product_data = Rails.cache.fetch(ProductCache.key_for(@user.id, @product_id), expires_in: 10.minutes) do
+      product_data = ProductCache.fetch_product(@user.id, @product_id) do
         response = @client.get_product(@product_id)
-        raise StandardError, "Product not found in WooCommerce" unless response.success?
+        unless response.success?
+          Rails.logger.error("Product not found in WooCommerce: #{@product_id}")
+          raise StandardError, "Product not found in WooCommerce"
+        end
 
         response.parsed_response
       end

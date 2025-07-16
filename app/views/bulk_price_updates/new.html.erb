@@ -1,4 +1,66 @@
-<div>
-  <h1 class="font-bold text-4xl">BulkPriceUpdates#new</h1>
-  <p>Find me in app/views/bulk_price_updates/new.html.erb</p>
+<%= render "price_update_steps", current_step: 1 %>
+
+<div class="card bg-base-100 border border-base-300">
+  <div class="card-body">
+    <div class="flex justify-between items-start mb-6">
+      <div>
+        <h1 class="card-title text-3xl"><%= t('bulk_price_updates.title') %></h1>
+        <p class="text-base-content/70 mt-2"><%= t('bulk_price_updates.description') %></p>
+      </div>
+    </div>
+
+    <div class="bg-info/10 border border-info/20 rounded-lg p-4 mb-6">
+      <div class="flex items-start gap-3">
+        <div class="text-info mt-1">
+          <%= icon "exclamation-triangle", variant: :mini, class: "w-5 h-5" %>
+        </div>
+        <div>
+          <h3 class="font-semibold text-info mb-2"><%= t('bulk_price_updates.csv_requirements.title') %></h3>
+          <ul class="text-sm space-y-1 text-base-content/80 list-disc list-inside">
+            <li><strong><%= t('bulk_price_updates.csv_requirements.required_columns') %></strong></li>
+            <li><strong><%= t('bulk_price_updates.csv_requirements.existing_products') %></strong></li>
+            <li><strong><%= t('bulk_price_updates.csv_requirements.new_products') %></strong></li>
+            <li><strong><%= t('bulk_price_updates.csv_requirements.file_size') %></strong></li>
+            <li><strong><%= t('bulk_price_updates.csv_requirements.supported_formats') %></strong></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <%= form_with url: bulk_price_updates_path, method: :post, multipart: true, local: true, class: "space-y-6" do |f| %>
+      <div class="form-control">
+        <label class="label">
+          <span class="label-text font-medium"><%= t('bulk_price_updates.select_csv_file') %></span>
+        </label>
+        <%= f.file_field :price_file, 
+            accept: ".csv", 
+            class: "file-input file-input-bordered w-full",
+            required: true %>
+        <label class="label">
+          <span class="label-text-alt text-base-content/60"><%= t('bulk_price_updates.choose_csv_help') %></span>
+        </label>
+      </div>
+
+      <div class="flex justify-between items-center">
+        <div>
+          <%= link_to t('navigation.back_to_products'), products_path, class: "btn btn-outline" %>
+        </div>
+        <div>
+          <%= f.submit t('forms.upload_validate'), class: "btn btn-primary" %>
+        </div>
+      </div>
+    <% end %>
+
+    <div class="divider"><%= t('bulk_price_updates.sample_format') %></div>
+    
+    <div class="bg-base-200 rounded-lg p-4">
+      <div class="text-xs font-mono">
+        <div class="font-semibold mb-2"><%= t('bulk_price_updates.example_content') %></div>
+        <div>SKU,Name,Regular Price</div>
+        <div>PROD-001,Widget A,19.99</div>
+        <div>PROD-002,Widget B,29.99</div>
+        <div>NEW-PROD,New Widget,39.99</div>
+      </div>
+    </div>
+  </div>
 </div>

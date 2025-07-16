@@ -33,8 +33,6 @@ class MergeSimpleProductsController < ApplicationController
   def load_products
     product_ids = params[:product_ids]
 
-    Rails.logger.debug("Cheese 2: #{product_ids}")
-
     response = @woo_client.get_products(ids: product_ids)
 
     if response.success?

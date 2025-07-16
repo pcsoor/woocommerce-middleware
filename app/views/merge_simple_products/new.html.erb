@@ -7,7 +7,7 @@
   <% end %>
 
   <div>
-    <%= form.label :parent_product_name, "New Parent Product Name" %><br>
+            <%= form.label :parent_product_name, t('merge_products.new_parent_product_name') %><br>
     <%= form.text_field :parent_product_name, required: true %>
   </div>
 
@@ -18,7 +18,7 @@
 
   <br>
 
-  <%= form.submit "Start Merge" %>
+          <%= form.submit t('merge_products.start_merge') %>
 <% end %>
 
-<%= link_to "Cancel", products_path %>
+      <%= link_to t('merge_products.cancel'), products_path %>

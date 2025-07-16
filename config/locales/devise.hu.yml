@@ -1,0 +1,63 @@
+hu:
+  devise:
+    confirmations:
+      confirmed: "Az email címe sikeresen megerősítésre került."
+      send_instructions: "Néhány percen belül kapni fog egy emailt a email cím megerősítésének utasításaival."
+      send_paranoid_instructions: "Ha az email címe létezik az adatbázisunkban, néhány percen belül kapni fog egy emailt a email cím megerősítésének utasításaival."
+    failure:
+      already_authenticated: "Már be van jelentkezve."
+      inactive: "A fiókja még nincs aktiválva."
+      invalid: "Érvénytelen %{authentication_keys} vagy jelszó."
+      locked: "A fiókja zárolva van."
+      last_attempt: "Még egy kísérlete van mielőtt a fiókja zárolásra kerül."
+      not_found_in_database: "Érvénytelen %{authentication_keys} vagy jelszó."
+      timeout: "A munkamenete lejárt. Kérjük jelentkezzen be újra a folytatáshoz."
+      unauthenticated: "A folytatás előtt be kell jelentkeznie vagy regisztrálnia kell."
+      unconfirmed: "A folytatás előtt meg kell erősítenie az email címét."
+    mailer:
+      confirmation_instructions:
+        subject: "Megerősítési utasítások"
+      reset_password_instructions:
+        subject: "Jelszó visszaállítási utasítások"
+      unlock_instructions:
+        subject: "Feloldási utasítások"
+      email_changed:
+        subject: "Email megváltoztatva"
+      password_change:
+        subject: "Jelszó megváltoztatva"
+    omniauth_callbacks:
+      failure: "Nem sikerült hitelesíteni önt a %{kind} szolgáltatástól a következő ok miatt: \"%{reason}\"."
+      success: "Sikeresen hitelesítve a %{kind} fiókjából."
+    passwords:
+      no_token: "Ezen az oldalon nem tud hozzáférni jelszó visszaállító email nélkül. Ha jelszó visszaállító emailből jött, kérjük győződjön meg róla, hogy a teljes megadott URL-t használta."
+      send_instructions: "Néhány percen belül kapni fog egy emailt a jelszó visszaállításának utasításaival."
+      send_paranoid_instructions: "Ha az email címe létezik az adatbázisunkban, néhány percen belül kapni fog egy jelszó helyreállítási linket az email címére."
+      updated: "A jelszava sikeresen megváltoztatásra került. Most be van jelentkezve."
+      updated_not_active: "A jelszava sikeresen megváltoztatásra került."
+    registrations:
+      destroyed: "Viszlát! A fiókja sikeresen törlésre került. Reméljük hamarosan újra látjuk."
+      signed_up: "Üdvözöljük! Sikeresen regisztrált."
+      signed_up_but_inactive: "Sikeresen regisztrált. Azonban nem tudtuk bejelentkeztetni, mert a fiókja még nincs aktiválva."
+      signed_up_but_locked: "Sikeresen regisztrált. Azonban nem tudtuk bejelentkeztetni, mert a fiókja zárolva van."
+      signed_up_but_unconfirmed: "Egy megerősítési linkkel ellátott üzenet elküldésre került az email címére. Kérjük kövesse a linket a fiókja aktiválásához."
+      update_needs_confirmation: "Sikeresen frissítette a fiókját, de meg kell erősítenünk az új email címét. Kérjük ellenőrizze az emailjeit és kövesse a megerősítési linket az új email cím megerősítéséhez."
+      updated: "A fiókja sikeresen frissítésre került."
+      updated_but_not_signed_in: "A fiókja sikeresen frissítésre került, de mivel megváltoztatta a jelszavát, újra be kell jelentkeznie."
+    sessions:
+      signed_in: "Sikeresen bejelentkezett."
+      signed_out: "Sikeresen kijelentkezett."
+      already_signed_out: "Sikeresen kijelentkezett."
+    unlocks:
+      send_instructions: "Néhány percen belül kapni fog egy emailt a fiókja feloldásának utasításaival."
+      send_paranoid_instructions: "Ha a fiókja létezik, néhány percen belül kapni fog egy emailt a feloldás utasításaival."
+      unlocked: "A fiókja sikeresen feloldásra került. Kérjük jelentkezzen be a folytatáshoz."
+  errors:
+    messages:
+      already_confirmed: "már megerősítésre került, kérjük próbáljon bejelentkezni"
+      confirmation_period_expired: "%{period} időn belül meg kell erősíteni, kérjük kérjen újat"
+      expired: "lejárt, kérjük kérjen újat"
+      not_found: "nem található"
+      not_locked: "nem volt zárolva"
+      not_saved:
+        one: "1 hiba miatt ez a(z) %{resource} nem menthető:"
+        other: "%{count} hiba miatt ez a(z) %{resource} nem menthető:" 

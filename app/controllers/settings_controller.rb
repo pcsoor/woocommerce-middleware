@@ -3,6 +3,8 @@ class SettingsController < ApplicationController
   before_action :set_active_tab
   before_action :set_user_and_store, only: [:show]
 
+  ALLOWED_TABS = %w[profile store].freeze
+
   def show
     redirect_to settings_path(tab: "profile") and return if params[:tab].blank?
 
@@ -16,7 +18,8 @@ class SettingsController < ApplicationController
   private
 
   def set_active_tab
-    @active_tab = params[:tab] || "profile"
+    tab = params[:tab] || "profile"
+    @active_tab = ALLOWED_TABS.include?(tab) ? tab : "profile"
   end
 
   def set_user_and_store

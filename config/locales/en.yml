@@ -28,4 +28,305 @@
 #       enabled: "ON"
 
 en:
+  # Common terms
   hello: "Hello world"
+  
+  # Navigation
+  navigation:
+    products: "Products"
+    categories: "Categories"
+    profile: "Profile"
+    settings: "Settings"
+    sign_out: "Sign Out"
+    back_to_products: "Back to Products"
+    back: "Back"
+
+  # Authentication
+  authentication:
+    sign_up: "Sign up"
+    log_in: "Log in"
+    login: "Login"
+    sign_in: "Sign in"
+    password: "Password"
+    remember_me: "Remember me"
+    forgot_password: "Forgot your password?"
+    change_password: "Change your password"
+    new_password: "New password"
+    password_confirmation: "Password confirmation"
+    confirm_new_password: "Confirm new password"
+    current_password: "Current password"
+    minimum_characters: "characters minimum"
+    leave_blank_no_change: "(leave blank if you don't want to change it)"
+    need_current_password: "(we need your current password to confirm your changes)"
+    cancel_account: "Cancel my account"
+    unhappy: "Unhappy?"
+    are_you_sure: "Are you sure?"
+    change_my_password: "Change my password"
+    send_reset_instructions: "Send me reset password instructions"
+    didnt_receive_confirmation: "Didn't receive confirmation instructions?"
+    didnt_receive_unlock: "Didn't receive unlock instructions?"
+
+  # Forms
+  forms:
+    submit: "Submit"
+    save: "Save"
+    update: "Update"
+    create: "Create"
+    delete: "Delete"
+    cancel: "Cancel"
+    edit: "Edit"
+    upload: "Upload"
+    upload_validate: "Upload & Validate"
+    test_connection: "Test Connection"
+    save_settings: "Save Settings"
+    update_product: "Update Product"
+    update_category: "Update Category"
+    start_merge: "Start Merge"
+    connect_store: "Connect Store"
+
+  # Products
+  products:
+    title: "Product List"
+    update_prices: "Update Prices"
+    manage_products: "Manage Products"
+    view_products: "View Products"
+    no_products_found: "No products found or unable to fetch products from WooCommerce."
+    product_name: "Product Name"
+    sku: "SKU"
+    featured_product: "Featured Product"
+    regular_price: "Regular Price (Ft)"
+    sale_price: "Sale Price (Ft)"
+    stock_quantity: "Stock Quantity"
+    weight: "Weight (kg)"
+    short_description: "Short Description"
+    update_success: "Product updated successfully."
+    
+    # Sections
+    basic_information: "Basic Information"
+    pricing: "Pricing"
+    inventory: "Inventory"
+    additional_details: "Additional Details"
+
+  # Categories
+  categories:
+    edit_category: "Edit Category"
+    category_name: "Category Name"
+    slug: "Slug"
+    parent_category: "Parent Category"
+    none: "None"
+    description: "Description"
+    category_description: "Category Description"
+    name: "Name"
+    products_count: "Products Count"
+    actions: "Actions"
+    back_to_categories: "← Back to Categories"
+
+  # Variations
+  variations:
+    update_variation: "Update Variation"
+    back_to_product: "Back to Product"
+
+  # Merge Products
+  merge_products:
+    title: "Merge Simple Products into Variable Product"
+    parent_product_name: "New Parent Product Name"
+    attribute_name: "Attribute (e.g., Color, Size)"
+    new_parent_product_name: "New Parent Product Name"
+    start_merge: "Start Merge"
+    cancel: "Cancel"
+
+  # Devise
+  devise:
+    confirmations:
+      resend_confirmation_instructions: "Resend confirmation instructions"
+    unlocks:
+      resend_unlock_instructions: "Resend unlock instructions"
+    oauth:
+      sign_in_with: "Sign in with %{provider}"
+
+  # Placeholders
+  placeholders:
+    store_name: "My WooCommerce Store"
+    store_url: "https://yourstore.com"
+    api_url: "http://www.example.com"
+    consumer_key: "ck_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    consumer_secret: "cs_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+
+  # Language names
+  languages:
+    english: "English"
+    hungarian: "Magyar"
+
+  # Bulk Price Updates
+  bulk_price_updates:
+    title: "Bulk Price Updates"
+    description: "Upload a CSV file to update product prices in bulk"
+    validate_title: "Validate Price Updates"
+    validate_description: "Review your price updates before processing"
+    results_title: "Price Update Results"
+    results_description: "Your price updates have been processed"
+    
+    # Steps
+    steps:
+      upload: "Upload"
+      select_csv: "Select CSV file"
+      validate: "Validate"
+      review_prices: "Review prices"
+      import: "Import"
+      update_prices: "Update prices"
+      complete: "Complete"
+      results: "Results"
+
+    # CSV Requirements
+    csv_requirements:
+      title: "CSV File Requirements"
+      required_columns: "Required columns: SKU, Name, Regular Price (or Price)"
+      existing_products: "Existing products: Prices will be updated based on SKU"
+      new_products: "New products: Will be created with the provided name and price"
+      file_size: "File size: Maximum 10MB"
+      supported_formats: "Supported formats: CSV files only"
+
+    # File upload
+    select_csv_file: "Select CSV File"
+    choose_csv_help: "Choose a CSV file containing your product price updates"
+    sample_format: "Sample CSV Format"
+    example_content: "Example CSV content:"
+
+    # Validation
+    total_products: "Total Products"
+    valid_products: "Valid Products"
+    with_warnings: "With Warnings"
+    will_update: "Will Update"
+    will_create: "Will Create"
+    validation_errors: "products have validation errors and will be skipped."
+    no_products_parsed: "No products were parsed from your CSV file."
+    no_products_found: "No products found"
+    no_products_parsed_description: "No products were parsed from your CSV file."
+    back_to_upload: "Back to Upload"
+    process_price_updates: "Process Price Updates"
+    no_valid_products_to_process: "No valid products to process"
+
+    # Table headers
+    status: "Status"
+    name: "Name"
+    action: "Action"
+    issues: "Issues"
+
+    # Results
+    file: "File"
+    uploaded: "Uploaded"
+    completed: "Completed"
+    update_more_prices: "Update More Prices"
+    view_products: "View Products"
+
+    # Status badges
+    status_badges:
+      warning: "Warning"
+      valid: "Valid"
+      invalid: "Invalid"
+      skip: "Skip"
+      update: "Update"
+      create: "Create"
+
+    # Product fields
+    product_fields:
+      not_set: "Not set"
+      missing: "Missing"
+      ready_to_process: "Ready to process"
+      no_name_provided: "No name provided"
+      no_price_provided: "No regular price provided"
+      will_update_existing: "Will update existing product price"
+      will_create_new: "Will create new product"
+
+    # Flash messages
+    processing_completed: "Price update processing completed!"
+    error_processing: "Error processing price updates"
+    file_not_selected: "Please select a file to upload."
+    successfully_parsed: "Successfully parsed %{count} products from %{filename}"
+    parsing_error: "Error parsing file"
+    session_expired: "Price update session expired. Please upload your file again."
+    session_not_found: "Price update session not found. Please upload your file again."
+    no_results_found: "No results found. Please start a new price update."
+
+    # Results partials
+    results_alert:
+      success_title: "Price updates completed successfully!"
+      success_description: "All products were processed without errors."
+      warning_title: "Price updates completed with issues."
+      warning_description: "Some products could not be processed. See details below."
+    
+    success_details:
+      title: "Successfully Processed"
+      products_updated: "products had their prices updated"
+      products_created: "new products were created"
+
+    error_details:
+      title: "Processing Errors"
+      description: "The following products could not be processed:"
+
+    # Stats
+    stats:
+      products_updated: "Products Updated"
+      products_created: "Products Created"
+      failed: "Failed"
+
+  # Store/Settings
+  store:
+    settings: "Store Settings"
+    settings_description: "Configure your WooCommerce store connection and settings."
+    store_information: "Store Information"
+    store_name: "Store Name"
+    store_url: "Store URL"
+    api_credentials: "API Credentials"
+    consumer_key: "Consumer Key"
+    consumer_secret: "Consumer Secret"
+    quick_actions: "Quick Actions"
+    update_success: "Store settings updated successfully!"
+    
+    # Onboarding
+    store_details: "Store details"
+    store_name_optional: "Store Name (optional)"
+    store_api_url: "Store API URL"
+
+  # General UI
+  ui:
+    or: "OR"
+    loading: "Loading..."
+    no_results: "No results"
+    search: "Search"
+    filter: "Filter"
+    clear: "Clear"
+    close: "Close"
+    open: "Open"
+    show: "Show"
+    hide: "Hide"
+    yes: "Yes"
+    no: "No"
+    required: "required"
+    optional: "optional"
+
+  # Common text
+  common:
+    unknown: "Unknown"
+    profile_information: "Profile Information"
+    settings: "Settings"
+    categories: "Categories"
+    my_store: "My Store"
+
+  # Time formats
+  time:
+    formats:
+      default: "%Y-%m-%d %H:%M"
+      short: "%m-%d %H:%M"
+      long: "%B %e, %Y at %l:%M %p"
+
+  # Error messages
+  errors:
+    messages:
+      not_saved:
+        one: "1 error prohibited this %{resource} from being saved:"
+        other: "%{count} errors prohibited this %{resource} from being saved:"
+
+  # Application title
+  app_title: "Woocommerce Middleware"
+  woocommerce_middleware: "Woocommerce Middleware"

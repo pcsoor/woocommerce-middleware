@@ -1,0 +1,31 @@
+<% current_step ||= 1 %>
+
+<ul class="steps steps-horizontal w-full mb-8">
+  <li class="step <%= 'step-primary' if current_step >= 1 %>">
+    <div class="step-content">
+      <div class="text-sm font-medium"><%= t('bulk_price_updates.steps.upload') %></div>
+      <div class="text-xs opacity-70"><%= t('bulk_price_updates.steps.select_csv') %></div>
+    </div>
+  </li>
+
+  <li class="step <%= 'step-primary' if current_step >= 2 %>">
+    <div class="step-content">
+      <div class="text-sm font-medium"><%= t('bulk_price_updates.steps.validate') %></div>
+      <div class="text-xs opacity-70"><%= t('bulk_price_updates.steps.review_prices') %></div>
+    </div>
+  </li>
+
+  <li class="step <%= 'step-primary' if current_step >= 3 %>">
+    <div class="step-content">
+      <div class="text-sm font-medium"><%= t('bulk_price_updates.steps.import') %></div>
+      <div class="text-xs opacity-70"><%= t('bulk_price_updates.steps.update_prices') %></div>
+    </div>
+  </li>
+
+  <li class="step <%= 'step-primary' if current_step >= 4 %>">
+    <div class="step-content">
+      <div class="text-sm font-medium"><%= t('bulk_price_updates.steps.complete') %></div>
+      <div class="text-xs opacity-70"><%= t('bulk_price_updates.steps.results') %></div>
+    </div>
+  </li>
+</ul> 

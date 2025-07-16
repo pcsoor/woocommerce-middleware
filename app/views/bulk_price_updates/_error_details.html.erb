@@ -1,0 +1,25 @@
+<div class="card bg-error/5 border border-error/20 mb-6">
+  <div class="card-body">
+    <h3 class="card-title text-error flex items-center gap-2">
+      <%= icon "exclamation-triangle", variant: :mini, class: "w-5 h-5" %>
+      <%= t('bulk_price_updates.error_details.title') %>
+    </h3>
+    
+    <div class="mt-4">
+      <p class="text-sm text-base-content/70 mb-3">
+        <%= t('bulk_price_updates.error_details.description') %>
+      </p>
+      
+      <div class="bg-base-200 rounded-lg p-4 max-h-48 overflow-y-auto">
+        <ul class="space-y-2">
+          <% @results["errors"].each do |error| %>
+            <li class="text-sm text-error">
+              <%= icon "x-circle", variant: :micro, class: "w-4 h-4 inline mr-2" %>
+              <%= error %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div> 

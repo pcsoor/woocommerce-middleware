@@ -1,4 +1,4 @@
-<h1 class="text-2xl font-medium mb-6">Categories</h1>
+<h1 class="text-2xl font-medium mb-6"><%= t('common.categories') %></h1>
 
 <div class="flex flex-col">
   <div class="-m-1.5 overflow-x-auto">
@@ -7,10 +7,10 @@
         <table class="min-w-full divide-y divide-gray-200">
           <thead class="text-start uppercase font-medium">
             <tr>
-              <th class="px-4 py-2 text-start font-medium text-xs text-gray-500">Name</th>
-              <th class="px-4 py-2 text-start font-medium text-xs text-gray-500">Slug</th>
-              <th class="px-4 py-2 text-start font-medium text-xs text-gray-500">Products Count</th>
-              <th class="px-4 py-2 text-start font-medium text-xs text-gray-500">Actions</th>
+              <th class="px-4 py-2 text-start font-medium text-xs text-gray-500"><%= t('categories.name') %></th>
+              <th class="px-4 py-2 text-start font-medium text-xs text-gray-500"><%= t('categories.slug') %></th>
+              <th class="px-4 py-2 text-start font-medium text-xs text-gray-500"><%= t('categories.products_count') %></th>
+              <th class="px-4 py-2 text-start font-medium text-xs text-gray-500"><%= t('categories.actions') %></th>
             </tr>
           </thead>
           <tbody class="divide-y divide-gray-200 text-sm">

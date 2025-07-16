@@ -1,24 +1,24 @@
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
   <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-md border p-4 mx-auto">
-    <legend class="fieldset-legend">Sign up</legend>
+    <legend class="fieldset-legend"><%= t('authentication.sign_up') %></legend>
 
     <%= render "devise/shared/error_messages", resource: resource %>
 
     <%= f.label :email, class: "label" %>
     <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "input w-full" %>
 
-    <%= f.label :password, class: "label" %>
+    <%= f.label :password, t('authentication.password'), class: "label" %>
     <% if @minimum_password_length %>
-<!--      <span class="text-xs text-gray-500">(<%#= @minimum_password_length %> characters minimum)</span>-->
+<!--      <span class="text-xs text-gray-500">(<%= @minimum_password_length %> <%= t('authentication.minimum_characters') %>)</span>-->
     <% end %>
     <%= f.password_field :password, autocomplete: "new-password", class: "input w-full" %>
 
-    <%= f.label :password_confirmation, class: "label" %>
+    <%= f.label :password_confirmation, t('authentication.password_confirmation'), class: "label" %>
     <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "input w-full" %>
 
-    <%= f.submit "Sign up", class: "btn btn-neutral mt-4" %>
+    <%= f.submit t('authentication.sign_up'), class: "btn btn-neutral mt-4" %>
 
-    <div class="divider">OR</div>
+    <div class="divider"><%= t('ui.or') %></div>
 
     <%= render "devise/shared/links" %>
   </fieldset>

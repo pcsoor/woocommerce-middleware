@@ -24,6 +24,11 @@ module WoocommerceMiddleware
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
 
+    # Internationalization configuration
+    config.i18n.available_locales = [:en, :hu]
+    config.i18n.default_locale = :hu
+    config.time_zone = 'Budapest'
+
     config.active_record.encryption.primary_key = ENV['ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY']
     config.active_record.encryption.deterministic_key = ENV['ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY']
     config.active_record.encryption.key_derivation_salt = ENV['ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT']

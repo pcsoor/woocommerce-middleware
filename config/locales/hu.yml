@@ -1,0 +1,303 @@
+hu:
+  # Common terms
+  hello: "Szia világ"
+  
+  # Navigation
+  navigation:
+    products: "Termékek"
+    categories: "Kategóriák"
+    profile: "Profil"
+    settings: "Beállítások"
+    sign_out: "Kijelentkezés"
+    back_to_products: "Vissza a termékekhez"
+    back: "Vissza"
+
+  # Authentication
+  authentication:
+    sign_up: "Regisztráció"
+    log_in: "Bejelentkezés"
+    login: "Bejelentkezés"
+    sign_in: "Bejelentkezés"
+    password: "Jelszó"
+    remember_me: "Emlékezzen rám"
+    forgot_password: "Elfelejtette a jelszavát?"
+    change_password: "Jelszó megváltoztatása"
+    new_password: "Új jelszó"
+    password_confirmation: "Jelszó megerősítése"
+    confirm_new_password: "Új jelszó megerősítése"
+    current_password: "Jelenlegi jelszó"
+    minimum_characters: "karakter minimum"
+    leave_blank_no_change: "(hagyja üresen, ha nem szeretné megváltoztatni)"
+    need_current_password: "(a változtatások megerősítéséhez szükséges a jelenlegi jelszó)"
+    cancel_account: "Fiók törlése"
+    unhappy: "Elégedetlen?"
+    are_you_sure: "Biztos benne?"
+    change_my_password: "Jelszó megváltoztatása"
+    send_reset_instructions: "Jelszó visszaállítási utasítások küldése"
+    didnt_receive_confirmation: "Nem kapta meg a megerősítő utasításokat?"
+    didnt_receive_unlock: "Nem kapta meg a feloldó utasításokat?"
+
+  # Forms
+  forms:
+    submit: "Küldés"
+    save: "Mentés"
+    update: "Frissítés"
+    create: "Létrehozás"
+    delete: "Törlés"
+    cancel: "Mégse"
+    edit: "Szerkesztés"
+    upload: "Feltöltés"
+    upload_validate: "Feltöltés és ellenőrzés"
+    test_connection: "Kapcsolat tesztelése"
+    save_settings: "Beállítások mentése"
+    update_product: "Termék frissítése"
+    update_category: "Kategória frissítése"
+    start_merge: "Egyesítés indítása"
+    connect_store: "Áruház csatlakoztatása"
+
+  # Products
+  products:
+    title: "Terméklista"
+    update_prices: "Árak frissítése"
+    manage_products: "Termékek kezelése"
+    view_products: "Termékek megtekintése"
+    no_products_found: "Nem találhatók termékek vagy nem sikerült lekérni a termékeket a WooCommerce-ből."
+    product_name: "Termék neve"
+    sku: "Cikkszám"
+    featured_product: "Kiemelt termék"
+    regular_price: "Normál ár (Ft)"
+    sale_price: "Akciós ár (Ft)"
+    stock_quantity: "Készlet mennyiség"
+    weight: "Súly (kg)"
+    short_description: "Rövid leírás"
+    update_success: "Termék sikeresen frissítve."
+    
+    # Sections
+    basic_information: "Alapinformációk"
+    pricing: "Árazás"
+    inventory: "Készlet"
+    additional_details: "További részletek"
+
+  # Categories
+  categories:
+    edit_category: "Kategória szerkesztése"
+    category_name: "Kategória neve"
+    slug: "Slug"
+    parent_category: "Szülő kategória"
+    none: "Nincs"
+    description: "Leírás"
+    category_description: "Kategória leírása"
+    name: "Név"
+    products_count: "Termékek száma"
+    actions: "Műveletek"
+    back_to_categories: "← Vissza a kategóriákhoz"
+
+  # Variations
+  variations:
+    update_variation: "Variáció frissítése"
+    back_to_product: "Vissza a termékhez"
+
+  # Merge Products
+  merge_products:
+    title: "Egyszerű termékek egyesítése változó termékké"
+    parent_product_name: "Új szülő termék neve"
+    attribute_name: "Attribútum (pl. Szín, Méret)"
+    new_parent_product_name: "Új szülő termék neve"
+    start_merge: "Egyesítés indítása"
+    cancel: "Mégse"
+
+  # Devise
+  devise:
+    confirmations:
+      resend_confirmation_instructions: "Megerősítő utasítások újraküldése"
+    unlocks:
+      resend_unlock_instructions: "Feloldó utasítások újraküldése"
+    oauth:
+      sign_in_with: "Bejelentkezés %{provider}-al"
+
+  # Placeholders
+  placeholders:
+    store_name: "WooCommerce áruházam"
+    store_url: "https://aruhazam.com"
+    api_url: "http://www.pelda.com"
+    consumer_key: "ck_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    consumer_secret: "cs_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+
+  # Language names
+  languages:
+    english: "English"
+    hungarian: "Magyar"
+
+  # Bulk Price Updates
+  bulk_price_updates:
+    title: "Tömeges ár frissítések"
+    description: "Töltsön fel egy CSV fájlt a termékárak tömeges frissítéséhez"
+    validate_title: "Ár frissítések ellenőrzése"
+    validate_description: "Tekintse át az ár frissítéseket a feldolgozás előtt"
+    results_title: "Ár frissítés eredményei"
+    results_description: "Az ár frissítések feldolgozása befejeződött"
+    
+    # Steps
+    steps:
+      upload: "Feltöltés"
+      select_csv: "CSV fájl kiválasztása"
+      validate: "Ellenőrzés"
+      review_prices: "Árak áttekintése"
+      import: "Importálás"
+      update_prices: "Árak frissítése"
+      complete: "Befejezés"
+      results: "Eredmények"
+
+    # CSV Requirements
+    csv_requirements:
+      title: "CSV fájl követelményei"
+      required_columns: "Kötelező oszlopok: Cikkszám, Név, Normál ár (vagy Ár)"
+      existing_products: "Meglévő termékek: Az árak a cikkszám alapján lesznek frissítve"
+      new_products: "Új termékek: A megadott névvel és árral lesznek létrehozva"
+      file_size: "Fájlméret: Maximum 10MB"
+      supported_formats: "Támogatott formátumok: Csak CSV fájlok"
+
+    # File upload
+    select_csv_file: "CSV fájl kiválasztása"
+    choose_csv_help: "Válasszon egy CSV fájlt a termék ár frissítésekkel"
+    sample_format: "Minta CSV formátum"
+    example_content: "Példa CSV tartalom:"
+
+    # Validation
+    total_products: "Összes termék"
+    valid_products: "Érvényes termékek"
+    with_warnings: "Figyelmeztetésekkel"
+    will_update: "Frissíteni fog"
+    will_create: "Létrehozni fog"
+    validation_errors: "termék érvényesítési hibákkal rendelkezik és át lesz ugorva."
+    no_products_parsed: "Nem sikerült termékeket elemezni a CSV fájlból."
+    no_products_found: "Nem találhatók termékek"
+    no_products_parsed_description: "Nem sikerült termékeket elemezni a CSV fájlból."
+    back_to_upload: "Vissza a feltöltéshez"
+    process_price_updates: "Ár frissítések feldolgozása"
+    no_valid_products_to_process: "Nincs érvényes termék a feldolgozáshoz"
+
+    # Table headers
+    status: "Állapot"
+    name: "Név"
+    action: "Művelet"
+    issues: "Problémák"
+
+    # Results
+    file: "Fájl"
+    uploaded: "Feltöltve"
+    completed: "Befejezve"
+    update_more_prices: "További árak frissítése"
+    view_products: "Termékek megtekintése"
+
+    # Status badges
+    status_badges:
+      warning: "Figyelmeztetés"
+      valid: "Érvényes"
+      invalid: "Érvénytelen"
+      skip: "Kihagyás"
+      update: "Frissítés"
+      create: "Létrehozás"
+
+    # Product fields
+    product_fields:
+      not_set: "Nincs beállítva"
+      missing: "Hiányzó"
+      ready_to_process: "Feldolgozásra kész"
+      no_name_provided: "Nincs név megadva"
+      no_price_provided: "Nincs normál ár megadva"
+      will_update_existing: "Meglévő termék árát frissíti"
+      will_create_new: "Új terméket hoz létre"
+
+    # Flash messages
+    processing_completed: "Ár frissítések feldolgozása befejeződött!"
+    error_processing: "Hiba az ár frissítések feldolgozása során"
+    file_not_selected: "Kérjük válasszon fájlt a feltöltéshez."
+    successfully_parsed: "%{count} termék sikeresen elemezve a %{filename} fájlból"
+    parsing_error: "Hiba a fájl elemzése során"
+    session_expired: "Ár frissítési munkamenet lejárt. Kérjük töltse fel újra a fájlt."
+    session_not_found: "Ár frissítési munkamenet nem található. Kérjük töltse fel újra a fájlt."
+    no_results_found: "Nem találhatók eredmények. Kérjük indítson új ár frissítést."
+
+    # Results partials
+    results_alert:
+      success_title: "Ár frissítések sikeresen befejeződtek!"
+      success_description: "Minden termék hibák nélkül lett feldolgozva."
+      warning_title: "Ár frissítések problémákkal fejeződtek be."
+      warning_description: "Néhány termék nem tudott feldolgozásra kerülni. Lásd a részleteket alább."
+    
+    success_details:
+      title: "Sikeresen feldolgozva"
+      products_updated: "termék ára frissítve lett"
+      products_created: "új termék lett létrehozva"
+
+    error_details:
+      title: "Feldolgozási hibák"
+      description: "A következő termékek nem tudtak feldolgozásra kerülni:"
+
+    # Stats
+    stats:
+      products_updated: "Termékek frissítve"
+      products_created: "Termékek létrehozva"
+      failed: "Sikertelen"
+
+  # Store/Settings
+  store:
+    settings: "Áruház beállítások"
+    settings_description: "Konfigurálja a WooCommerce áruház kapcsolatát és beállításait."
+    store_information: "Áruház információk"
+    store_name: "Áruház neve"
+    store_url: "Áruház URL"
+    api_credentials: "API hitelesítő adatok"
+    consumer_key: "Fogyasztói kulcs"
+    consumer_secret: "Fogyasztói titok"
+    quick_actions: "Gyors műveletek"
+    update_success: "Áruház beállítások sikeresen frissítve!"
+    
+    # Onboarding
+    store_details: "Áruház részletei"
+    store_name_optional: "Áruház neve (opcionális)"
+    store_api_url: "Áruház API URL"
+
+  # General UI
+  ui:
+    or: "VAGY"
+    loading: "Betöltés..."
+    no_results: "Nincs eredmény"
+    search: "Keresés"
+    filter: "Szűrés"
+    clear: "Törlés"
+    close: "Bezárás"
+    open: "Megnyitás"
+    show: "Megjelenítés"
+    hide: "Elrejtés"
+    yes: "Igen"
+    no: "Nem"
+    required: "kötelező"
+    optional: "opcionális"
+
+  # Common text
+  common:
+    unknown: "Ismeretlen"
+    profile_information: "Profil információk"
+    settings: "Beállítások"
+    categories: "Kategóriák"
+    my_store: "Áruházam"
+
+  # Time formats
+  time:
+    formats:
+      default: "%Y-%m-%d %H:%M"
+      short: "%m-%d %H:%M"
+      long: "%Y. %B %e., %A, %H:%M"
+
+  # Error messages
+  errors:
+    messages:
+      not_saved:
+        one: "1 hiba miatt ez a(z) %{resource} nem menthető:"
+        other: "%{count} hiba miatt ez a(z) %{resource} nem menthető:"
+
+  # Application title
+  app_title: "WooCommerce Köztes"
+  woocommerce_middleware: "WooCommerce Köztes" 

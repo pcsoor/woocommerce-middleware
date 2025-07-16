@@ -1,0 +1,16 @@
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+  <div class="stat bg-success/10 rounded-lg border border-success/20">
+    <div class="stat-value text-center text-success"><%= @results["updated_count"] || 0 %></div>
+    <div class="stat-title text-center text-success"><%= t('bulk_price_updates.stats.products_updated') %></div>
+  </div>
+
+  <div class="stat bg-primary/10 rounded-lg border border-primary/20">
+    <div class="stat-value text-center text-primary"><%= @results["created_count"] || 0 %></div>
+    <div class="stat-title text-center text-primary"><%= t('bulk_price_updates.stats.products_created') %></div>
+  </div>
+
+  <div class="stat bg-error/10 rounded-lg border border-error/20">
+    <div class="stat-value text-center text-error"><%= @results["failed_count"] || 0 %></div>
+    <div class="stat-title text-center text-error"><%= t('bulk_price_updates.stats.failed') %></div>
+  </div>
+</div> 

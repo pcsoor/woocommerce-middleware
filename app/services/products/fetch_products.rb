@@ -12,25 +12,31 @@ module Products
     end
 
     def call
+      # Try to fetch from cache first
+      result = ProductCache.fetch_products_list(@user.id, @page, @per_page) do
+        fetch_from_api
+      end
+
+      result
+    end
+
+    private
+
+    def fetch_from_api
       response = @client.get_products(page: @page, per_page: @per_page)
 
       unless response.success?
-        puts response.
+        Rails.logger.error("Failed to fetch products from WooCommerce: #{response.code} - #{response.message}")
         raise StandardError, "Failed to fetch products from WooCommerce"
       end
 
       raw_products = response.parsed_response
+      total_products = response.headers["x-wp-total"].to_i
 
-      raw_products.each do |product_data|
-        Rails.cache.write(
-          @client.cache_key_for(@user.id, product_data["id"]),
-          product_data,
-          expires_in: 10.minutes
-        )
-      end
+      # Warm individual product caches for better performance
+      ProductCache.warm_products_cache(@user, raw_products)
 
       products = raw_products.map { |data| Product.from_woocommerce(data) }
-      total_products = response.headers["x-wp-total"].to_i
 
       Kaminari.paginate_array(products, total_count: total_products)
         .page(@page)

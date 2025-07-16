@@ -10,18 +10,23 @@ class StoreController < ApplicationController
   end
 
   def update
-    debugger
-
+    Rails.logger.debug "=== STORE UPDATE DEBUG ==="
+    Rails.logger.debug "Turbo-Frame header: #{request.headers['Turbo-Frame']}"
+    Rails.logger.debug "Accept header: #{request.headers['Accept']}"
+    Rails.logger.debug "Is turbo frame request? #{turbo_frame_request?}"
+    Rails.logger.debug "=============================="
+    
     if @store.update(store_params)
       if turbo_frame_request?
-        # For turbo frame requests, we need to render the partial with the updated data
-        render "settings/tabs/store", layout: false
+        # For turbo frame requests, render the store tab partial to stay in settings
+        flash.now[:notice] = "Store settings updated successfully!"
+        render "settings/tabs/_store", layout: false
       else
         redirect_to store_path, notice: "Store settings updated successfully!"
       end
     else
       if turbo_frame_request?
-        render "settings/tabs/store", layout: false, status: :unprocessable_entity
+        render "settings/tabs/_store", layout: false, status: :unprocessable_entity
       else
         render :edit, status: :unprocessable_entity
       end
@@ -34,12 +39,30 @@ class StoreController < ApplicationController
       response = client.get('products', query: { per_page: 1 })
 
       if response.success?
-        redirect_to store_path, notice: 'Connection successful! Your WooCommerce API is working properly.'
+        success_message = 'Connection successful! Your WooCommerce API is working properly.'
+        if turbo_frame_request?
+          flash.now[:notice] = success_message
+          render "settings/tabs/_store", layout: false
+        else
+          redirect_to store_path, notice: success_message
+        end
       else
-        redirect_to store_path, alert: "Connection failed: #{extract_error_message(response)}"
+        error_message = "Connection failed: #{extract_error_message(response)}"
+        if turbo_frame_request?
+          flash.now[:alert] = error_message
+          render "settings/tabs/_store", layout: false
+        else
+          redirect_to store_path, alert: error_message
+        end
       end
     rescue => e
-      redirect_to store_path, alert: "Connection failed: #{e.message}"
+      error_message = "Connection failed: #{e.message}"
+      if turbo_frame_request?
+        flash.now[:alert] = error_message
+        render "settings/tabs/_store", layout: false
+      else
+        redirect_to store_path, alert: error_message
+      end
     end
   end
 
