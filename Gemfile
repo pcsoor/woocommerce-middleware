@@ -3,7 +3,7 @@ source "https://rubygems.org"
 gem "rails", "~> 8.0.2"
 
 gem "propshaft"
-gem "sqlite3", ">= 2.1"
+gem "pg", "~> 1.1"
 gem "puma", ">= 5.0"
 gem "importmap-rails"
 gem "turbo-rails"
@@ -21,7 +21,7 @@ gem "devise"
 gem "httparty"
 gem "kaminari", "~> 1.2"
 gem "tailwindcss-rails", "~> 4.2"
-gem "pg"
+gem "pg", "~> 1.1"
 gem "roo", "~> 2.10"
 
 gem "dotenv-rails", require: "dotenv/load"
@@ -47,3 +47,5 @@ group :test do
 end
 
 gem "rails_icons", "~> 1.3"
+
+gem "dockerfile-rails", ">= 1.7", :group => :development
