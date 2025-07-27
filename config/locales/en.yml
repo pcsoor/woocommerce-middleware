@@ -28,6 +28,71 @@
 #       enabled: "ON"
 
 en:
+  # Home page
+  home:
+    title: "Dashboard - WooCommerce Middleware"
+    hero:
+      title: "Manage Your WooCommerce Store"
+      subtitle: "Streamline your e-commerce operations with powerful bulk management tools, product synchronization, and comprehensive store analytics."
+      cta_primary: "View Products"
+      cta_secondary: "Settings"
+    
+    stats:
+      products: "Total Products"
+      categories: "Categories"
+      store_status: "Store Status"
+      connected: "Connected"
+      disconnected: "Disconnected"
+      view_all: "View All"
+      manage: "Manage"
+      configure: "Configure"
+    
+    quick_actions:
+      title: "Quick Actions"
+      products: "Products"
+      products_desc: "View and manage your product catalog"
+      bulk_update: "Bulk Price Update"
+      bulk_update_desc: "Update multiple product prices at once"
+      categories: "Categories"
+      categories_desc: "Organize your product categories"
+      merge: "Merge Products"
+      merge_desc: "Combine simple products efficiently"
+    
+    features:
+      title: "Key Features"
+      bulk_operations:
+        title: "Bulk Operations"
+        description: "Update prices, manage inventory, and modify product details across your entire catalog with powerful bulk tools."
+      product_management:
+        title: "Product Management"
+        description: "Comprehensive product editing, variation management, and real-time synchronization with your WooCommerce store."
+      analytics:
+        title: "Store Analytics"
+        description: "Track performance metrics, monitor sales trends, and gain insights into your store's performance."
+      sync:
+        title: "Real-time Sync"
+        description: "Automatic synchronization ensures your middleware stays in perfect sync with your WooCommerce store."
+      security:
+        title: "Secure API"
+        description: "Enterprise-grade security with encrypted API connections and secure credential management."
+      mobile:
+        title: "Mobile Ready"
+        description: "Responsive design works perfectly on all devices, from desktop to mobile tablets."
+    
+    recent_activity:
+      title: "Recent Products"
+      product_name: "Product Name"
+      sku: "SKU"
+      price: "Price"
+      actions: "Actions"
+      view_all: "View All Products"
+    
+    cta:
+      title: "Ready to Optimize Your Store?"
+      description: "Start managing your WooCommerce store more efficiently today with our powerful middleware tools."
+      get_started: "Get Started"
+      learn_more: "Learn More"
+
   # Common terms
   hello: "Hello world"
   

@@ -1,1 +1,208 @@
-We're here!
+<% content_for :title, t('home.title') %>
+
+<div class="hero min-h-screen bg-gradient-to-br from-primary to-secondary text-primary-content">
+  <div class="hero-content text-center">
+    <div class="max-w-4xl">
+      <h1 class="text-5xl font-bold mb-8">
+        <%= t('home.hero.title') %>
+      </h1>
+      <p class="py-6 text-xl">
+        <%= t('home.hero.subtitle') %>
+      </p>
+      <div class="flex flex-wrap justify-center gap-4 mt-8">
+        <%= link_to t('home.hero.cta_primary'), products_path, class: "btn btn-primary btn-lg" %>
+        <%= link_to t('home.hero.cta_secondary'), settings_path, class: "btn btn-outline btn-lg" %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container mx-auto px-4 py-16">
+  <!-- Quick Stats -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+    <div class="stat bg-base-100 shadow-lg rounded-lg">
+      <div class="stat-figure text-primary">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-8 h-8 stroke-current">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+        </svg>
+      </div>
+      <div class="stat-title"><%= t('home.stats.products') %></div>
+      <div class="stat-value text-primary">
+        <%= @product_count || 0 %>
+      </div>
+      <div class="stat-desc">
+        <%= link_to t('home.stats.view_all'), products_path, class: "link link-primary" %>
+      </div>
+    </div>
+
+    <div class="stat bg-base-100 shadow-lg rounded-lg">
+      <div class="stat-figure text-secondary">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-8 h-8 stroke-current">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"></path>
+        </svg>
+      </div>
+      <div class="stat-title"><%= t('home.stats.categories') %></div>
+      <div class="stat-value text-secondary">
+        <%= @category_count || 0 %>
+      </div>
+      <div class="stat-desc">
+        <%= link_to t('home.stats.manage'), categories_path, class: "link link-secondary" %>
+      </div>
+    </div>
+
+    <div class="stat bg-base-100 shadow-lg rounded-lg">
+      <div class="stat-figure text-accent">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-8 h-8 stroke-current">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+        </svg>
+      </div>
+      <div class="stat-title"><%= t('home.stats.store_status') %></div>
+      <div class="stat-value text-accent">
+        <%= @store_connected ? t('home.stats.connected') : t('home.stats.disconnected') %>
+      </div>
+      <div class="stat-desc">
+        <%= link_to t('home.stats.configure'), settings_path, class: "link link-accent" %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="mb-16">
+    <h2 class="text-3xl font-bold text-center mb-8"><%= t('home.quick_actions.title') %></h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <%= link_to products_path, class: "card bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-300" do %>
+        <div class="card-body text-center">
+          <div class="text-4xl mb-4">📦</div>
+          <h3 class="card-title justify-center"><%= t('home.quick_actions.products') %></h3>
+          <p class="text-sm opacity-70"><%= t('home.quick_actions.products_desc') %></p>
+        </div>
+      <% end %>
+
+      <%= link_to new_bulk_price_update_path, class: "card bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-300" do %>
+        <div class="card-body text-center">
+          <div class="text-4xl mb-4">💰</div>
+          <h3 class="card-title justify-center"><%= t('home.quick_actions.bulk_update') %></h3>
+          <p class="text-sm opacity-70"><%= t('home.quick_actions.bulk_update_desc') %></p>
+        </div>
+      <% end %>
+
+      <%= link_to categories_path, class: "card bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-300" do %>
+        <div class="card-body text-center">
+          <div class="text-4xl mb-4">🏷️</div>
+          <h3 class="card-title justify-center"><%= t('home.quick_actions.categories') %></h3>
+          <p class="text-sm opacity-70"><%= t('home.quick_actions.categories_desc') %></p>
+        </div>
+      <% end %>
+
+      <%= link_to new_merge_simple_product_path, class: "card bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-300" do %>
+        <div class="card-body text-center">
+          <div class="text-4xl mb-4">🔗</div>
+          <h3 class="card-title justify-center"><%= t('home.quick_actions.merge') %></h3>
+          <p class="text-sm opacity-70"><%= t('home.quick_actions.merge_desc') %></p>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Features Section -->
+  <div class="mb-16">
+    <h2 class="text-3xl font-bold text-center mb-12"><%= t('home.features.title') %></h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div class="card bg-base-100 shadow-lg">
+        <div class="card-body">
+          <div class="text-3xl mb-4">⚡</div>
+          <h3 class="card-title"><%= t('home.features.bulk_operations.title') %></h3>
+          <p><%= t('home.features.bulk_operations.description') %></p>
+        </div>
+      </div>
+
+      <div class="card bg-base-100 shadow-lg">
+        <div class="card-body">
+          <div class="text-3xl mb-4">🔍</div>
+          <h3 class="card-title"><%= t('home.features.product_management.title') %></h3>
+          <p><%= t('home.features.product_management.description') %></p>
+        </div>
+      </div>
+
+      <div class="card bg-base-100 shadow-lg">
+        <div class="card-body">
+          <div class="text-3xl mb-4">📊</div>
+          <h3 class="card-title"><%= t('home.features.analytics.title') %></h3>
+          <p><%= t('home.features.analytics.description') %></p>
+        </div>
+      </div>
+
+      <div class="card bg-base-100 shadow-lg">
+        <div class="card-body">
+          <div class="text-3xl mb-4">🔄</div>
+          <h3 class="card-title"><%= t('home.features.sync.title') %></h3>
+          <p><%= t('home.features.sync.description') %></p>
+        </div>
+      </div>
+
+      <div class="card bg-base-100 shadow-lg">
+        <div class="card-body">
+          <div class="text-3xl mb-4">🛡️</div>
+          <h3 class="card-title"><%= t('home.features.security.title') %></h3>
+          <p><%= t('home.features.security.description') %></p>
+        </div>
+      </div>
+
+      <div class="card bg-base-100 shadow-lg">
+        <div class="card-body">
+          <div class="text-3xl mb-4">📱</div>
+          <h3 class="card-title"><%= t('home.features.mobile.title') %></h3>
+          <p><%= t('home.features.mobile.description') %></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recent Activity -->
+  <% if @recent_products&.any? %>
+    <div class="mb-16">
+      <h2 class="text-3xl font-bold mb-8"><%= t('home.recent_activity.title') %></h2>
+      <div class="overflow-x-auto">
+        <table class="table table-zebra w-full">
+          <thead>
+            <tr>
+              <th><%= t('home.recent_activity.product_name') %></th>
+              <th><%= t('home.recent_activity.sku') %></th>
+              <th><%= t('home.recent_activity.price') %></th>
+              <th><%= t('home.recent_activity.actions') %></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @recent_products.first(5).each do |product| %>
+              <tr>
+                <td><%= product.name %></td>
+                <td><%= product.sku %></td>
+                <td><%= number_to_currency(product.regular_price, unit: 'Ft ') if product.regular_price %></td>
+                <td>
+                  <%= link_to t('forms.edit'), edit_product_path(product), class: "btn btn-sm btn-primary" %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+      <div class="text-center mt-4">
+        <%= link_to t('home.recent_activity.view_all'), products_path, class: "btn btn-outline" %>
+      </div>
+    </div>
+  <% end %>
+
+  <!-- Call to Action -->
+  <div class="text-center">
+    <div class="card bg-primary text-primary-content">
+      <div class="card-body">
+        <h2 class="card-title justify-center text-2xl mb-4"><%= t('home.cta.title') %></h2>
+        <p class="mb-6"><%= t('home.cta.description') %></p>
+        <div class="card-actions justify-center">
+          <%= link_to t('home.cta.get_started'), products_path, class: "btn btn-secondary btn-lg" %>
+          <%= link_to t('home.cta.learn_more'), settings_path, class: "btn btn-outline btn-lg" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
