@@ -1,0 +1,3 @@
+DATABASE_URL=postgresql://user_name:PASSWORD@127.0.0.1/app_name
+RAILS_MASTER_KEY= you'll find the master key in local machine in "config/credentials/production.key
+SECRET_KEY_BASE= 5899db8f71b8b636048774731de0ecbe1fcc2b1a09d4dfe8b87ace6277191c38616e4e7f25aa199aaf7ae6b7aab322efa953003a7f826a693693a9d12beb206f
