@@ -36,26 +36,14 @@ registry:
 # Inject ENV variables into containers (secrets come from .kamal/secrets).
 env:
   secret:
-    - SECRET_KEY_BASE
+    - RAILS_MASTER_KEY
+    - POSTGRES_USER
     - POSTGRES_PASSWORD
+    - SECRET_KEY_BASE
   clear:
     RAILS_ENV: production
-    # Run the Solid Queue Supervisor inside the web server's Puma process to do jobs.
-    # When you start using multiple servers, you should split out job processing to a dedicated machine.
     SOLID_QUEUE_IN_PUMA: true
-
-    # Set number of processes dedicated to Solid Queue (default: 1)
-    # JOB_CONCURRENCY: 3
-
-    # Set number of cores available to the application on each server (default: 1).
-    # WEB_CONCURRENCY: 2
-
-    # Match this to any external database server to configure Active Record correctly
-    # Use woocommerce_middleware-db for a db accessory server on same machine via local kamal docker network.
     DB_HOST: woocommerce_middleware-db
-
-    # Log everything from Rails
-    # RAILS_LOG_LEVEL: debug
 
 # Aliases are triggered with "bin/kamal <alias>". You can overwrite arguments on invocation:
 # "bin/kamal logs -r job" will tail logs from the first server in the job section.
@@ -109,6 +97,7 @@ accessories:
         POSTGRES_DB: woocommerce_middleware_production
       secret:
         - POSTGRES_PASSWORD
+        - POSTGRES_USER
     files:
       # - config/mysql/production.cnf:/etc/mysql/my.cnf
       - db/production.sql:/docker-entrypoint-initdb.d/setup.sql
