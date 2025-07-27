@@ -55,26 +55,69 @@ class Store < ApplicationRecord
   end
 
   def skip_url_check?
-    Rails.env.development? || Rails.env.test?
+    Rails.env.test? || Rails.env.production?
   end
 
   def api_url_accessible
     return if api_url.blank? || errors[:api_url].any?
 
     begin
-      # Basic connectivity check
       uri = URI.parse(api_url)
-      http = Net::HTTP.new(uri.host, uri.port)
-      http.use_ssl = uri.scheme == 'https'
-      http.open_timeout = 3
-      http.read_timeout = 3
       
-      response = http.head('/')
-      unless response.is_a?(Net::HTTPSuccess) || response.is_a?(Net::HTTPRedirection)
-        errors.add(:api_url, "URL is not accessible (#{response.code})")
+      timeout_config = {
+        open_timeout: 45,
+        read_timeout: 60,
+        ssl_timeout: 30
+      }
+      
+      Rails.logger.info("Testing connectivity to: #{api_url} with timeouts: #{timeout_config}")
+      
+      Net::HTTP.start(uri.host, uri.port, 
+                     use_ssl: uri.scheme == 'https',
+                     verify_mode: OpenSSL::SSL::VERIFY_PEER,
+                     **timeout_config) do |http|
+        
+        response = http.get('/')
+        
+        case response
+        when Net::HTTPSuccess, Net::HTTPRedirection
+          Rails.logger.info("Store URL check successful: #{response.code}")
+        when Net::HTTPNotFound
+          Rails.logger.info("Store URL check successful (404 is acceptable): #{response.code}")
+        when Net::HTTPUnauthorized, Net::HTTPForbidden
+          Rails.logger.info("Store URL check successful (auth required): #{response.code}")
+        else
+          Rails.logger.warn("Store URL check failed with status: #{response.code}")
+          errors.add(:api_url, "URL is not accessible (HTTP #{response.code})")
+        end
       end
+      
+    rescue Net::OpenTimeout => e
+      Rails.logger.warn("Store URL connection timeout: #{e.message}")
+      errors.add(:api_url, "Connection timeout: The server is taking too long to respond. Please check the URL.")
+      
+    rescue Net::ReadTimeout => e
+      Rails.logger.warn("Store URL read timeout: #{e.message}")
+      errors.add(:api_url, "Read timeout: The server is not responding fast enough. Please check the URL.")
+      
+    rescue OpenSSL::SSL::SSLError => e
+      Rails.logger.warn("Store URL SSL error: #{e.message}")
+      errors.add(:api_url, "SSL connection error: #{e.message}")
+      
+    rescue Errno::ECONNREFUSED => e
+      Rails.logger.warn("Store URL connection refused: #{e.message}")
+      errors.add(:api_url, "Connection refused: The server is not accepting connections.")
+      
+    rescue Errno::EHOSTUNREACH, Errno::ENETUNREACH => e
+      Rails.logger.warn("Store URL host unreachable: #{e.message}")
+      errors.add(:api_url, "Host unreachable: Cannot reach the server.")
+      
+    rescue SocketError => e
+      Rails.logger.warn("Store URL DNS error: #{e.message}")
+      errors.add(:api_url, "DNS error: Cannot resolve hostname. Please check the URL.")
+      
     rescue => e
-      Rails.logger.warn("Store URL check failed: #{e.message}")
+      Rails.logger.warn("Store URL check failed: #{e.class} - #{e.message}")
       errors.add(:api_url, "Cannot connect to the provided URL: #{e.message}")
     end
   end

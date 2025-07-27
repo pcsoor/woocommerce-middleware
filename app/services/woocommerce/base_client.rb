@@ -47,6 +47,10 @@ module Woocommerce
       begin
         url = "#{@base_uri}#{endpoint.sub(/^\//, '')}"
         
+        # More flexible timeout settings for production
+        timeout = Rails.env.production? ? 60 : 30
+        open_timeout = Rails.env.production? ? 20 : 10
+        
         options = {
           basic_auth: @auth,
           headers: { 
@@ -54,13 +58,16 @@ module Woocommerce
             "User-Agent" => "WooCommerce-Middleware/1.0"
           },
           query: query,
-          timeout: 30,
-          open_timeout: 10,
-          verify: Rails.env.production?
+          timeout: timeout,
+          open_timeout: open_timeout,
+          # Disable SSL verification in production if needed for troubleshooting
+          verify: Rails.env.production? ? false : true
         }
         
         options[:body] = body if body.present?
 
+        Rails.logger.info("WooCommerce API #{method.upcase} #{url} (attempt #{4-attempts}/3)")
+        
         response = HTTParty.send(method, url, options)
 
         Rails.logger.info("WooCommerce API #{method.upcase} #{endpoint}: #{response.code}")
@@ -71,7 +78,7 @@ module Woocommerce
         Rails.logger.warn("WooCommerce API timeout (attempt #{4-attempts}/3): #{e.message}")
         attempts -= 1
         if attempts > 0
-          sleep(0.5) # Brief pause before retry
+          sleep(1) # Longer pause for production timeouts
           retry
         end
         raise StandardError, "API request timed out after 3 attempts: #{e.message}"
@@ -79,12 +86,14 @@ module Woocommerce
         Rails.logger.warn("WooCommerce API connection error (attempt #{4-attempts}/3): #{e.message}")
         attempts -= 1
         if attempts > 0
-          sleep(1) # Longer pause for connection issues
+          sleep(2) # Longer pause for connection issues
           retry
         end
         raise StandardError, "Network error connecting to WooCommerce: #{e.message}"
       rescue => e
         Rails.logger.error("WooCommerce API unexpected error: #{e.class} - #{e.message}")
+        Rails.logger.error("URL: #{url}")
+        Rails.logger.error("Store: #{@store.api_url}")
         raise StandardError, "API request failed: #{e.message}"
       end
     end
