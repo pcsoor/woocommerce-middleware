@@ -60,8 +60,7 @@ module Woocommerce
           query: query,
           timeout: timeout,
           open_timeout: open_timeout,
-          # Disable SSL verification in production if needed for troubleshooting
-          verify: Rails.env.production? ? false : true
+          verify: true  # Always verify SSL certificates
         }
         
         options[:body] = body if body.present?
