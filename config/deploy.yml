@@ -12,13 +12,16 @@ servers:
     hosts:
       - 142.132.160.54
     options:
-      # Fix the specific domain connectivity issue
-      add-host:
-        - "pigmentvarazs.hu:185.33.54.19"
-      # Ensure proper DNS resolution
+      # Use host's DNS resolution
+      dns: []  # Empty array forces use of host DNS
+      # Alternative: specify external DNS that might route differently
+      # dns:
+      #   - "1.1.1.1"
+      #   - "8.8.8.8"
+    options:
       dns:
         - "8.8.8.8"
-        - "1.1.1.1"
+        - "8.8.4.4"
 
 deploy_timeout: 120  # 2 minutes to wait for container to become healthy
 drain_timeout: 60
