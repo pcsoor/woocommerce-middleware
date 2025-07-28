@@ -18,7 +18,8 @@ gem "bootsnap", require: false
 gem "kamal", require: false
 gem "thruster", require: false
 gem "devise"
-gem "httparty"
+gem 'faraday'
+gem 'faraday-retry'
 gem "kaminari", "~> 1.2"
 gem "tailwindcss-rails", "~> 4.2"
 gem "pg", "~> 1.1"

@@ -11,13 +11,18 @@ servers:
   web:
     hosts:
       - 142.132.160.54
-  # job:
-  #   hosts:
-  #     - 192.168.0.1
-  #   cmd: bin/jobs
+    options:
+      # Fix the specific domain connectivity issue
+      add-host:
+        - "pigmentvarazs.hu:185.33.54.19"
+      # Ensure proper DNS resolution
+      dns:
+        - "8.8.8.8"
+        - "1.1.1.1"
 
 deploy_timeout: 120  # 2 minutes to wait for container to become healthy
 drain_timeout: 60
+
 
 # Enable SSL auto certification via Let's Encrypt and allow for multiple apps on a single web server.
 # Remove this section when using multiple web servers and ensure you terminate SSL at your load balancer.
@@ -49,11 +54,13 @@ env:
     - POSTGRES_USER
     - POSTGRES_PASSWORD
     - SECRET_KEY_BASE
+    - ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY
+    - ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY
+    - ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT
   clear:
     RAILS_ENV: production
     SOLID_QUEUE_IN_PUMA: true
     DB_HOST: woocommerce_middleware-db
-    DOCKER_OPTS: "--mtu 1400"
 
 # Aliases are triggered with "bin/kamal <alias>". You can overwrite arguments on invocation:
 # "bin/kamal logs -r job" will tail logs from the first server in the job section.
