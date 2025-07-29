@@ -1,14 +1,28 @@
-# app/services/woocommerce/base_client.rb
-require 'faraday'
-require 'faraday/retry'
-require 'base64'
-require_relative 'response_wrapper'
+require 'httparty'
 
 module Woocommerce
   class BaseClient
+    include HTTParty
+    format :json
+    
+    # Default timeout and retry configuration
+    default_timeout 30
+    default_options.update(
+      verify: Rails.env.production?,
+      timeout: 30,
+      open_timeout: 10
+    )
+
     def initialize(store)
+      @api_url = store.api_url.chomp("/") + "/wp-json/wc/v3/"
+      @auth = {
+        username: store.consumer_key,
+        password: store.consumer_secret
+      }
       @store = store
-      @api_url = "#{store.api_url.chomp('/')}/wp-json/wc/v3/"
+      
+      # Use instance-level base_uri to avoid thread safety issues
+      @base_uri = @api_url
     end
 
     def get(endpoint, query: {})
@@ -16,11 +30,11 @@ module Woocommerce
     end
 
     def post(endpoint, body: {}, query: {})
-      request(:post, endpoint, query: query, body: body)
+      request(:post, endpoint, query: query, body: body.to_json)
     end
 
     def put(endpoint, body: {}, query: {})
-      request(:put, endpoint, query: query, body: body)
+      request(:put, endpoint, query: query, body: body.to_json)
     end
 
     def delete(endpoint, query: {})
@@ -30,83 +44,54 @@ module Woocommerce
     private
 
     def request(method, endpoint, query: {}, body: nil)
-      endpoint = endpoint.sub(/^\//, '')
-      Rails.logger.info("WooCommerce API #{method.upcase} #{@api_url}#{endpoint}")
-
-      # Always use system curl for pigmentvarazs.hu due to CDN/networking issues
-      if @api_url.include?('pigmentvarazs.hu')
-        return system_curl_request(method, endpoint, query, body)
-      end
-
-      # Use normal Faraday for other domains
-      response = connection.public_send(method, endpoint) do |req|
-        req.params = query if query.present?
-        req.body = body if body.present?
-      end
-
-      ResponseWrapper.new(response).tap do |wrapped_response|
-        Rails.logger.info("WooCommerce API #{method.upcase} #{endpoint}: #{wrapped_response.code}")
-      end
-    rescue Faraday::Error => e
-      Rails.logger.error("WooCommerce API error: #{e.message}")
-      raise StandardError, "Network error connecting to WooCommerce: #{e.message}"
-    end
-
-    def system_curl_request(method, endpoint, query, body)
-      url = build_url(endpoint, query)
-      auth = Base64.strict_encode64("#{@store.consumer_key}:#{@store.consumer_secret}")
-
-      cmd = %W[
-        curl -s -X #{method.upcase}
-        -H "Authorization: Basic #{auth}"
-        -H "Content-Type: application/json"
-        -H "Accept: application/json"
-        --connect-timeout 15
-        --max-time 30
-      ]
-
-      cmd += ["-d", body.to_json] if body.present? && %w[post put].include?(method.to_s)
-      cmd << url
-
-      result = `#{cmd.shelljoin}`
-      status = $?.success? ? 200 : 500
-
-      # Create a mock Faraday response
-      mock_response = OpenStruct.new(
-        status: status,
-        body: result,
-        headers: { 'content-type' => 'application/json' }
-      )
-
-      ResponseWrapper.new(mock_response).tap do |wrapped_response|
-        Rails.logger.info("WooCommerce API #{method.upcase} #{endpoint}: #{wrapped_response.code}")
-      end
-    end
-
-    def build_url(endpoint, query)
-      url = "#{@api_url}#{endpoint}"
-      url += "?#{query.to_query}" if query.present?
-      url
-    end
-
-    def connection
-      @connection ||= Faraday.new(url: @api_url) do |conn|
-        conn.request :authorization, :basic, @store.consumer_key, @store.consumer_secret
-        conn.request :json
-        conn.response :json, content_type: /\bjson$/
-
-        conn.request :retry, max: 2, interval: 1, backoff_factor: 1.5
-
-        conn.options.timeout = 30
-        conn.options.open_timeout = 15
-
-        conn.headers = {
-          'Content-Type' => 'application/json',
-          'Accept' => 'application/json',
-          'User-Agent' => 'WooCommerce-Middleware/1.0'
+      attempts ||= 3
+      
+      begin
+        url = "#{@base_uri}#{endpoint.sub(/^\//, '')}"
+        uri = URI.parse(@base_uri)
+        
+        options = {
+          basic_auth: @auth,
+          headers: { 
+            "Content-Type" => "application/json",
+            "User-Agent" => "WooCommerce-Middleware/1.0",
+            "Host" => uri.host
+          },
+          query: query,
+          timeout: 30,
+          open_timeout: 10,
+          verify: Rails.env.production?,
+          # Ensure SSL verification uses the hostname from the URL, not resolved IP
+          ssl_version: :TLSv1_2
         }
+        
+        options[:body] = body if body.present?
 
-        conn.adapter :net_http
+        response = HTTParty.send(method, url, options)
+
+        Rails.logger.info("WooCommerce API #{method.upcase} #{endpoint}: #{response.code}")
+        Rails.logger.debug("Response: #{response.parsed_response}") if Rails.env.development?
+
+        response
+      rescue Net::ReadTimeout, Net::OpenTimeout => e
+        Rails.logger.warn("WooCommerce API timeout (attempt #{4-attempts}/3): #{e.message}")
+        attempts -= 1
+        if attempts > 0
+          sleep(0.5) # Brief pause before retry
+          retry
+        end
+        raise StandardError, "API request timed out after 3 attempts: #{e.message}"
+      rescue Errno::ECONNRESET, Errno::ECONNREFUSED, Errno::EHOSTUNREACH => e
+        Rails.logger.warn("WooCommerce API connection error (attempt #{4-attempts}/3): #{e.message}")
+        attempts -= 1
+        if attempts > 0
+          sleep(1) # Longer pause for connection issues
+          retry
+        end
+        raise StandardError, "Network error connecting to WooCommerce: #{e.message}"
+      rescue => e
+        Rails.logger.error("WooCommerce API unexpected error: #{e.class} - #{e.message}")
+        raise StandardError, "API request failed: #{e.message}"
       end
     end
   end
