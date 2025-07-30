@@ -4,6 +4,7 @@ require 'faraday/retry'
 require 'base64'
 require 'ostruct'
 require_relative 'response_wrapper'
+require 'open3'
 
 module Woocommerce
   class BaseClient
@@ -57,42 +58,66 @@ module Woocommerce
       url = build_url(endpoint, query)
       auth = Base64.strict_encode64("#{@store.consumer_key}:#{@store.consumer_secret}")
 
-      cmd = %W[
-        curl -s -i -X #{method.upcase}
-        -H "Authorization: Basic #{auth}"
-        -H "Content-Type: application/json"
-        -H "Accept: application/vnd.api+json"
-        -H "User-Agent: WooCommerce-Middleware/1.0"
-        --connect-timeout 15
-        --max-time 30
+      # Ensure method is a string
+      method_str = method.to_s.upcase
+
+      # Build the curl command properly
+      cmd = [
+        'curl',
+        '-s',
+        '-i',
+        '-X', method_str,
+        '-H', "Authorization: Basic #{auth}",
+        '-H', 'Content-Type: application/json',
+        '-H', 'Accept: application/json',
+        '-H', 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+        '--connect-timeout', '15',
+        '--max-time', '30'
       ]
 
-      cmd += ["-d", body.to_json] if body.present? && %w[post put].include?(method.to_s)
-      cmd << url
-
-      result = `#{cmd.shelljoin}`
-      success = $?.success?
-
-      # Parse headers and body from curl output
-      if success && result.include?("\r\n\r\n")
-        header_section, body_section = result.split("\r\n\r\n", 2)
-        headers = parse_curl_headers(header_section)
-        status = extract_status_from_headers(header_section)
-      else
-        headers = { 'content-type' => 'application/vnd.api+json' }
-        body_section = result
-        status = success ? 200 : 500
+      if body.present? && %w[POST PUT].include?(method_str)
+        cmd << '-d'
+        cmd << body.to_json
       end
 
-      # Create a mock Faraday response
-      mock_response = OpenStruct.new(
-        status: status,
-        body: body_section,
-        headers: headers
-      )
+      cmd << url
 
-      ResponseWrapper.new(mock_response).tap do |wrapped_response|
-        Rails.logger.info("WooCommerce API #{method.upcase} #{endpoint}: #{wrapped_response.code}")
+      Rails.logger.info("Executing curl command to: #{url}")
+      Rails.logger.debug("Full command: #{cmd.inspect}")
+
+      begin
+        # Execute the command
+        stdout, stderr, status = Open3.capture3(*cmd)
+
+        Rails.logger.debug("Curl stdout length: #{stdout.length}")
+        Rails.logger.debug("Curl stderr: #{stderr}") if stderr.present?
+        Rails.logger.debug("Curl exit status: #{status.exitstatus}")
+
+        if status.success? && stdout.include?("\r\n\r\n")
+          header_section, body_section = stdout.split("\r\n\r\n", 2)
+          headers = parse_curl_headers(header_section)
+          status_code = extract_status_from_headers(header_section)
+        else
+          Rails.logger.error("Curl failed with status #{status.exitstatus}: #{stderr}")
+          headers = { 'content-type' => 'application/json' }
+          body_section = stdout.presence || stderr || '{"error": "Request failed"}'
+          status_code = status.success? ? 200 : 500
+        end
+
+        # Create a mock Faraday response
+        mock_response = OpenStruct.new(
+          status: status_code,
+          body: body_section,
+          headers: headers
+        )
+
+        ResponseWrapper.new(mock_response).tap do |wrapped_response|
+          Rails.logger.info("WooCommerce API #{method_str} #{endpoint}: #{wrapped_response.code}")
+        end
+      rescue => e
+        Rails.logger.error("Error in system_curl_request: #{e.class} - #{e.message}")
+        Rails.logger.error(e.backtrace.join("\n"))
+        raise
       end
     end
 
@@ -116,9 +141,11 @@ module Woocommerce
     end
 
     def extract_status_from_headers(header_section)
+      return 200 unless header_section
+
       status_line = header_section.split("\r\n").first
-      if status_line && status_line.match(/HTTP\/[\d\.]+\s+(\d+)/)
-        $1.to_i
+      if status_line && (match = status_line.match(/HTTP\/[\d\.]+\s+(\d+)/))
+        match[1].to_i
       else
         200
       end
