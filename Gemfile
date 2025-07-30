@@ -22,7 +22,7 @@ gem 'faraday'
 gem 'faraday-retry'
 gem 'typhoeus'
 gem "kaminari", "~> 1.2"
-gem "tailwindcss-rails", "~> 4.2"
+gem "tailwindcss-rails", "~> 4.3"
 gem "roo", "~> 2.10"
 
 gem "dotenv-rails", require: "dotenv/load"
