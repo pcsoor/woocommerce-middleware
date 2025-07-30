@@ -13,6 +13,7 @@ servers:
       - 142.132.160.54
     options:
       add-host: "pigmentvarazs.hu:185.33.54.19"
+      network: "host"
 
 deploy_timeout: 120  # 2 minutes to wait for container to become healthy
 drain_timeout: 60
