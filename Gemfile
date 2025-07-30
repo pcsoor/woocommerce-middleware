@@ -47,6 +47,6 @@ group :test do
   gem "rails-controller-testing"
 end
 
-gem "rails_icons", "~> 1.3"
+gem "rails_icons", "~> 1.4"
 
 gem "dockerfile-rails", ">= 1.7", :group => :development
