@@ -1,3 +1,6 @@
+require 'open3'
+require 'json'
+
 module Woocommerce
   class BaseClient
     def initialize(store)
@@ -24,87 +27,127 @@ module Woocommerce
     private
 
     def request(method, endpoint, query: {}, body: nil)
-      url = "#{@api_url}#{endpoint.sub(/^\//, '')}"
+      url = build_url(endpoint, query)
+      auth = Base64.strict_encode64("#{@store.consumer_key}:#{@store.consumer_secret}")
 
-      request_options = {
-        method: method,
-        headers: {
-          'Content-Type' => 'application/json',
-          'Accept' => 'application/json',
-          'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
-          'Authorization' => "Basic #{Base64.strict_encode64("#{@store.consumer_key}:#{@store.consumer_secret}")}"
-        },
-        params: query,
-        timeout: 30,
-        connecttimeout: 15,
-        followlocation: true,
-        ssl_verifypeer: Rails.env.production?,
-        ssl_verifyhost: Rails.env.production? ? 2 : 0,
-        # Force HTTP/1.1 to avoid HTTP/2 issues
-        http_version: :HTTPv1_1,
-        # Disable connection reuse
-        forbid_reuse: true,
-        fresh_connect: true
-      }
+      # Ensure method is a string
+      method_str = method.to_s.upcase
 
-      if body.present? && [:post, :put].include?(method)
-        request_options[:body] = body.is_a?(String) ? body : body.to_json
+      # Build the curl command properly
+      cmd = [
+        'curl',
+        '-s',
+        '-i',
+        '-X', method_str,
+        '-H', "Authorization: Basic #{auth}",
+        '-H', 'Content-Type: application/json',
+        '-H', 'Accept: application/json',
+        '-H', 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+        '--connect-timeout', '15',
+        '--max-time', '30'
+      ]
+
+      if body.present? && %w[POST PUT].include?(method_str)
+        cmd << '-d'
+        cmd << body.to_json
       end
 
-      Rails.logger.info("WooCommerce API: #{method.upcase} #{url}")
+      cmd << url
 
-      typhoeus_response = execute_with_retries(url, request_options, endpoint, method)
+      Rails.logger.info("WooCommerce API: #{method_str} #{url}")
 
-      Woocommerce::Response.new(typhoeus_response)
-    end
-
-    def execute_with_retries(url, options, endpoint, method, max_attempts: 3)
+      # Execute with retries
+      max_attempts = 3
       attempts = 0
 
       loop do
         attempts += 1
 
-        # Add verbose logging
-        Rails.logger.info("Typhoeus request attempt #{attempts}: #{options[:method]} #{url}")
-        Rails.logger.debug("Headers: #{options[:headers].except('Authorization')}")
+        begin
+          # Execute the command
+          stdout, stderr, status = Open3.capture3(*cmd)
 
-        response = Typhoeus::Request.new(url, options).run
+          Rails.logger.debug("Curl attempt #{attempts}: stdout length: #{stdout.length}, exit status: #{status.exitstatus}")
+          Rails.logger.debug("Curl stderr: #{stderr}") if stderr.present?
 
-        # Log detailed response info
-        Rails.logger.info("Response code: #{response.code}, Return code: #{response.return_code}, Total time: #{response.total_time}")
+          if status.success? && stdout.include?("\r\n\r\n")
+            header_section, body_section = stdout.split("\r\n\r\n", 2)
+            headers = parse_curl_headers(header_section)
+            status_code = extract_status_from_headers(header_section)
 
-        if response.code == 0
-          error_msg = "Network error: #{response.return_message} (return_code: #{response.return_code})"
-          Rails.logger.error("WooCommerce API error: #{error_msg}")
+            # Create response object
+            response = OpenStruct.new(
+              code: status_code,
+              body: body_section,
+              headers: headers,
+              success?: status_code >= 200 && status_code < 300
+            )
 
+            Rails.logger.info("WooCommerce API response: #{method_str} #{endpoint} - Status: #{status_code}")
+
+            return Woocommerce::Response.new(response)
+          else
+            error_msg = "Curl failed with status #{status.exitstatus}: #{stderr}"
+            Rails.logger.error(error_msg)
+
+            if attempts < max_attempts
+              Rails.logger.warn("Retrying... (attempt #{attempts}/#{max_attempts})")
+              sleep(attempts) # Exponential backoff
+              next
+            else
+              # Return error response
+              error_response = OpenStruct.new(
+                code: 500,
+                body: '{"error": "Request failed"}',
+                headers: { 'content-type' => 'application/json' },
+                success?: false
+              )
+              return Woocommerce::Response.new(error_response)
+            end
+          end
+        rescue => e
+          Rails.logger.error("Error in curl request: #{e.class} - #{e.message}")
           if attempts < max_attempts
-            Rails.logger.warn("Retrying... (attempt #{attempts}/#{max_attempts})")
+            Rails.logger.warn("Retrying after exception... (attempt #{attempts}/#{max_attempts})")
             sleep(attempts)
             next
           else
-            raise StandardError, "#{error_msg} after #{max_attempts} attempts"
+            raise
           end
         end
-
-        Rails.logger.info("WooCommerce API response: #{method.upcase} #{endpoint} - Status: #{response.code}")
-
-        if response.code >= 500 && attempts < max_attempts
-          Rails.logger.warn("Server error #{response.code}, retrying... (attempt #{attempts}/#{max_attempts})")
-          sleep(attempts)
-          next
-        end
-
-        return response
       end
     end
 
-    def default_headers
-      {
-        'Content-Type' => 'application/json',
-        'Accept' => 'application/json',
-        'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
-        'Authorization' => "Basic #{Base64.strict_encode64("#{@store.consumer_key}:#{@store.consumer_secret}")}"
-      }
+    def parse_curl_headers(header_section)
+      headers = { 'content-type' => 'application/json' }
+
+      header_section.split("\r\n").each do |line|
+        if line.include?(': ')
+          key, value = line.split(': ', 2)
+          headers[key.downcase] = value
+        end
+      end
+
+      headers
+    end
+
+    def extract_status_from_headers(header_section)
+      return 200 unless header_section
+
+      status_line = header_section.split("\r\n").first
+      if status_line && (match = status_line.match(/HTTP\/[\d\.]+\s+(\d+)/))
+        match[1].to_i
+      else
+        200
+      end
+    end
+
+    def build_url(endpoint, query)
+      url = "#{@api_url}#{endpoint.sub(/^\//, '')}"
+      if query.present?
+        url += "?#{query.to_query}"
+      end
+      url
     end
   end
 end
