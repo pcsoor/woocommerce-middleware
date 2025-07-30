@@ -20,6 +20,7 @@ gem "thruster", require: false
 gem "devise"
 gem 'faraday'
 gem 'faraday-retry'
+gem 'typhoeus'
 gem "kaminari", "~> 1.2"
 gem "tailwindcss-rails", "~> 4.2"
 gem "roo", "~> 2.10"
