@@ -57,15 +57,15 @@ module Woocommerce
       url = build_url(endpoint, query)
       auth = Base64.strict_encode64("#{@store.consumer_key}:#{@store.consumer_secret}")
 
-             cmd = %W[
-         curl -s -i -X #{method.upcase}
-         -H "Authorization: Basic #{auth}"
-         -H "Content-Type: application/json"
-         -H "Accept: application/json"
-         -H "Host: #{URI.parse(@api_url).host}"
-         --connect-timeout 15
-         --max-time 30
-       ]
+      cmd = %W[
+        curl -s -i -X #{method.upcase}
+        -H "Authorization: Basic #{auth}"
+        -H "Content-Type: application/json"
+        -H "Accept: application/vnd.api+json"
+        -H "User-Agent: WooCommerce-Middleware/1.0"
+        --connect-timeout 15
+        --max-time 30
+      ]
 
       cmd += ["-d", body.to_json] if body.present? && %w[post put].include?(method.to_s)
       cmd << url
@@ -135,11 +135,11 @@ module Woocommerce
         conn.options.timeout = 30
         conn.options.open_timeout = 15
 
-                 conn.headers = {
-           'Content-Type' => 'application/json',
-           'Accept' => 'application/json',
-           'User-Agent' => 'WooCommerce-Middleware/1.0'
-         }
+        conn.headers = {
+          'Content-Type' => 'application/json',
+          'Accept' => 'application/json',
+          'User-Agent' => 'WooCommerce-Middleware/1.0'
+        }
 
         conn.adapter :net_http
       end
