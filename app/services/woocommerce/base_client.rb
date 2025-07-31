@@ -70,6 +70,7 @@ module Woocommerce
         '-H', 'Content-Type: application/json',
         '-H', 'Accept: application/json',
         '-H', 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+        '--local-port', '40000-60000',  # Add this line
         '--connect-timeout', '15',
         '--max-time', '30'
       ]
