@@ -69,6 +69,7 @@ module Woocommerce
         '-H', "Authorization: Basic #{auth}",
         '-H', 'Content-Type: application/json',
         '-H', 'Accept: application/json',
+        '-H', 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
         '--connect-timeout', '15',
         '--max-time', '30'
       ]
