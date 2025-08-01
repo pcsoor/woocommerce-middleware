@@ -17,7 +17,7 @@ if ! docker network ls | grep -q "kamal-custom"; then
   
   echo "Custom network 'kamal-custom' created successfully"
 else
-  echo "Custom network 'kamal-custom' already exists"
+  echo "Custom network 'kamal-custom' already exists!"
 fi
 
 # Configure iptables rules for better external connectivity
