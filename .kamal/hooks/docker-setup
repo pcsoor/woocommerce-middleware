@@ -1,0 +1,45 @@
+#!/bin/bash
+
+echo "Setting up custom Docker network on $KAMAL_HOSTS..."
+
+# Create a custom bridge network that uses the host's DNS
+if ! docker network ls | grep -q "kamal-custom"; then
+  echo "Creating custom kamal network with host DNS..."
+  docker network create \
+    --driver bridge \
+    --opt com.docker.network.bridge.name=kamal-custom \
+    --opt com.docker.network.driver.mtu=1500 \
+    --subnet=172.19.0.0/16 \
+    --gateway=172.19.0.1 \
+    --dns=8.8.8.8 \
+    --dns=1.1.1.1 \
+    kamal-custom
+  
+  echo "Custom network 'kamal-custom' created successfully"
+else
+  echo "Custom network 'kamal-custom' already exists"
+fi
+
+# Configure iptables rules for better external connectivity
+echo "Configuring network rules for external connectivity..."
+
+# Check if the MASQUERADE rule already exists before adding it
+if ! iptables -t nat -C POSTROUTING -s 172.19.0.0/16 ! -o kamal-custom -j MASQUERADE 2>/dev/null; then
+  iptables -t nat -A POSTROUTING -s 172.19.0.0/16 ! -o kamal-custom -j MASQUERADE
+  echo "Added MASQUERADE rule for 172.19.0.0/16"
+else
+  echo "MASQUERADE rule already exists"
+fi
+
+# Allow forwarding from custom network to external interfaces
+if ! iptables -C FORWARD -i kamal-custom -o eth0 -j ACCEPT 2>/dev/null; then
+  iptables -A FORWARD -i kamal-custom -o eth0 -j ACCEPT
+  echo "Added FORWARD rule from kamal-custom to eth0"
+fi
+
+if ! iptables -C FORWARD -i eth0 -o kamal-custom -j ACCEPT 2>/dev/null; then
+  iptables -A FORWARD -i eth0 -o kamal-custom -j ACCEPT
+  echo "Added FORWARD rule from eth0 to kamal-custom"
+fi
+
+echo "Docker network setup completed successfully!"
