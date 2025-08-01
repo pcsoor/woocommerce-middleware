@@ -1,23 +1,27 @@
 #!/bin/bash
 
+echo "=== DOCKER SETUP HOOK STARTING ==="
 echo "Setting up custom Docker network on $KAMAL_HOSTS..."
 
-# Create a custom bridge network that uses the host's DNS
+# Create a custom bridge network (without --dns flags)
 if ! docker network ls | grep -q "kamal-custom"; then
-  echo "Creating custom kamal network with host DNS..."
+  echo "Creating custom kamal network..."
   docker network create \
     --driver bridge \
     --opt com.docker.network.bridge.name=kamal-custom \
     --opt com.docker.network.driver.mtu=1500 \
     --subnet=172.19.0.0/16 \
     --gateway=172.19.0.1 \
-    --dns=8.8.8.8 \
-    --dns=1.1.1.1 \
     kamal-custom
-  
-  echo "Custom network 'kamal-custom' created successfully"
+
+  if [ $? -eq 0 ]; then
+    echo "Custom network 'kamal-custom' created successfully"
+  else
+    echo "Failed to create custom network 'kamal-custom'"
+    exit 1
+  fi
 else
-  echo "Custom network 'kamal-custom' already exists!"
+  echo "Custom network 'kamal-custom' already exists"
 fi
 
 # Configure iptables rules for better external connectivity
@@ -42,4 +46,4 @@ if ! iptables -C FORWARD -i eth0 -o kamal-custom -j ACCEPT 2>/dev/null; then
   echo "Added FORWARD rule from eth0 to kamal-custom"
 fi
 
-echo "Docker network setup completed successfully!"
+echo "=== DOCKER SETUP HOOK COMPLETED SUCCESSFULLY ==="
