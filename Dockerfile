@@ -53,7 +53,20 @@ RUN bundle exec bootsnap precompile app/ lib/
 # Precompiling assets for production without requiring secret RAILS_MASTER_KEY
 RUN SECRET_KEY_BASE_DUMMY=1 RAILS_MASTER_KEY=dummy DATABASE_URL=postgresql://dummy:dummy@dummy:5432/dummy ./bin/rails assets:precompile
 
+# prefer IPv6 over IPv4
+RUN printf '%s\n' \
+  'label ::1/128       0' \
+  'label ::/0          1' \
+  'label 2002::/16     2' \
+  'label ::/96         3' \
+  'label ::ffff:0:0/96 4' \
+  'label fec0::/10     5' \
+  'label fc00::/7      6' \
+  'label 2001:0::/32   7' \
+  'label fd00::/8      1' \
+  >> /etc/gai.conf
 
+  
 # Final stage for app image
 FROM base
 
