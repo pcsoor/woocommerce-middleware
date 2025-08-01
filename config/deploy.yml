@@ -6,6 +6,9 @@ service: woocommerce_middleware
 # Name of the container image.
 image: petercsoor/woocommerce_middleware
 
+# Override the default kamal network entirely
+network: "external-bridge"
+
 # Deploy to these servers.
 servers:
   web:
@@ -13,7 +16,6 @@ servers:
       - 142.132.160.54
     options:
       add-host: "pigmentvarazs.hu:185.33.54.19"
-      network: "fresh-bridge"
 
 deploy_timeout: 120  # 2 minutes to wait for container to become healthy
 drain_timeout: 60

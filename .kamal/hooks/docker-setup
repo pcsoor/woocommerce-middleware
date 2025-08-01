@@ -1,1 +1,49 @@
-ssh root@142.132.160.54 docker network  create --driver=bridge --opt com.docker.network.driver.mtu=1450 kamal
+#!/bin/bash
+
+echo "=== DOCKER SETUP: Creating external-bridge network ==="
+
+# Remove existing problematic networks
+docker network rm external-bridge 2>/dev/null || true
+docker network rm kamal-custom 2>/dev/null || true
+
+# Create a new bridge network with proper external connectivity
+docker network create \
+  --driver bridge \
+  --subnet=172.25.0.0/16 \
+  --gateway=172.25.0.1 \
+  --opt com.docker.network.bridge.name=external-bridge \
+  --opt com.docker.network.bridge.enable_icc=true \
+  --opt com.docker.network.bridge.enable_ip_masquerade=true \
+  --opt com.docker.network.bridge.host_binding_ipv4=0.0.0.0 \
+  external-bridge
+
+if [ $? -eq 0 ]; then
+  echo "✓ external-bridge network created successfully"
+else
+  echo "✗ Failed to create external-bridge network"
+  exit 1
+fi
+
+# Configure iptables for proper NAT (external connectivity)
+echo "Configuring NAT rules for external connectivity..."
+
+# NAT rule for containers to access external services
+if ! iptables -t nat -C POSTROUTING -s 172.25.0.0/16 ! -o external-bridge -j MASQUERADE 2>/dev/null; then
+  iptables -t nat -A POSTROUTING -s 172.25.0.0/16 ! -o external-bridge -j MASQUERADE
+  echo "✓ Added NAT masquerading rule"
+else
+  echo "✓ NAT masquerading rule already exists"
+fi
+
+# Forward rules for external connectivity
+if ! iptables -C FORWARD -i external-bridge -o eth0 -j ACCEPT 2>/dev/null; then
+  iptables -A FORWARD -i external-bridge -o eth0 -j ACCEPT
+  echo "✓ Added FORWARD rule external-bridge -> eth0"
+fi
+
+if ! iptables -C FORWARD -i eth0 -o external-bridge -j ACCEPT 2>/dev/null; then
+  iptables -A FORWARD -i eth0 -o external-bridge -j ACCEPT
+  echo "✓ Added FORWARD rule eth0 -> external-bridge"
+fi
+
+echo "=== DOCKER SETUP COMPLETED: Network ready for external connectivity ==="
