@@ -1,72 +1,4 @@
 hu:
-  # Home page
-  home:
-    title: "Irányítópult - WooCommerce Middleware"
-    hero:
-      title: "Kezelje a WooCommerce Áruházát"
-      subtitle: "Hatékonyítsa az e-kereskedelmi műveleteket erős tömeges kezelési eszközökkel, termék szinkronizálással és átfogó áruház elemzéssel."
-      cta_primary: "Termékek Megtekintése"
-      cta_secondary: "Beállítások"
-    
-    stats:
-      products: "Összes Termék"
-      categories: "Kategóriák"
-      store_status: "Áruház Állapot"
-      connected: "Csatlakoztatva"
-      disconnected: "Nincs Csatlakoztatva"
-      view_all: "Összes Megtekintése"
-      manage: "Kezelés"
-      configure: "Konfigurálás"
-    
-    quick_actions:
-      title: "Gyors Műveletek"
-      products: "Termékek"
-      products_desc: "Termék katalógus megtekintése és kezelése"
-      bulk_update: "Tömeges Ár Frissítés"
-      bulk_update_desc: "Több termék árának egyszerre frissítése"
-      categories: "Kategóriák"
-      categories_desc: "Termék kategóriák szervezése"
-      merge: "Termékek Egyesítése"
-      merge_desc: "Egyszerű termékek hatékony egyesítése"
-    
-    features:
-      title: "Főbb Funkciók"
-      bulk_operations:
-        title: "Tömeges Műveletek"
-        description: "Árak frissítése, készlet kezelése és termék részletek módosítása az egész katalógusban erős tömeges eszközökkel."
-      product_management:
-        title: "Termék Kezelés"
-        description: "Átfogó termék szerkesztés, variáció kezelés és valós idejű szinkronizálás a WooCommerce áruházzal."
-      analytics:
-        title: "Áruház Elemzés"
-        description: "Teljesítmény metrikák követése, értékesítési trendek figyelése és betekintés az áruház teljesítményébe."
-      sync:
-        title: "Valós Idejű Szinkron"
-        description: "Automatikus szinkronizálás biztosítja, hogy a middleware tökéletesen szinkronban maradjon a WooCommerce áruházzal."
-      security:
-        title: "Biztonságos API"
-        description: "Vállalati szintű biztonság titkosított API kapcsolatokkal és biztonságos hitelesítő adatok kezeléssel."
-      mobile:
-        title: "Mobil Kész"
-        description: "Reszponzív dizájn tökéletesen működik minden eszközön, asztali géptől mobil tabletig."
-    
-    recent_activity:
-      title: "Legutóbbi Termékek"
-      product_name: "Termék Név"
-      sku: "Cikkszám"
-      price: "Ár"
-      actions: "Műveletek"
-      view_all: "Összes Termék Megtekintése"
-    
-    cta:
-      title: "Kész az Áruház Optimalizálására?"
-      description: "Kezdje el a WooCommerce áruház hatékonyabb kezelését még ma erős middleware eszközeinkkel."
-      get_started: "Kezdés"
-      learn_more: "További Információ"
-
-  # Common terms
-  hello: "Szia világ"
-  
   # Navigation
   navigation:
     products: "Termékek"
@@ -195,7 +127,7 @@ hu:
 
   # Bulk Price Updates
   bulk_price_updates:
-    title: "Tömeges ár frissítések"
+    title: "Tömeges ár frissítés"
     description: "Töltsön fel egy CSV fájlt a termékárak tömeges frissítéséhez"
     validate_title: "Ár frissítések ellenőrzése"
     validate_description: "Tekintse át az ár frissítéseket a feldolgozás előtt"
@@ -211,12 +143,12 @@ hu:
       import: "Importálás"
       update_prices: "Árak frissítése"
       complete: "Befejezés"
-      results: "Eredmények"
+      results: "Eredmény"
 
     # CSV Requirements
     csv_requirements:
       title: "CSV fájl követelményei"
-      required_columns: "Kötelező oszlopok: Cikkszám, Név, Normál ár (vagy Ár)"
+      required_columns: "Kötelező oszlopok: Cikkszám, Név, Ár"
       existing_products: "Meglévő termékek: Az árak a cikkszám alapján lesznek frissítve"
       new_products: "Új termékek: A megadott névvel és árral lesznek létrehozva"
       file_size: "Fájlméret: Maximum 10MB"
@@ -230,10 +162,10 @@ hu:
 
     # Validation
     total_products: "Összes termék"
-    valid_products: "Érvényes termékek"
-    with_warnings: "Figyelmeztetésekkel"
-    will_update: "Frissíteni fog"
-    will_create: "Létrehozni fog"
+    valid_products: "Érvényes termék"
+    with_warnings: "Figyelmeztetés"
+    will_update: "lesz frissítve"
+    will_create: "lesz létrehozva"
     validation_errors: "termék érvényesítési hibákkal rendelkezik és át lesz ugorva."
     no_products_parsed: "Nem sikerült termékeket elemezni a CSV fájlból."
     no_products_found: "Nem találhatók termékek"
@@ -260,7 +192,7 @@ hu:
       warning: "Figyelmeztetés"
       valid: "Érvényes"
       invalid: "Érvénytelen"
-      skip: "Kihagyás"
+      skip: "Kihagy"
       update: "Frissítés"
       create: "Létrehozás"
 
@@ -276,10 +208,12 @@ hu:
 
     # Flash messages
     processing_completed: "Ár frissítések feldolgozása befejeződött!"
-    error_processing: "Hiba az ár frissítések feldolgozása során"
+    error_processing: "Hiba az ár frissítések feldolgozása során."
     file_not_selected: "Kérjük válasszon fájlt a feltöltéshez."
-    successfully_parsed: "%{count} termék sikeresen elemezve a %{filename} fájlból"
-    parsing_error: "Hiba a fájl elemzése során"
+    successfully_parsed: "%{count} termék sikeresen elemezve a %{filename} fájlból."
+    parsing_error: "Hiba a fájl elemzése során."
+    encoding_error: "Fájl kódolási hiba észlelve. Kérjük, mentse el a CSV fájlt UTF-8 kódolással, vagy győződjön meg róla, hogy érvényes karaktereket tartalmaz."
+    format_error: "Fájlformátum hiba észlelve. Kérjük, győződjön meg róla, hogy a fájl érvényes CSV megfelelő formázással."
     session_expired: "Ár frissítési munkamenet lejárt. Kérjük töltse fel újra a fájlt."
     session_not_found: "Ár frissítési munkamenet nem található. Kérjük töltse fel újra a fájlt."
     no_results_found: "Nem találhatók eredmények. Kérjük indítson új ár frissítést."
@@ -314,8 +248,8 @@ hu:
     store_name: "Áruház neve"
     store_url: "Áruház URL"
     api_credentials: "API hitelesítő adatok"
-    consumer_key: "Fogyasztói kulcs"
-    consumer_secret: "Fogyasztói titok"
+    consumer_key: "Consumer Key"
+    consumer_secret: "Consumer Secret"
     quick_actions: "Gyors műveletek"
     update_success: "Áruház beállítások sikeresen frissítve!"
     
@@ -359,6 +293,7 @@ hu:
   # Error messages
   errors:
     messages:
+      blank: "nem lehet üres"
       not_saved:
         one: "1 hiba miatt ez a(z) %{resource} nem menthető:"
         other: "%{count} hiba miatt ez a(z) %{resource} nem menthető:"

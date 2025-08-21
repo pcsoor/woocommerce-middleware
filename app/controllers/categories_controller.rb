@@ -8,7 +8,7 @@ class CategoriesController < ApplicationController
     @categories_by_parent = categories_data[:categories_by_parent]
   rescue => e
     Rails.logger.error("Categories#index error: #{e.message}")
-    redirect_to root_path, alert: "Could not load categories."
+    redirect_to settings_path, alert: "Could not load categories. Please check your store connection."
   end
 
   def edit

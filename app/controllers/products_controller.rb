@@ -9,7 +9,7 @@ class ProductsController < ApplicationController
     @products = Products::FetchProducts.call(current_user, page: page, per_page: per_page)
   rescue => e
     Rails.logger.error("Products#index error: #{e.message}")
-    redirect_to root_path, alert: "Could not load products."
+    redirect_to settings_path, alert: "Could not load products. Please check your store connection."
   end
 
   def edit

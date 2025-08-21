@@ -29,16 +29,12 @@
 
     <%= form_with url: bulk_price_updates_path, method: :post, multipart: true, local: true, class: "space-y-6" do |f| %>
       <div class="form-control">
-        <label class="label">
-          <span class="label-text font-medium"><%= t('bulk_price_updates.select_csv_file') %></span>
-        </label>
-        <%= f.file_field :price_file, 
-            accept: ".csv", 
+        <legend class="fieldset-legend"><%= t('bulk_price_updates.select_csv_file') %></legend>
+        <%= f.file_field :price_file,
+            accept: ".csv, .xlsx",
             class: "file-input file-input-bordered w-full",
             required: true %>
-        <label class="label">
-          <span class="label-text-alt text-base-content/60"><%= t('bulk_price_updates.choose_csv_help') %></span>
-        </label>
+        <label class="label"><%= t('bulk_price_updates.choose_csv_help') %></label>
       </div>
 
       <div class="flex justify-between items-center">
@@ -55,8 +51,7 @@
     
     <div class="bg-base-200 rounded-lg p-4">
       <div class="text-xs font-mono">
-        <div class="font-semibold mb-2"><%= t('bulk_price_updates.example_content') %></div>
-        <div>SKU,Name,Regular Price</div>
+        <div>SKU,Név,Ár</div>
         <div>PROD-001,Widget A,19.99</div>
         <div>PROD-002,Widget B,29.99</div>
         <div>NEW-PROD,New Widget,39.99</div>

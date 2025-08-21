@@ -27,11 +27,28 @@ class ProductCsvParser
   private
 
   def build_product_from_row(row)
-    Product.new(
-      sku: sanitize_text(row["SKU"]),
-      name: sanitize_text(row["Name"]),
-      regular_price: parse_price(row["Regular Price"] || row["Price"])
+    # Debug: Log the raw row data
+    Rails.logger.debug "Processing CSV row: #{row.to_h.inspect}"
+    
+    sku = sanitize_text(row["SKU"])
+    name = sanitize_text(row["Name"] || row["Név"])
+    regular_price = parse_price(row["Regular Price"] || row["Price"] || row["Ár"])
+    
+    # Debug: Log the parsed values
+    Rails.logger.debug "Parsed values - SKU: #{sku.inspect}, Name: #{name.inspect}, Price: #{regular_price.inspect}"
+    
+    product = Product.new(
+      sku: sku,
+      name: name,
+      regular_price: regular_price
     )
+    
+    # Debug: Log validation errors if any
+    unless product.valid?
+      Rails.logger.debug "Product validation errors: #{product.errors.full_messages.join(', ')}"
+    end
+    
+    product
   end
 
   def sanitize_text(value)
