@@ -1,4 +1,10 @@
-<h1>Edit Variation</h1>
+<div class="flex items-center gap-2 mb-6">
+  <%= link_to edit_product_path(params[:product_id]), class: "flex items-center gap-1 text-sm text-gray-600 hover:text-gray-800" do %>
+    <%= icon "chevron-left", class: "size-4" %>
+    <%= t('variations.back_to_product') %>
+  <% end %>
+  <h1 class="text-2xl font-semibold"><%= t('variations.edit_variation') %></h1>
+</div>
 
 <%= form_with url: product_variation_path(params[:product_id], @variation["id"]), method: :put, local: true do |form| %>
   <div>
@@ -11,8 +17,6 @@
     <%= form.number_field :stock_quantity, value: @variation["stock_quantity"] %>
   </div>
 
-          <%= form.submit t('variations.update_variation') %>
+  <%= form.submit t('variations.update_variation') %>
 <% end %>
-
-      <%= link_to t('variations.back_to_product'), edit_product_path(params[:product_id]) %>
 

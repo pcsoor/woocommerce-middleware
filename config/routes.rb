@@ -26,6 +26,9 @@ Rails.application.routes.draw do
   resource :onboardings, only: [ :new, :create ]
 
   resources :products, only: [ :index, :edit, :update ] do
+    collection do
+      delete :bulk_delete
+    end
     resources :variations, only: [ :edit, :update ]
   end
 

@@ -6,6 +6,7 @@
 </div>
 
 
+
 <div id="products-list" data-controller="loading" class="mt-7">
   <div data-loading-target="spinner" class="hidden flex justify-center items-center py-8">
     <div class="animate-spin rounded-full h-12 w-12 border-4 border-blue-500 border-t-transparent"></div>
@@ -13,7 +14,16 @@
 
   <div data-loading-target="content">
     <% if @products.any? %>
-      <%= render "table" %>
+      <%= form_with url: bulk_delete_products_path, method: :delete, local: true, id: "bulk-delete-form" do |form| %>
+        <div class="mb-4 flex gap-2 items-center">
+          <select name="bulk_action" class="select select-bordered select-sm max-w-[170px]">
+            <option value=""><%= t('products.bulk_actions') %></option>
+            <option value="delete"><%= t('products.delete_selected_items') %></option>
+          </select>
+          <button type="submit" class="btn btn-sm btn-outline" onclick="return confirmBulkAction()"><%= t('products.apply') %></button>
+        </div>
+        <%= render "table" %>
+      <% end %>
     <% else %>
       <p><%= t('products.no_products_found') %></p>
     <% end %>
@@ -23,3 +33,33 @@
 <div class="text-center my-5">
   <%= render "pagination" %>
 </div>
+
+<script>
+function toggleAllCheckboxes(source) {
+  const checkboxes = document.querySelectorAll('.product-checkbox');
+  for (let checkbox of checkboxes) {
+    checkbox.checked = source.checked;
+  }
+}
+
+function confirmBulkAction() {
+  const selectedCheckboxes = document.querySelectorAll('.product-checkbox:checked');
+  const bulkAction = document.querySelector('select[name="bulk_action"]').value;
+  
+  if (!bulkAction) {
+    alert('Please select a bulk action.');
+    return false;
+  }
+  
+  if (selectedCheckboxes.length === 0) {
+    alert('Please select at least one product.');
+    return false;
+  }
+  
+  if (bulkAction === 'delete') {
+    return confirm(`Are you sure you want to delete ${selectedCheckboxes.length} selected products? This action cannot be undone.`);
+  }
+  
+  return true;
+}
+</script>

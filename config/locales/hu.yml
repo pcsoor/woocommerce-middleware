@@ -58,6 +58,9 @@ hu:
     update_prices: "Árak frissítése"
     manage_products: "Termékek kezelése"
     view_products: "Termékek megtekintése"
+    bulk_actions: "Tömeges műveletek"
+    delete_selected_items: "Kijelölt elemek törlése"
+    apply: "Alkalmaz"
     no_products_found: "Nem találhatók termékek vagy nem sikerült lekérni a termékeket a WooCommerce-ből."
     product_name: "Termék neve"
     sku: "Cikkszám"
@@ -67,6 +70,17 @@ hu:
     stock_quantity: "Készlet mennyiség"
     weight: "Súly (kg)"
     short_description: "Rövid leírás"
+    edit_product: "Termék szerkesztése"
+    edit_product_title: "Termék szerkesztése"
+    variations: "Variációk"
+    no_attributes: "Nincsenek attribútumok"
+    price: "Ár"
+    stock: "Készlet"
+    edit: "Szerkesztés"
+    image: "Kép"
+    name: "Név"
+    status: "Állapot"
+    actions: "Műveletek"
     
     # Sections
     basic_information: "Alapinformációk"
@@ -78,10 +92,15 @@ hu:
       store_connection_error: "A termékek betöltése sikertelen! Kérjük ellenőrizze az áruház kapcsolatát."
       could_not_load: "Betöltés sikertelen."
       update_success: "Termék sikeresen frissítve."
+      no_products_selected: "Kérjük válasszon ki legalább egy terméket a törléshez."
+      bulk_delete_success: "%{count} termék sikeresen törölve."
+      bulk_delete_partial: "%{deleted} termék sikeresen törölve, %{failed} törlése sikertelen."
+      bulk_delete_error: "Hiba történt a termékek törlése során. Kérjük próbálja újra."
 
   # Categories
   categories:
     edit_category: "Kategória szerkesztése"
+    edit_category_title: "Kategória szerkesztése"
     category_name: "Kategória neve"
     slug: "Slug"
     parent_category: "Szülő kategória"
@@ -95,6 +114,7 @@ hu:
 
   # Variations
   variations:
+    edit_variation: "Variáció szerkesztése"
     update_variation: "Variáció frissítése"
     back_to_product: "Vissza a termékhez"
 
@@ -180,6 +200,8 @@ hu:
     # Table headers
     status: "Állapot"
     name: "Név"
+    sku: "Cikkszám"
+    regular_price: "Normál ár"
     action: "Művelet"
     issues: "Problémák"
 
@@ -305,5 +327,5 @@ hu:
         other: "%{count} hiba miatt ez a(z) %{resource} nem menthető:"
 
   # Application title
-  app_title: "WooCommerce Köztes"
+  app_title: "Pigment Varázs App"
   woocommerce_middleware: "WooCommerce Köztes" 

@@ -126,6 +126,9 @@ en:
     update_prices: "Update Prices"
     manage_products: "Manage Products"
     view_products: "View Products"
+    bulk_actions: "Bulk actions"
+    delete_selected_items: "Delete selected items"
+    apply: "Apply"
     no_products_found: "No products found or unable to fetch products from WooCommerce."
     product_name: "Product Name"
     sku: "SKU"
@@ -135,6 +138,17 @@ en:
     stock_quantity: "Stock Quantity"
     weight: "Weight (kg)"
     short_description: "Short Description"
+    edit_product: "Edit Product"
+    edit_product_title: "Edit product"
+    variations: "Variations"
+    no_attributes: "No attributes"
+    price: "Price"
+    stock: "Stock"
+    edit: "Edit"
+    image: "Image"
+    name: "Name"
+    status: "Status"
+    actions: "Actions"
     update_success: "Product updated successfully."
     
     # Sections
@@ -146,10 +160,16 @@ en:
     alerts:
       store_connection_error: "Could not load products. Please check your store connection."
       could_not_load: "Could not load product."
+      update_success: "Product updated successfully."
+      no_products_selected: "Please select at least one product to delete."
+      bulk_delete_success: "%{count} products deleted successfully."
+      bulk_delete_partial: "%{deleted} products deleted successfully, %{failed} failed to delete."
+      bulk_delete_error: "An error occurred while deleting products. Please try again."
 
   # Categories
   categories:
     edit_category: "Edit Category"
+    edit_category_title: "Edit Category"
     category_name: "Category Name"
     slug: "Slug"
     parent_category: "Parent Category"
@@ -163,6 +183,7 @@ en:
 
   # Variations
   variations:
+    edit_variation: "Edit Variation"
     update_variation: "Update Variation"
     back_to_product: "Back to Product"
 
@@ -248,6 +269,8 @@ en:
     # Table headers
     status: "Status"
     name: "Name"
+    sku: "SKU"
+    regular_price: "Regular Price"
     action: "Action"
     issues: "Issues"
 
@@ -371,5 +394,5 @@ en:
         other: "%{count} errors prohibited this %{resource} from being saved:"
 
   # Application title
-  app_title: "Woocommerce Middleware"
+  app_title: "Pigment Varazs App"
   woocommerce_middleware: "Woocommerce Middleware"

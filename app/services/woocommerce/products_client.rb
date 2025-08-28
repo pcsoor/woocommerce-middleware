@@ -19,6 +19,10 @@ module Woocommerce
       request(:put, "/products/#{id}", body: payload)
     end
 
+    def delete_product(id)
+      request(:delete, "/products/#{id}", query: { force: true })
+    end
+
     def get_variations(product_id)
       request(:get, "/products/#{product_id}/variations")
     end

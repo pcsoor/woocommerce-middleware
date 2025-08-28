@@ -1,15 +1,15 @@
 <div class="flex items-center space-x-2 mb-6">
-  <div class="btn btn-xs">
-    <span><%= icon "chevron-left", class: "size-4" %></span>
-    <%= link_to t('navigation.back'), products_path %>
-  </div>
-  <h1 class="text-2xl font-medium text-gray-700">Edit product</h1>
+  <%= link_to products_path, class: "flex items-center gap-1 text-sm text-gray-600 hover:text-gray-800" do %>
+    <%= icon "chevron-left", class: "size-4" %>
+    <%= t('navigation.back') %>
+  <% end %>
+  <h1 class="text-2xl font-medium text-gray-700"><%= t('products.edit_product_title') %></h1>
 </div>
 
 <%= render "form" %>
 
 <% if @product.type == "variable" %>
-  <h2>Variations</h2>
+  <h2><%= t('products.variations') %></h2>
   <ul>
     <% @variations.each do |variation| %>
       <li>
@@ -18,12 +18,12 @@
             <%= variation["attributes"].map { |a| a["option"] }.join(" / ") %>
           </strong><br>
         <% else %>
-          <strong>No attributes</strong><br>
+          <strong><%= t('products.no_attributes') %></strong><br>
         <% end %>
 
-        Price: <%= variation["regular_price"] %><br>
-        Stock: <%= variation["stock_quantity"] %><br>
-        <%= link_to "Edit", edit_product_variation_path(@product.id, variation["id"]) %>
+        <%= t('products.price') %>: <%= variation["regular_price"] %><br>
+        <%= t('products.stock') %>: <%= variation["stock_quantity"] %><br>
+        <%= link_to t('products.edit'), edit_product_variation_path(@product.id, variation["id"]) %>
       </li>
     <% end %>
   </ul>

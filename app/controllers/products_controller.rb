@@ -1,4 +1,4 @@
-class ProductsController < ApplicationController
+ class ProductsController < ApplicationController
   before_action :authenticate_user!
   before_action :init_woocommerce_client
 
@@ -33,6 +33,48 @@ class ProductsController < ApplicationController
       @product = result.product
       flash[:alert] = result.error
       render :edit
+    end
+  end
+
+  def bulk_delete
+    bulk_action = params[:bulk_action]
+    product_ids = params[:product_ids]
+    
+    if bulk_action != 'delete' || product_ids.blank?
+      redirect_to products_path, alert: t('products.alerts.no_products_selected')
+      return
+    end
+
+    begin
+      deleted_count = 0
+      failed_count = 0
+      
+      product_ids.each do |product_id|
+        response = Woocommerce::ProductsClient.new(current_user.store).delete_product(product_id)
+        
+        if response.success?
+          deleted_count += 1
+          # Invalidate cache for deleted product
+          ProductCache.invalidate_product(current_user.id, product_id)
+        else
+          failed_count += 1
+          Rails.logger.error("Failed to delete product #{product_id}: #{response.parsed_response}")
+        end
+      end
+      
+      # Clear products list cache to force refresh
+      ProductCache.invalidate_products_list(current_user.id)
+      
+      if failed_count == 0
+        redirect_to products_path, notice: t('products.alerts.bulk_delete_success', count: deleted_count)
+      else
+        redirect_to products_path, alert: t('products.alerts.bulk_delete_partial', 
+                                           deleted: deleted_count, failed: failed_count)
+      end
+      
+    rescue => e
+      Rails.logger.error("Bulk delete error: #{e.message}")
+      redirect_to products_path, alert: t('products.alerts.bulk_delete_error')
     end
   end
 

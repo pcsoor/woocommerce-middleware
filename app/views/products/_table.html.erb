@@ -2,21 +2,23 @@
   <table class="table">
     <thead class="text-start uppercase font-medium">
       <tr>
-        <th class="px-4 py-2 text-start font-semibold text-xs text-gray-800">Select</th>
-        <th class="px-4 py-2 text-start font-semibold text-xs text-gray-800">SKU</th>
-        <th class="px-4 py-2 text-start font-medium text-xs text-gray-500">Image</th>
-        <th class="px-4 py-2 text-start font-semibold text-xs text-gray-800">Name</th>
-        <th class="px-4 py-2 text-start font-semibold text-xs text-gray-800">Status</th>
-        <th class="px-4 py-2 text-start font-semibold text-xs text-gray-800">Stock</th>
-        <th class="px-4 py-2 text-start font-semibold text-xs text-gray-800">Price</th>
-        <th class="px-4 py-2 text-start font-semibold text-xs text-gray-800">Actions</th>
+        <th class="px-4 py-2 text-start font-semibold text-xs text-gray-800">
+          <%= check_box_tag "select_all", "1", false, { class: "checkbox", id: "select-all-checkbox", onchange: "toggleAllCheckboxes(this)" } %>
+        </th>
+        <th class="px-4 py-2 text-start font-semibold text-xs text-gray-800"><%= t('products.sku') %></th>
+        <th class="px-4 py-2 text-start font-semibold text-xs text-gray-800"><%= t('products.image') %></th>
+        <th class="px-4 py-2 text-start font-semibold text-xs text-gray-800"><%= t('products.name') %></th>
+        <th class="px-4 py-2 text-start font-semibold text-xs text-gray-800"><%= t('products.status') %></th>
+        <th class="px-4 py-2 text-start font-semibold text-xs text-gray-800"><%= t('products.stock') %></th>
+        <th class="px-4 py-2 text-start font-semibold text-xs text-gray-800"><%= t('products.price') %></th>
+        <th class="px-4 py-2 text-start font-semibold text-xs text-gray-800"><%= t('products.actions') %></th>
       </tr>
     </thead>
     <tbody class="divide-y divide-gray-200 text-sm">
       <% @products.each do |product| %>
         <tr class="hover:bg-base-200">
           <td class="px-4 py-2">
-            <%= check_box_tag "product_ids[]", product.id, { class: "checkbox" } %>
+            <%= check_box_tag "product_ids[]", product.id, false, { class: "checkbox product-checkbox" } %>
           </td>
           <td class="px-4 py-2"><%= strip_tags(product.sku).truncate(80) %></td>
           <td class="px-4 avatar">
@@ -31,7 +33,9 @@
           <td class="px-4 py-2"><%= product.stock_quantity %></td>
           <td class="px-4 py-2 badge badge-outline badge-sm"><%= number_to_currency(product.regular_price.to_f, unit: "Ft", delimiter: ".") %></td>
           <td class="px-4 py-2">
-            <%= link_to "Edit", edit_product_path(product.id), class: "link" %>
+            <%= link_to edit_product_path(product.id), class: "link" do %>
+              <%= icon "pencil-square" %>
+            <% end %>
           </td>
         </tr>
       <% end %>

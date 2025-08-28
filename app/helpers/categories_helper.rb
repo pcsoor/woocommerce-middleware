@@ -17,7 +17,9 @@ module CategoriesHelper
         content_tag(:td, category.slug, class: "px-4 py-2"),
         content_tag(:td, category.count, class: "px-4 py-2"),
         content_tag(:td, class: "px-4 py-2") do
-          link_to "Edit", edit_category_path(category.id), class: "link"
+          content_tag(:span, class: "text-gray-400 cursor-not-allowed inline-block w-fit") do
+            icon "pencil-square"
+          end
         end
       ])
     end
