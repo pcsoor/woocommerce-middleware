@@ -15,6 +15,11 @@ class ProductCache
       "user:#{user_id}:products:page:#{page}:per:#{per_page}#{filter_hash}"
     end
 
+    # Cache versioning key to invalidate all user cache by incrementing version
+    def cache_version_key(user_id)
+      "user:#{user_id}:cache_version"
+    end
+
     def categories_key(user_id)
       "user:#{user_id}:categories"
     end
@@ -52,16 +57,19 @@ class ProductCache
     end
 
     def invalidate_products_list(user_id)
-      if Rails.cache.respond_to?(:delete_matched)
-        Rails.cache.delete_matched("user:#{user_id}:products:*")
-      else
-        # SolidCache fallback - delete specific keys we know about
-        (1..10).each do |page|
-          (10..100).step(10).each do |per_page|
-            Rails.cache.delete(products_list_key(user_id, page, per_page))
-          end
-        end
+      # Clear common pagination combinations that are likely to be cached
+      common_paginations = [
+        [1, 25], [2, 25], [3, 25], [4, 25], [5, 25],  # Default 25 per page
+        [1, 10], [2, 10], [3, 10], [4, 10], [5, 10],  # 10 per page
+        [1, 50], [2, 50], [3, 50]                      # 50 per page
+      ]
+      
+      common_paginations.each do |page, per_page|
+        Rails.cache.delete(products_list_key(user_id, page, per_page))
       end
+      
+      # Also clear any filtered variants (though we don't use filters yet)
+      Rails.cache.delete(products_list_key(user_id, 1, 25, {}))
     end
 
     def invalidate_categories(user_id)
@@ -73,18 +81,26 @@ class ProductCache
     end
 
     def invalidate_all_user_cache(user_id)
-      if Rails.cache.respond_to?(:delete_matched)
-        Rails.cache.delete_matched("user:#{user_id}:*")
-      else
-        # SolidCache fallback - manually delete known cache keys
-        invalidate_products_list(user_id)
-        invalidate_categories(user_id)
-        Rails.cache.delete(store_data_key(user_id))
-        
-        # Note: We can't easily clear individual product/variation caches without knowing IDs
-        # This is a limitation when using SolidCache vs memory cache
-        Rails.logger.warn("SolidCache: Could not clear all individual product caches for user #{user_id}")
-      end
+      # Clear all known cache types for this user
+      invalidate_products_list(user_id)
+      invalidate_categories(user_id)
+      Rails.cache.delete(store_data_key(user_id))
+      
+      Rails.logger.info("Cleared all cached data for user #{user_id}")
+    end
+
+    # Alternative: Cache versioning approach (for future use)
+    def increment_cache_version(user_id)
+      version_key = cache_version_key(user_id)
+      current_version = Rails.cache.read(version_key) || 0
+      new_version = current_version + 1
+      Rails.cache.write(version_key, new_version, expires_in: 1.year)
+      Rails.logger.info("Incremented cache version for user #{user_id} to #{new_version}")
+      new_version
+    end
+
+    def get_cache_version(user_id)
+      Rails.cache.read(cache_version_key(user_id)) || 0
     end
 
     # Batch operations for better performance
