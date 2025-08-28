@@ -151,12 +151,12 @@ hu:
 
   # Bulk Price Updates
   bulk_price_updates:
-    title: "Tömeges ár frissítés"
+    title: "Tömeges Árfrissítés"
     description: "Töltsön fel egy CSV fájlt a termékárak tömeges frissítéséhez"
-    validate_title: "Ár frissítések ellenőrzése"
+    validate_title: "Árfrissítések ellenőrzése"
     validate_description: "Tekintse át az árakat a feldolgozás előtt"
-    results_title: "Ár frissítés eredményei"
-    results_description: "Az ár frissítések feldolgozása befejeződött"
+    results_title: "Árfrissítés eredményei"
+    results_description: "Az Árfrissítések feldolgozása befejeződött"
     
     # Steps
     steps:
@@ -194,7 +194,7 @@ hu:
     no_products_found: "Nem találhatók termékek"
     no_products_parsed_description: "Nem sikerült termékeket elemezni a CSV fájlból."
     back_to_upload: "Vissza a feltöltéshez"
-    process_price_updates: "Ár frissítések feldolgozása"
+    process_price_updates: "Árfrissítések feldolgozása"
     no_valid_products_to_process: "Nincs érvényes termék a feldolgozáshoz"
 
     # Table headers
@@ -232,22 +232,22 @@ hu:
       will_create_new: "Új terméket hoz létre"
 
     # Flash messages
-    processing_completed: "Ár frissítések feldolgozása befejeződött!"
-    error_processing: "Hiba az ár frissítések feldolgozása során."
+    processing_completed: "Árfrissítések feldolgozása befejeződött!"
+    error_processing: "Hiba az Árfrissítések feldolgozása során."
     file_not_selected: "Kérjük válasszon fájlt a feltöltéshez."
     successfully_parsed: "%{count} termék sikeresen elemezve a %{filename} fájlból."
     parsing_error: "Hiba a fájl elemzése során."
     encoding_error: "Fájl kódolási hiba észlelve. Kérjük, mentse el a CSV fájlt UTF-8 kódolással, vagy győződjön meg róla, hogy érvényes karaktereket tartalmaz."
     format_error: "Fájlformátum hiba észlelve. Kérjük, győződjön meg róla, hogy a fájl érvényes CSV megfelelő formázással."
-    session_expired: "Ár frissítési munkamenet lejárt. Kérjük töltse fel újra a fájlt."
-    session_not_found: "Ár frissítési munkamenet nem található. Kérjük töltse fel újra a fájlt."
-    no_results_found: "Nem találhatók eredmények. Kérjük indítson új ár frissítést."
+    session_expired: "Árfrissítési munkamenet lejárt. Kérjük töltse fel újra a fájlt."
+    session_not_found: "Árfrissítési munkamenet nem található. Kérjük töltse fel újra a fájlt."
+    no_results_found: "Nem találhatók eredmények. Kérjük indítson új Árfrissítést."
 
     # Results partials
     results_alert:
-      success_title: "Ár frissítések sikeresen befejeződtek!"
+      success_title: "Árfrissítések sikeresen befejeződtek!"
       success_description: "Minden termék hibák nélkül lett feldolgozva."
-      warning_title: "Ár frissítések problémákkal fejeződtek be."
+      warning_title: "Árfrissítések problémákkal fejeződtek be."
       warning_description: "Néhány termék nem tudott feldolgozásra kerülni. Lásd a részleteket alább."
     
     success_details:
