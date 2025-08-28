@@ -52,7 +52,16 @@ class ProductCache
     end
 
     def invalidate_products_list(user_id)
-      Rails.cache.delete_matched("user:#{user_id}:products:*")
+      if Rails.cache.respond_to?(:delete_matched)
+        Rails.cache.delete_matched("user:#{user_id}:products:*")
+      else
+        # SolidCache fallback - delete specific keys we know about
+        (1..10).each do |page|
+          (10..100).step(10).each do |per_page|
+            Rails.cache.delete(products_list_key(user_id, page, per_page))
+          end
+        end
+      end
     end
 
     def invalidate_categories(user_id)
@@ -64,7 +73,18 @@ class ProductCache
     end
 
     def invalidate_all_user_cache(user_id)
-      Rails.cache.delete_matched("user:#{user_id}:*")
+      if Rails.cache.respond_to?(:delete_matched)
+        Rails.cache.delete_matched("user:#{user_id}:*")
+      else
+        # SolidCache fallback - manually delete known cache keys
+        invalidate_products_list(user_id)
+        invalidate_categories(user_id)
+        Rails.cache.delete(store_data_key(user_id))
+        
+        # Note: We can't easily clear individual product/variation caches without knowing IDs
+        # This is a limitation when using SolidCache vs memory cache
+        Rails.logger.warn("SolidCache: Could not clear all individual product caches for user #{user_id}")
+      end
     end
 
     # Batch operations for better performance
