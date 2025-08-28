@@ -79,8 +79,7 @@ module Products
 
     def build_update_payload(existing_product, new_product_data)
       payload = { regular_price: new_product_data.regular_price.to_s }
-      
-      # Update name if provided and different
+
       if new_product_data.name.present? && new_product_data.name != existing_product['name']
         payload[:name] = new_product_data.name
       end

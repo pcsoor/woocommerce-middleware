@@ -29,7 +29,7 @@ module BulkPriceUpdatesHelper
 
   def product_price_display(price)
     if price.present? && price > 0
-      content_tag :div, "$#{price}", class: "badge badge-outline"
+      content_tag :div, "#{price} Ft", class: "badge badge-outline"
     else
       content_tag :span, t('bulk_price_updates.product_fields.not_set'), class: "text-base-content/50 italic"
     end
@@ -86,7 +86,7 @@ module BulkPriceUpdatesHelper
     return t('common.unknown') unless timestamp_string
 
     time = Time.parse(timestamp_string)
-    time_ago_in_words(time) + " ago"
+    time_ago_in_words(time)
   rescue ArgumentError
     t('common.unknown')
   end

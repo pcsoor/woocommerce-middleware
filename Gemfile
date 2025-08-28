@@ -24,6 +24,7 @@ gem 'typhoeus'
 gem "kaminari", "~> 1.2"
 gem "tailwindcss-rails", "~> 4.2"
 gem "roo", "~> 2.10"
+gem 'rails-i18n', '~> 8.0.0'
 
 gem "dotenv-rails", require: "dotenv/load"
 

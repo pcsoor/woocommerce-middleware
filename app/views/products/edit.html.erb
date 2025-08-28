@@ -1,5 +1,10 @@
-<%= link_to "< Back ", products_path %>
-<h1 class="text-2xl font-medium mb-3 text-neutral-600">Edit product</h1>
+<div class="flex items-center space-x-2 mb-6">
+  <div class="btn btn-xs">
+    <span><%= icon "chevron-left", class: "size-4" %></span>
+    <%= link_to t('navigation.back'), products_path %>
+  </div>
+  <h1 class="text-2xl font-medium text-gray-700">Edit product</h1>
+</div>
 
 <%= render "form" %>
 

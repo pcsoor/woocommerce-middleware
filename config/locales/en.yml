@@ -143,6 +143,10 @@ en:
     inventory: "Inventory"
     additional_details: "Additional Details"
 
+    alerts:
+      store_connection_error: "Could not load products. Please check your store connection."
+      could_not_load: "Could not load product."
+
   # Categories
   categories:
     edit_category: "Edit Category"
@@ -155,7 +159,7 @@ en:
     name: "Name"
     products_count: "Products Count"
     actions: "Actions"
-    back_to_categories: "← Back to Categories"
+    back_to_categories: "Back to Categories"
 
   # Variations
   variations:
@@ -224,7 +228,6 @@ en:
 
     # File upload
     select_csv_file: "Select CSV File"
-    choose_csv_help: "Choose a CSV file containing your product price updates"
     sample_format: "Sample CSV Format"
     example_content: "Example CSV content:"
 
@@ -234,7 +237,7 @@ en:
     with_warnings: "With Warnings"
     will_update: "Will Update"
     will_create: "Will Create"
-    validation_errors: "products have validation errors and will be skipped."
+    validation_errors: "%{count} products have validation errors and will be skipped."
     no_products_parsed: "No products were parsed from your CSV file."
     no_products_found: "No products found"
     no_products_parsed_description: "No products were parsed from your CSV file."
@@ -323,6 +326,10 @@ en:
     store_details: "Store details"
     store_name_optional: "Store Name (optional)"
     store_api_url: "Store API URL"
+
+  profile:
+    profile_information: "Profile information"
+    profile_description: "Update your account details and personal information."
 
   # General UI
   ui:

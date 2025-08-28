@@ -17,7 +17,7 @@ module CategoriesHelper
         content_tag(:td, category.slug, class: "px-4 py-2"),
         content_tag(:td, category.count, class: "px-4 py-2"),
         content_tag(:td, class: "px-4 py-2") do
-          link_to "Edit", edit_category_path(category.id), class: "text-blue-500 underline"
+          link_to "Edit", edit_category_path(category.id), class: "link"
         end
       ])
     end

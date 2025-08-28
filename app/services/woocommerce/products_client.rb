@@ -12,11 +12,11 @@ module Woocommerce
     end
 
     def create_product(payload)
-      request(:post, "/products", body: payload.to_json)
+      request(:post, "/products", body: payload)
     end
 
     def update_product(id, payload)
-      request(:put, "/products/#{id}", body: payload.to_json)
+      request(:put, "/products/#{id}", body: payload)
     end
 
     def get_variations(product_id)

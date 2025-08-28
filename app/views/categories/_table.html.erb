@@ -1,0 +1,15 @@
+<div class="overflow-x-auto">
+  <table class="table">
+    <thead class="text-start uppercase font-medium">
+      <tr>
+        <th class="px-4 py-2 text-start font-semibold text-xs text-gray-800"><%= t('categories.name') %></th>
+        <th class="px-4 py-2 text-start font-semibold text-xs text-gray-800"><%= t('categories.slug') %></th>
+        <th class="px-4 py-2 text-start font-semibold text-xs text-gray-800"><%= t('categories.products_count') %></th>
+        <th class="px-4 py-2 text-start font-semibold text-xs text-gray-800"><%= t('categories.actions') %></th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-gray-200 text-sm">
+      <%= render_categories_tree(@parent_categories, @categories_by_parent) %>
+    </tbody>
+  </table>
+</div>

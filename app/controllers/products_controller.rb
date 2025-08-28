@@ -9,7 +9,7 @@ class ProductsController < ApplicationController
     @products = Products::FetchProducts.call(current_user, page: page, per_page: per_page)
   rescue => e
     Rails.logger.error("Products#index error: #{e.message}")
-    redirect_to settings_path, alert: "Could not load products. Please check your store connection."
+    redirect_to settings_path, alert: t("products.alerts.store_connection_error")
   end
 
   def edit
@@ -18,7 +18,7 @@ class ProductsController < ApplicationController
     load_variations if @product.type == "variable"
   rescue => e
     Rails.logger.error("Products#edit error: #{e.message}")
-    redirect_to products_path, alert: "Could not load product."
+    redirect_to products_path, alert: t("products.alerts.could_not_load")
   end
 
   def update
@@ -28,7 +28,7 @@ class ProductsController < ApplicationController
       # Invalidate relevant caches
       ProductCache.invalidate_product(current_user.id, params[:id])
       
-      redirect_to products_path, notice: t('products.update_success')
+      redirect_to products_path, notice: t('products.alerts.update_success')
     else
       @product = result.product
       flash[:alert] = result.error

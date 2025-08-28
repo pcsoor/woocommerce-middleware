@@ -1,27 +1,26 @@
-<div class="overflow-x-auto rounded-box border border-base-content/5 bg-base-100">
+<div class="overflow-x-auto">
   <table class="table">
     <thead class="text-start uppercase font-medium">
       <tr>
-        <th class="px-4 py-2 text-start font-medium text-xs text-gray-500">Select</th>
-        <th class="px-4 py-2 text-start font-medium text-xs text-gray-500">SKU</th>
+        <th class="px-4 py-2 text-start font-semibold text-xs text-gray-800">Select</th>
+        <th class="px-4 py-2 text-start font-semibold text-xs text-gray-800">SKU</th>
         <th class="px-4 py-2 text-start font-medium text-xs text-gray-500">Image</th>
-        <th class="px-4 py-2 text-start font-medium text-xs text-gray-500">Name</th>
-        <th class="px-4 py-2 text-start font-medium text-xs text-gray-500">Status</th>
-        <th class="px-4 py-2 text-start font-medium text-xs text-gray-500">Stock</th>
-        <th class="px-4 py-2 text-start font-medium text-xs text-gray-500">Price</th>
-        <th class="px-4 py-2 text-start font-medium text-xs text-gray-500">Type</th>
-        <th class="px-4 py-2 text-start font-medium text-xs text-gray-500">Actions</th>
+        <th class="px-4 py-2 text-start font-semibold text-xs text-gray-800">Name</th>
+        <th class="px-4 py-2 text-start font-semibold text-xs text-gray-800">Status</th>
+        <th class="px-4 py-2 text-start font-semibold text-xs text-gray-800">Stock</th>
+        <th class="px-4 py-2 text-start font-semibold text-xs text-gray-800">Price</th>
+        <th class="px-4 py-2 text-start font-semibold text-xs text-gray-800">Actions</th>
       </tr>
     </thead>
     <tbody class="divide-y divide-gray-200 text-sm">
       <% @products.each do |product| %>
-        <tr>
+        <tr class="hover:bg-base-200">
           <td class="px-4 py-2">
             <%= check_box_tag "product_ids[]", product.id, { class: "checkbox" } %>
           </td>
           <td class="px-4 py-2"><%= strip_tags(product.sku).truncate(80) %></td>
           <td class="px-4 avatar">
-            <div class="mask mask-squircle h-12 w-12">
+            <div class="mask mask-squircle h-10 w-10">
               <% if product.images.present? %>
                 <%= image_tag product.images.first["src"], size: "100x100", class: "w-full h-full object-cover" %>
               <% end %>
@@ -30,8 +29,7 @@
           <td class="px-4 py-2 font-semibold"><%= product.name %></td>
           <td class="px-4 py-2"><%= product.status %></td>
           <td class="px-4 py-2"><%= product.stock_quantity %></td>
-          <td class="px-4 py-2"><%= number_to_currency(product.regular_price.to_f, unit: "Ft ") %></td>
-          <td class="px-4 py-2"><%= product.type %></td>
+          <td class="px-4 py-2 badge badge-outline badge-sm"><%= number_to_currency(product.regular_price.to_f, unit: "Ft", delimiter: ".") %></td>
           <td class="px-4 py-2">
             <%= link_to "Edit", edit_product_path(product.id), class: "link" %>
           </td>

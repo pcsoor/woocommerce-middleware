@@ -17,11 +17,11 @@
         <div>
           <h3 class="font-semibold text-info mb-2"><%= t('bulk_price_updates.csv_requirements.title') %></h3>
           <ul class="text-sm space-y-1 text-base-content/80 list-disc list-inside">
-            <li><strong><%= t('bulk_price_updates.csv_requirements.required_columns') %></strong></li>
-            <li><strong><%= t('bulk_price_updates.csv_requirements.existing_products') %></strong></li>
-            <li><strong><%= t('bulk_price_updates.csv_requirements.new_products') %></strong></li>
-            <li><strong><%= t('bulk_price_updates.csv_requirements.file_size') %></strong></li>
-            <li><strong><%= t('bulk_price_updates.csv_requirements.supported_formats') %></strong></li>
+            <li><%= t('bulk_price_updates.csv_requirements.required_columns') %></li>
+            <li><%= t('bulk_price_updates.csv_requirements.existing_products') %></li>
+            <li><%= t('bulk_price_updates.csv_requirements.new_products') %></li>
+            <li><%= t('bulk_price_updates.csv_requirements.file_size') %></li>
+            <li><%= t('bulk_price_updates.csv_requirements.supported_formats') %></li>
           </ul>
         </div>
       </div>
@@ -34,7 +34,6 @@
             accept: ".csv, .xlsx",
             class: "file-input file-input-bordered w-full",
             required: true %>
-        <label class="label"><%= t('bulk_price_updates.choose_csv_help') %></label>
       </div>
 
       <div class="flex justify-between items-center">
@@ -51,10 +50,10 @@
     
     <div class="bg-base-200 rounded-lg p-4">
       <div class="text-xs font-mono">
-        <div>SKU,Név,Ár</div>
-        <div>PROD-001,Widget A,19.99</div>
-        <div>PROD-002,Widget B,29.99</div>
-        <div>NEW-PROD,New Widget,39.99</div>
+        <div>SKU,Name,Price</div>
+        <div>TEST-001,Teszt A,37850</div>
+        <div>TEST-002,Teszt B,3990</div>
+        <div>TEST-003,Teszt C,1000</div>
       </div>
     </div>
   </div>

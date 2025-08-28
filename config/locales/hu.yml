@@ -67,13 +67,17 @@ hu:
     stock_quantity: "Készlet mennyiség"
     weight: "Súly (kg)"
     short_description: "Rövid leírás"
-    update_success: "Termék sikeresen frissítve."
     
     # Sections
     basic_information: "Alapinformációk"
     pricing: "Árazás"
     inventory: "Készlet"
     additional_details: "További részletek"
+
+    alerts:
+      store_connection_error: "A termékek betöltése sikertelen! Kérjük ellenőrizze az áruház kapcsolatát."
+      could_not_load: "Betöltés sikertelen."
+      update_success: "Termék sikeresen frissítve."
 
   # Categories
   categories:
@@ -130,7 +134,7 @@ hu:
     title: "Tömeges ár frissítés"
     description: "Töltsön fel egy CSV fájlt a termékárak tömeges frissítéséhez"
     validate_title: "Ár frissítések ellenőrzése"
-    validate_description: "Tekintse át az ár frissítéseket a feldolgozás előtt"
+    validate_description: "Tekintse át az árakat a feldolgozás előtt"
     results_title: "Ár frissítés eredményei"
     results_description: "Az ár frissítések feldolgozása befejeződött"
     
@@ -148,7 +152,7 @@ hu:
     # CSV Requirements
     csv_requirements:
       title: "CSV fájl követelményei"
-      required_columns: "Kötelező oszlopok: Cikkszám, Név, Ár"
+      required_columns: "Kötelező oszlopok: SKU, Name, Price"
       existing_products: "Meglévő termékek: Az árak a cikkszám alapján lesznek frissítve"
       new_products: "Új termékek: A megadott névvel és árral lesznek létrehozva"
       file_size: "Fájlméret: Maximum 10MB"
@@ -156,7 +160,6 @@ hu:
 
     # File upload
     select_csv_file: "CSV fájl kiválasztása"
-    choose_csv_help: "Válasszon egy CSV fájlt a termék ár frissítésekkel"
     sample_format: "Minta CSV formátum"
     example_content: "Példa CSV tartalom:"
 
@@ -166,7 +169,7 @@ hu:
     with_warnings: "Figyelmeztetés"
     will_update: "lesz frissítve"
     will_create: "lesz létrehozva"
-    validation_errors: "termék érvényesítési hibákkal rendelkezik és át lesz ugorva."
+    validation_errors: "%{count} db termék hibákkal rendelkezik és át lesz ugorva."
     no_products_parsed: "Nem sikerült termékeket elemezni a CSV fájlból."
     no_products_found: "Nem találhatók termékek"
     no_products_parsed_description: "Nem sikerült termékeket elemezni a CSV fájlból."
@@ -258,6 +261,10 @@ hu:
     store_name_optional: "Áruház neve (opcionális)"
     store_api_url: "Áruház API URL"
 
+  profile:
+    profile_information: "Profil információk"
+    profile_description: "Frissítse fiókadatait és személyes adatait."
+
   # General UI
   ui:
     or: "VAGY"
@@ -278,7 +285,6 @@ hu:
   # Common text
   common:
     unknown: "Ismeretlen"
-    profile_information: "Profil információk"
     settings: "Beállítások"
     categories: "Kategóriák"
     my_store: "Áruházam"

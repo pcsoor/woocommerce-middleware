@@ -81,15 +81,7 @@
       </div>
 
       <!-- Form Actions -->
-      <div class="card-actions justify-between">
-        <div class="flex gap-2">
-          <% if current_user.store&.api_url&.present? %>
-            <%= link_to t('forms.test_connection'), test_connection_store_path,
-                        method: :post,
-                        class: "btn btn-outline",
-                        data: { turbo_frame: "settings_content" } %>
-          <% end %>
-        </div>
+      <div class="card-actions justify-self-end">
         <%= form.submit t('forms.save_settings'), class: "btn btn-primary" %>
       </div>
     <% end %>
